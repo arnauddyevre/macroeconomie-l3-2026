@@ -17,7 +17,6 @@ const INTRO_SLIDES = [
     "id": "vous",
     "title": "Quelques mots sur vous",
     "part": "Bienvenue",
-    "exercise": true,
     "html": "<ol class=\"questions\"><li>D’où venez-vous ?</li><li>Qu’est-ce qui vous intéresse ?</li><li>Qu’aimeriez-vous comprendre dans ce cours ?</li></ol><p class=\"sub\">Études, projets professionnels, actualité, curiosités personnelles…</p>"
   },
   {
