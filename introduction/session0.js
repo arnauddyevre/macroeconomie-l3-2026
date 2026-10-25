@@ -11,7 +11,7 @@ const INTRO_SLIDES = [
     "id": "arnaud",
     "title": "Quelques mots sur moi",
     "part": "Bienvenue",
-    "html": "<div class=\"cards c2 middle\"><div class=\"intro-name\"><p class=\"lead\">Arnaud Dyèvre</p><p>Appelez-moi Arnaud.</p><p class=\"sub\"><a href=\"mailto:dyevre@hec.fr\">dyevre@hec.fr</a></p></div><div class=\"card blue\"><ul><li>Macroéconomie et économie publique.</li><li>Innovation et croissance.</li><li>Doctorat à la LSE ; postdoctorat au MIT.</li></ul></div></div>"
+    "html": "<div class=\"cards c2 middle\"><div class=\"intro-name\"><p class=\"lead\">Arnaud Dyèvre</p><p>Appelez-moi Arnaud.</p><p class=\"sub\"><strong>Professeur à HEC Paris depuis septembre 2025.</strong></p><p class=\"sub\">Doctorat à la LSE ; postdoctorat au MIT.</p><p class=\"sub\">Macroéconomie et économie publique.<br>Innovation et croissance.</p><p class=\"sub\"><a href=\"mailto:dyevre@hec.fr\">dyevre@hec.fr</a></p><p class=\"sub\"><a href=\"https://www.arnauddyevre.com/\" target=\"_blank\" rel=\"noopener noreferrer\">arnauddyevre.com</a><br>Pour prendre rendez-vous avec moi.</p></div><div class=\"card blue\"><h2>Mes projets actuels</h2><ul><li>L’IA et son impact sur l’innovation.</li><li>Le rôle du financement public de la R&amp;D.</li><li>L’impact des acquisitions d’entreprises sur l’innovation.</li></ul></div></div>"
   },
   {
     "id": "vous",
