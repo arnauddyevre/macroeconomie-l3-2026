@@ -48,5 +48,47 @@ const INTRO_SLIDES = [
     "title": "Déroulement des séances",
     "part": "Le cours",
     "html": "<ul class=\"list\"><li>Arrivez à l’heure.</li><li>Posez des questions et participez.</li><li>Pas d’ordinateurs en classe.</li><li>Prenez des notes, notamment pendant les calculs au tableau.</li><li>Les supports HTML et PDF serviront à préparer, annoter et réviser le cours.<ul class=\"sub\"><li>Pas besoin d’autre support (manuel, polycopié de cours, etc.)</li></ul></li><li>Deux absences tolérées.<ul class=\"sub\"><li>Émargement par SoWeSign</li></ul></li></ul>"
+  },
+  {
+    "id": "demarche",
+    "title": "Comment aborder ce cours ?",
+    "part": "La macroéconomie",
+    "html": "<ul class=\"list\"><li><strong>La curiosité est essentielle !</strong> Acceptez d’être bousculés dans vos idées et de découvrir des faits contre-intuitifs.</li><li><strong>Les concepts fondamentaux.</strong> Vous les utiliserez encore et encore. Autant y prêter attention et vous familiariser avec eux dès maintenant.</li><li><strong>La diversité en économie.</strong> Comme beaucoup de sciences, l’économie manque de diversité. Ne soyez ni surpris ni découragés si les personnes citées dans ce cours se ressemblent toutes et viennent de milieux similaires.</li></ul>"
+  },
+  {
+    "id": "macro-definition",
+    "title": "Qu’est-ce que la macroéconomie ?",
+    "part": "La macroéconomie",
+    "html": "<ul class=\"list\"><li><strong class=\"master-emphasis\">L’étude du fonctionnement de l’économie <em>dans son ensemble</em>.</strong><ul class=\"sub\"><li>« L’économie dans son ensemble » = une région, un pays ou le monde.</li><li>L’essentiel : plus d’une entreprise et d’un ménage.</li></ul></li><li>La macroéconomie se distingue de la microéconomie de deux façons principales :<ol class=\"sub\"><li><strong class=\"master-emphasis\">Les outils :</strong> optimisation dynamique et équilibre général.</li><li><strong class=\"master-emphasis\">Les questions :</strong> croissance économique, cycles économiques, ajustements des prix (inflation, taux d’intérêt, taux de change), chômage, banques centrales.</li></ol></li><li>La macroéconomie moderne utilise à la fois des <strong class=\"master-emphasis\">modèles</strong> et des <strong class=\"master-emphasis\">données</strong>.<ul class=\"sub\"><li>Il est utile de renforcer vos compétences en mathématiques (par des exercices) et en programmation (par des projets utilisant beaucoup de données).</li></ul></li></ul>"
+  },
+  {
+    "id": "equilibre-general",
+    "title": "Qu’est-ce que l’équilibre général ?",
+    "part": "La macroéconomie",
+    "html": "<div class=\"master-equilibrium\"><p class=\"master-definition\"><strong class=\"master-emphasis\">Équilibre général :</strong> l’équilibre simultané de nombreux marchés.</p><p class=\"master-feedback\"><span class=\"master-emphasis\">Il faut comprendre toutes les boucles de rétroaction dans l’économie !</span> Par exemple : salaires plus élevés → prix plus élevés → la banque centrale relève les taux d’intérêt → la demande diminue → les salaires baissent.</p><blockquote class=\"master-arrow-quote\" lang=\"en\">“From the time of Adam Smith’s <em>The Wealth of Nations</em> in 1776, one recurrent theme of economic analysis has been the remarkable degree of coherence among the <mark>vast numbers of individual and seemingly separate decisions</mark> about the buying and selling of commodities. In everyday, normal experience, there is something of a balance between the amounts of goods and services that some individuals want to supply and the amounts that other, different individuals want to buy. Would-be buyers ordinarily count correctly on being able to carry out their intentions, and would-be sellers do not ordinarily find themselves producing great amounts of goods that they cannot sell. This experience of balance is indeed so widespread that it raises no intellectual disquiet among laymen; they take it so much for granted that they are not disposed to understand the mechanism by which it occurs.”</blockquote><p class=\"master-attribution\">Kenneth Arrow (1974), « General Economic Equilibrium: Purpose, Analytic Techniques, Collective Choice ».</p></div>"
+  },
+  {
+    "id": "pour-vous",
+    "title": "À quoi sert la macroéconomie pour vous ?",
+    "part": "La macroéconomie",
+    "html": "<div class=\"master-personal\"><ul class=\"list\"><li>Dois-je acheter un logement ou continuer à louer ?</li><li>Dois-je dépenser ou épargner ?</li><li>Comment investir si j’ai de l’épargne ?</li><li>Quels sont les déterminants des inégalités ?</li><li>Comment l’IA va-t-elle affecter mes perspectives sur le marché du travail ?</li></ul><div class=\"master-photo-slot\" data-photo-slot=\"pour-vous-droite\" role=\"img\" aria-label=\"Emplacement réservé à l’illustration qui sera fournie par l’enseignant\"><span>Illustration à venir</span></div></div>"
+  },
+  {
+    "id": "finance",
+    "title": "À quoi sert la macroéconomie pour un investisseur ?",
+    "part": "La macroéconomie",
+    "html": "<p class=\"center lead-small\"><strong>Facteurs macroéconomiques → rendements des actifs</strong></p><ul class=\"list\"><li>Six facteurs macroéconomiques expliquent plus de 90 % des rendements agrégés.</li><li>Selon les recherches de BlackRock, plus de 90 % des rendements des différentes classes d’actifs peuvent être expliqués par six grands déterminants, ou facteurs.</li><li><span class=\"master-emphasis\">La croissance économique, les taux d’intérêt et l’inflation</span> sont les principaux déterminants des rendements des différentes classes d’actifs. <span class=\"master-emphasis\">Le crédit, les marchés émergents et la liquidité</span> sont également importants à comprendre et à gérer, en particulier en période de crise.</li></ul><div class=\"master-investor-quote\"><p>(Et pour les futurs banquiers d’affaires parmi vous : « Une personne qui obtient son diplôme dans un marché haussier et entre immédiatement dans la banque d’affaires gagne entre 1,5 et 5 millions de dollars de plus que ce qu’aurait gagné cette même personne si elle avait obtenu son diplôme dans un marché baissier. »)</p><p class=\"master-attribution\">Oyer (2008), « The Making of an Investment Banker ».</p></div>"
+  },
+  {
+    "id": "politiques",
+    "title": "À quoi sert la macroéconomie pour un décideur public ?",
+    "part": "La macroéconomie",
+    "html": "<div class=\"master-policy\"><p>C’est assez évident en ce moment…</p><div class=\"master-media-pair\"><div class=\"master-photo-slot\" data-photo-slot=\"politiques-gauche\" role=\"img\" aria-label=\"Emplacement réservé à la photo qui sera fournie par l’enseignant\"><span>Photo à venir</span></div><div class=\"master-photo-slot\" data-photo-slot=\"politiques-droite\" role=\"img\" aria-label=\"Emplacement réservé à la seconde illustration qui sera fournie par l’enseignant\"><span>Illustration à venir</span></div></div></div>"
+  },
+  {
+    "id": "carrieres",
+    "title": "À quoi sert la macroéconomie pour votre carrière ?",
+    "part": "La macroéconomie",
+    "html": "<ul class=\"list\"><li><em class=\"master-emphasis\">Tous</em> les métiers bénéficient d’une culture économique (quantitative).</li><li>Institutions internationales (FMI, Banque mondiale, BRI, BCE, etc.) : un master ou un doctorat en économie ou en politiques publiques peut être requis.</li><li>Elle est essentielle en finance (les certifications comme le CFA sont, pour l’essentiel, des examens d’économie).</li><li>De solides bases en microéconomie et en macroéconomie sont essentielles si vous souhaitez faire de la recherche en économie ou préparer un doctorat (venez m’en parler !).</li></ul>"
   }
 ];

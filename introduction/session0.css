@@ -26,6 +26,18 @@
 .intro-name p+p{margin-top:20px}
 
 
+.master-emphasis{color:var(--navy)}
+.master-equilibrium{display:flex;flex-direction:column;gap:24px}
+.master-definition{align-self:center;border:1px solid var(--ink);padding:8px 14px;font-size:34px;line-height:1.25;text-align:center}
+.master-feedback{font-size:32px;line-height:1.42}
+.master-arrow-quote{font-size:25px;line-height:1.52;margin:0}.master-arrow-quote mark{background:var(--orange-w);color:inherit;padding:0 2px}
+.master-attribution{font-size:22px;line-height:1.35;text-align:right;color:var(--ink-2)}
+.master-personal{display:grid;grid-template-columns:42% minmax(0,1fr);gap:56px;align-items:center}
+.master-photo-slot{min-width:0;height:510px;border:1px dashed var(--line);border-radius:4px;background:#FAFBFD;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:22px;font-style:italic}
+.master-policy{display:flex;flex-direction:column;gap:30px}.master-media-pair{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+#finance .slide-body{gap:24px}.master-investor-quote{font-size:25px;line-height:1.4}.master-investor-quote .master-attribution{margin-top:12px}
+
+
 .key-numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}.key-numbers>div{background:var(--blue-w);border:1px solid var(--line);border-radius:14px;padding:22px 20px 26px;text-align:center}.key-numbers strong{display:block;font-size:96px;line-height:1.15;font-weight:400;color:var(--navy)}.key-numbers span{font-size:30px}
 
 
