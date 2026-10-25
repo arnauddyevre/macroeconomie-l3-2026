@@ -48,11 +48,5 @@ const INTRO_SLIDES = [
     "title": "Déroulement des séances",
     "part": "Le cours",
     "html": "<ul class=\"list\"><li>Arrivez à l’heure.</li><li>Posez des questions et participez.</li><li>Pas d’ordinateurs en classe.</li><li>Prenez des notes, notamment pendant les calculs au tableau.</li><li>Les supports HTML et PDF serviront à préparer, annoter et réviser le cours.<ul class=\"sub\"><li>Pas besoin d’autre support (manuel, polycopié de cours, etc.)</li></ul></li><li>Deux absences tolérées.<ul class=\"sub\"><li>Émargement par SoWeSign</li></ul></li></ul>"
-  },
-  {
-    "id": "demarche",
-    "title": "Comment aborder ce cours ?",
-    "part": "Le cours",
-    "html": "<div class=\"cards c3\"><div class=\"card\"><h2>Curiosité</h2><p>Accepter les résultats qui surprennent.<br>Demander d’où ils viennent.</p></div><div class=\"card\"><h2>Fondations</h2><p>Soigner les définitions.<br>Refaire les raisonnements et les calculs.</p></div><div class=\"card\"><h2>Esprit critique</h2><p>Examiner les hypothèses et les données.<br>Ne pas confondre autorité et démonstration.</p></div></div><p class=\"note\">Votre parcours et votre point de vue ont leur place dans la discussion.</p>"
   }
 ];
