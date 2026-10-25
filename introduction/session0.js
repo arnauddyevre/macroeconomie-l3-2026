@@ -42,7 +42,7 @@ const INTRO_SLIDES = [
     "id": "evaluation",
     "title": "Comment serez-vous évalués ?",
     "part": "Le cours",
-    "html": "<div class=\"cards c2\"><div class=\"card blue\"><p class=\"label\">Au fil du cours</p><p class=\"big\">3 quiz</p><ul><li>Sur papier · 15 minutes chacun.</li><li>Séances 4, 8 et 11.</li><li>10 % chacun : <em>30 % au total.</em></li><li>Tout quiz manqué est noté zéro.</li></ul></div><div class=\"card blue\"><p class=\"label\">Examen final</p><p class=\"big\">2 heures</p><ul><li>Sur papier.</li><li><em>70 % de la note finale.</em></li><li>L’utilisation de feuilles de rappel (<i>cheat sheet</i>) n’est pas autorisée.</li></ul></div></div><p class=\"sub\">QCM, calculs, raisonnement et graphiques ; questions de synthèse au final.</p>"
+    "html": "<div class=\"cards c2\"><div class=\"card blue\"><p class=\"label\">Au fil du cours</p><p class=\"big\">3 quiz</p><ul><li>Sur papier · 15 minutes chacun.</li><li>Séances 4, 8 et 11.</li><li>10 % chacun : <em>30 % au total.</em></li><li>Les quiz manqués sont notés zéro.</li></ul></div><div class=\"card blue\"><p class=\"label\">Examen final</p><p class=\"big\">2 heures</p><ul><li>Sur papier.</li><li><em>70 % de la note finale.</em></li><li>L’utilisation de feuilles de rappel (<i>cheat sheet</i>) n’est pas autorisée.</li></ul></div></div><p class=\"sub\"><strong>Questions présentes dans les quiz :</strong> QCM, calculs et raisonnements sur graphiques.</p><p class=\"sub\"><strong>Questions présentes dans l’examen final :</strong> QCM, calculs, raisonnements sur graphiques, questions de synthèse et questions sur document.</p>"
   },
   {
     "id": "en-classe",
