@@ -71,7 +71,8 @@ const INTRO_SLIDES = [
     "id": "pour-vous",
     "title": "À quoi sert la macroéconomie pour vous ?",
     "part": "La macroéconomie",
-    "html": "<div class=\"master-personal\"><ul class=\"list\"><li>Dois-je acheter un logement ou continuer à louer ?</li><li>Dois-je dépenser ou épargner ?</li><li>Comment investir si j’ai de l’épargne ?</li><li>Quels sont les déterminants des inégalités ?</li><li>Comment l’IA va-t-elle affecter mes perspectives sur le marché du travail ?</li></ul><div class=\"master-photo-slot\" data-photo-slot=\"pour-vous-droite\" role=\"img\" aria-label=\"Emplacement réservé à l’illustration qui sera fournie par l’enseignant\"><span>Illustration à venir</span></div></div>"
+    "html": "<div class=\"master-personal\"><ul class=\"list\"><li>Dois-je acheter un logement ou continuer à louer ?</li><li>Dois-je dépenser ou épargner ?</li><li>Comment investir si j’ai de l’épargne ?</li><li>Quels sont les déterminants des inégalités ?</li><li>Comment l’IA va-t-elle affecter mes perspectives sur le marché du travail ?</li></ul><figure class=\"canaries-figure\"><img src=\"assets/canaries_coal_mine_emploi_age_2026.png\" width=\"1286\" height=\"705\" alt=\"Emploi par tranche d’âge dans l’échantillon ADP, de janvier 2021 à juin 2026 ; indice 1 en novembre 2022. Les trajectoires des jeunes et des travailleurs plus âgés divergent après 2022.\"><figcaption>Capture d’écran fournie par l’enseignant. Erik Brynjolfsson, Bharat Chandar et Ruyu Chen, <a href=\"https://digitaleconomy.stanford.edu/app/uploads/2026/08/Canaries_August2026.pdf#page=9\" target=\"_blank\" rel=\"noopener noreferrer\"><em>Canaries in the Coal Mine? Six Facts about the Recent Employment Effects of Artificial Intelligence</em></a>, Stanford Digital Economy Lab, août 2026, fig. 2, p. 9.</figcaption></figure></div>",
+    "prov": "obs"
   },
   {
     "id": "finance",
@@ -83,7 +84,9 @@ const INTRO_SLIDES = [
     "id": "politiques",
     "title": "À quoi sert la macroéconomie pour un décideur public ?",
     "part": "La macroéconomie",
-    "html": "<div class=\"master-policy\"><p>C’est assez évident en ce moment…</p><div class=\"master-media-pair\"><div class=\"master-photo-slot\" data-photo-slot=\"politiques-gauche\" role=\"img\" aria-label=\"Emplacement réservé à la photo qui sera fournie par l’enseignant\"><span>Photo à venir</span></div><div class=\"master-photo-slot\" data-photo-slot=\"politiques-droite\" role=\"img\" aria-label=\"Emplacement réservé à la seconde illustration qui sera fournie par l’enseignant\"><span>Illustration à venir</span></div></div></div>"
+    "html": "<div class=\"oat-figure\"><p class=\"oat-period\">Dette française à 10 ans · moyennes mensuelles · janvier 2020–septembre 2026</p><div id=\"oat10-chart\" style=\"height:590px;width:100%\" aria-label=\"Rendement obligataire de l’État français à dix ans, en pourcentage\"></div></div>",
+    "source": "Source : <a href=\"https://data.ecb.europa.eu/data/datasets/IRS/IRS.M.FR.L.L40.CI.0000.EUR.N.Z\" target=\"_blank\" rel=\"noopener noreferrer\">BCE, taux d’intérêt à long terme de la France (10 ans)</a> · dernière observation : septembre 2026.",
+    "prov": "obs"
   },
   {
     "id": "carrieres",

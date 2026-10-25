@@ -32,9 +32,17 @@
 .master-feedback{font-size:32px;line-height:1.42}
 .master-arrow-quote{font-size:25px;line-height:1.52;margin:0}.master-arrow-quote mark{background:var(--orange-w);color:inherit;padding:0 2px}
 .master-attribution{font-size:22px;line-height:1.35;text-align:right;color:var(--ink-2)}
-.master-personal{display:grid;grid-template-columns:42% minmax(0,1fr);gap:56px;align-items:center}
-.master-photo-slot{min-width:0;height:510px;border:1px dashed var(--line);border-radius:4px;background:#FAFBFD;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:22px;font-style:italic}
-.master-policy{display:flex;flex-direction:column;gap:30px}.master-media-pair{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.master-personal{display:grid;grid-template-columns:37% minmax(0,1fr);gap:42px;align-items:center}
+.canaries-figure{min-width:0;margin:0}.canaries-figure img{display:block;width:100%;height:auto}.canaries-figure figcaption{font-size:17px;line-height:1.35;color:var(--muted);margin-top:14px}.canaries-figure a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.oat-figure{display:flex;flex-direction:column;gap:12px}.oat-period{font-size:25px;color:var(--ink-2)}
+.p-zoom{position:relative}.p-zin{transform-origin:0 0}
+.chart text,.chart .ch-readout{font-family:var(--font)}
+.foot-right{display:flex;align-items:center;margin-left:auto;flex:0 0 auto}.slide-foot{gap:24px}.slide-foot .source{flex:1 1 auto}
+.prov{display:inline-flex;align-items:center;gap:8px;font:600 14.5px/1 var(--font);padding:7px 12px;border-radius:99px;white-space:nowrap}.prov::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}.prov-obs{color:var(--navy);background:var(--blue-w)}
+@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+body.reading .ch-anim{animation:none!important;stroke-dashoffset:0!important}body.reading .ch-fade{animation:none!important;opacity:1!important}
+@media print{.ch-anim{animation:none!important;stroke-dashoffset:0!important}.ch-fade{animation:none!important;opacity:1!important}.ch-readout,.ch-guide{display:none!important}}
+@media(prefers-reduced-motion:reduce){.ch-anim{animation:none!important;stroke-dashoffset:0!important}.ch-fade{animation:none!important;opacity:1!important}}
 #finance .slide-body{gap:24px}.master-investor-quote{font-size:25px;line-height:1.4}.master-investor-quote .master-attribution{margin-top:12px}
 
 
