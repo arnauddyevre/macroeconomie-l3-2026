@@ -47,7 +47,7 @@ const INTRO_SLIDES = [
     "id": "en-classe",
     "title": "Pour bien travailler ensemble",
     "part": "Le cours",
-    "html": "<ul class=\"list\"><li>Arrivez à l’heure.</li><li>Posez des questions et participez.</li><li>Pas d’ordinateurs en classe.</li><li>Prenez des notes, notamment pendant les calculs au tableau.</li></ul><p class=\"note\">Les supports HTML et PDF serviront à préparer, annoter et réviser le cours.</p>"
+    "html": "<ul class=\"list\"><li>Arrivez à l’heure.</li><li>Posez des questions et participez.</li><li>Pas d’ordinateurs en classe.</li><li>Prenez des notes, notamment pendant les calculs au tableau.</li><li>Les supports HTML et PDF serviront à préparer, annoter et réviser le cours.</li><li>Deux absences tolérées.</li></ul>"
   },
   {
     "id": "presence",
