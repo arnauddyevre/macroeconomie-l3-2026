@@ -84,8 +84,8 @@ const INTRO_SLIDES = [
     "id": "politiques",
     "title": "À quoi sert la macroéconomie pour un décideur public ?",
     "part": "La macroéconomie",
-    "html": "<div class=\"oat-figure\"><p class=\"oat-period\">Dette française à 10 ans · moyennes mensuelles · janvier 2020–septembre 2026</p><div id=\"oat10-chart\" style=\"height:590px;width:100%\" aria-label=\"Rendement obligataire de l’État français à dix ans, en pourcentage\"></div></div>",
-    "source": "Source : <a href=\"https://data.ecb.europa.eu/data/datasets/IRS/IRS.M.FR.L.L40.CI.0000.EUR.N.Z\" target=\"_blank\" rel=\"noopener noreferrer\">BCE, taux d’intérêt à long terme de la France (10 ans)</a> · dernière observation : septembre 2026.",
+    "html": "<div class=\"oat-figure\"><p class=\"oat-period\">OAT française à 10 ans · moyennes hebdomadaires · 2025–2026</p><div id=\"oat10-chart\" style=\"height:590px;width:100%\" aria-label=\"Rendement des OAT françaises à dix ans, en pourcentage, moyennes hebdomadaires\"></div></div>",
+    "source": "Source : <a href=\"https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-23\" target=\"_blank\" rel=\"noopener noreferrer\">Banque de France / Euronext, TEC10</a> · moyennes hebdomadaires calculées jusqu’au 23 octobre 2026.",
     "prov": "obs"
   },
   {
