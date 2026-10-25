@@ -50,12 +50,6 @@ const INTRO_SLIDES = [
     "html": "<ul class=\"list\"><li>Arrivez à l’heure.</li><li>Posez des questions et participez.</li><li>Pas d’ordinateurs en classe.</li><li>Prenez des notes, notamment pendant les calculs au tableau.</li><li>Les supports HTML et PDF serviront à préparer, annoter et réviser le cours.</li><li>Deux absences tolérées.<ul class=\"sub\"><li>Émargement par SoWeSign</li></ul></li></ul>"
   },
   {
-    "id": "presence",
-    "title": "Présence et émargement",
-    "part": "Le cours",
-    "html": "<div class=\"cards c2\"><div class=\"card blue\"><p class=\"lead-small\">Deux absences au maximum sur l’ensemble du cours.</p><p>Ce quota inclut les raisons médicales, personnelles et autres.</p><p>La troisième absence entraîne l’abandon du cours.</p></div><div class=\"card\"><p class=\"label\">SoWeSign</p><ol><li>Ouvrez l’application SWS.</li><li>Connectez-vous avec votre compte HEC.</li><li>Scannez le QR code affiché en classe.</li><li>Signez votre présence.</li></ol></div></div><p class=\"sub\">En cas de difficulté technique, signalez-le pendant la séance.</p>"
-  },
-  {
     "id": "demarche",
     "title": "Comment aborder ce cours ?",
     "part": "Le cours",
