@@ -1,0 +1,26 @@
+/* Schémas des trois approches : SVG natifs, Palatino, palette commune. */
+.pib-schema{position:relative;display:flex;flex-direction:column;gap:8px;width:100%;height:100%;margin:0;min-height:0;font-family:Palatino,"Palatino Linotype","Book Antiqua",serif}
+.pib-schema-svg{display:block;width:100%;height:570px;flex:0 0 570px;overflow:visible}
+.pib-schema-svg text{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif;font-size:29px;fill:#000;pointer-events:none}
+.pib-schema-svg .pib-schema-heading{fill:#001F5F;font-size:32px}
+.pib-schema-block rect{stroke:#001F5F;stroke-width:1.4;transition:stroke-width .15s ease}
+.pib-schema-intermediate rect{fill:#001F5F}
+.pib-schema-intermediate text{fill:#fff}
+.pib-schema-value rect{fill:#e9edf3}
+.pib-schema-value text{font-size:39px;fill:#001F5F}
+.pib-schema-light rect{fill:#f3f5f8}
+.pib-schema-warm rect{fill:#fff3e6}
+.pib-schema-block{outline:none}
+.pib-schema-block:focus-visible rect,.pib-schema-block.pib-schema-selected rect{stroke:#B45309;stroke-width:4}
+.pib-schema-arrow{stroke:#001F5F;stroke-width:4;fill:none}
+.pib-schema figcaption{margin:0;font-size:27px;line-height:1.25;color:#000}
+.pib-schema figcaption strong{color:#001F5F}
+.pib-schema-convention{margin:0;font-size:20px;line-height:1.25;color:#536078}
+.pib-schema .pib-schema-readout{position:absolute;top:auto;bottom:93px;left:50%;right:auto;transform:translateX(-50%);width:1120px;max-width:92%;white-space:normal;box-sizing:border-box;font-family:Palatino,"Palatino Linotype","Book Antiqua",serif;font-size:23px;line-height:1.3;z-index:5;pointer-events:none}
+@keyframes pib-schema-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pib-schema-connect{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:1}}
+.pib-schema-animated .pib-schema-block{animation:pib-schema-reveal .55s ease-out both;animation-delay:var(--reveal-delay,0ms)}
+.pib-schema-animated .pib-schema-arrow{stroke-dasharray:1;animation:pib-schema-connect .55s ease-out both;animation-delay:var(--reveal-delay,0ms)}
+body.reading .pib-schema-block,body.reading .pib-schema-arrow{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important}
+@media(prefers-reduced-motion:reduce){.pib-schema-block,.pib-schema-arrow{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important}}
+@media print{.pib-schema-block,.pib-schema-arrow{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important}.pib-schema .pib-schema-readout{display:none!important}.pib-schema-block rect{stroke-width:1.4!important;stroke:#001F5F!important}}

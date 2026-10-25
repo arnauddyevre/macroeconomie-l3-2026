@@ -19,7 +19,7 @@
       height: box.clientHeight, animate, duration: 2, ends: true, legend: false, hover: true,
       aria: 'Rendement des OAT françaises à dix ans (TEC10), moyennes hebdomadaires de janvier 2025 au 23 octobre 2026, en pourcentage.',
       x: {min:first, max:last, ticks, format:tickLabel, hoverFormat:week},
-      y: {min:0, max:5.5, ticks:[0,1,2,3,4,5]}, yTitle:'Rendement à 10 ans (%)',
+      y: {min:2.5, max:5.5, ticks:[2.5,3,3.5,4,4.5,5], format:v=>window.Charts.fmt(v,Number.isInteger(v)?0:1)}, yTitle:'Rendement à 10 ans (%)',
       margin:{l:70,r:105,t:66,b:50},
       series:[{name:'TEC10 · moyenne hebdomadaire',color:'blue',data,gaps:10*86400000,format:v=>window.Charts.fmt(v,2)+' %'}]
     });

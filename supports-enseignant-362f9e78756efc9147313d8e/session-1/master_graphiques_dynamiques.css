@@ -1,0 +1,14 @@
+.master-native-figure{height:100%;margin:0;display:flex;flex-direction:column;gap:10px;min-height:0}
+.master-chart-metadata{font-size:20px;line-height:1.25;color:#536078;margin:0}
+.master-native-chart{height:475px;flex:0 0 475px;position:relative}
+.master-native-figure figcaption{font-size:26px;line-height:1.3;margin:0}
+.master-chart-definition{font-size:19px;line-height:1.25;color:#536078;margin:0}
+.master-informal-panels{display:grid;grid-template-columns:1fr 1fr;gap:44px;height:465px;flex:0 0 465px}
+.master-informal-panel{height:465px;position:relative}
+.master-native-chart .p-zin,.master-informal-panel .p-zin{position:relative}
+.master-native-figure text,.master-native-figure .ch-readout{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif!important}
+.master-native-figure .ch-readout{max-width:85%;font-size:20px;white-space:normal;line-height:1.3}
+.master-informal-panel .ch-bar:focus-visible{outline:2px solid #B45309;outline-offset:3px}
+body.reading .master-native-figure [class*="anim"],body.reading .master-native-figure .ch-fade{animation:none!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){.master-native-figure [class*="anim"],.master-native-figure .ch-fade{animation:none!important;transform:none!important}}
+@media print{.master-native-figure .ch-readout{display:none!important}.master-native-figure .ch-bar{opacity:1!important}}

@@ -1,0 +1,48 @@
+/* Compléments du cours de master : même charte que revision.css. */
+.master-stack{gap:24px;justify-content:center;height:100%;min-height:0}
+.master-list{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:20px;font-size:34px;line-height:1.3}
+.master-list li::marker{color:#B45309}
+.master-table{font-size:29px}
+.master-table th,.master-table td{padding:13px 18px}
+.master-stack>.rev-body{height:auto;flex:0 1 auto}
+.master-stack .pj-f{font-size:36px;line-height:1.3}
+.master-stack .p-sub{margin:0;font-size:29px;line-height:1.35}
+.master-stack .p-txt{margin:0;font-size:34px;line-height:1.35}
+.master-figure{justify-content:center}
+.master-figure img{height:510px;max-height:100%;object-fit:contain}
+.master-figure figcaption{font-size:25px;line-height:1.3}
+.master-cpi{gap:14px;height:100%;justify-content:center}
+.master-cpi .p-sub{margin:0;font-size:27px}
+.master-cpi-note{margin:0;font-size:21px;color:var(--muted)}
+@keyframes master-cpi-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.master-cpi-reveal{transform-origin:0 0;animation:master-cpi-draw 2s ease-out both}
+@media print{.master-cpi-reveal{animation:none!important;transform:none!important}}
+#master-informel .master-figure{height:auto}
+#master-informel .master-figure img{height:420px}
+#master-prix-volumes .master-stack{gap:16px}
+#master-prix-volumes .master-table{font-size:26px}
+#master-prix-volumes .master-table th,#master-prix-volumes .master-table td{padding:10px 14px}
+#master-annexes{background:#001F5F;color:white}
+@media print{.master-answer,[data-step].master-answer{opacity:1!important;visibility:visible!important}}
+
+/* Patrimoine : repères et lecture interactive du moteur Charts. */
+.master-wealth{gap:12px;height:100%;justify-content:center;min-height:0}
+.master-wealth .p-sub{margin:0;font-size:27px}
+.master-wealth-note{margin:0;font-size:21px;line-height:1.3;color:var(--muted)}
+.master-wealth-chart{flex-shrink:0}
+.master-wealth{gap:12px;height:100%;min-height:0;justify-content:center}
+.master-wealth>.p-sub{margin:0;font-size:27px;line-height:1.3}
+.master-wealth-chart{flex:0 0 auto}
+.master-wealth-note{margin:0;font-size:21px;line-height:1.3;color:var(--muted)}
+.master-wealth-native .master-wealth-legend{flex-wrap:wrap;align-items:center;gap:8px 22px;font-size:17px;line-height:1.2;margin-top:9px}
+.master-wealth-legend>span{gap:7px;white-space:nowrap}
+.master-wealth-legend i.master-wealth-swatch{width:23px;height:12px;border-radius:0;border:1px solid rgba(0,0,0,.12)}
+.master-wealth-legend i.master-wealth-total{width:26px;height:0;border-top:3px dashed #111;border-radius:0}
+.master-wealth-native .ch-readout{font-size:16px;z-index:2}
+.master-wealth-readout-year{font-weight:700;margin-bottom:4px}
+.master-wealth-readout-total{border-top:1px solid var(--line);margin-top:5px;padding-top:4px}
+.master-wealth-native:focus-visible{outline:2px solid #B45309;outline-offset:5px}
+@keyframes master-wealth-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.master-wealth-reveal{transform-origin:0 0;animation:master-wealth-draw 2s ease-out both}
+@media (prefers-reduced-motion:reduce){.master-wealth-reveal{animation:none!important;transform:none!important}}
+@media print{.master-wealth-reveal{animation:none!important;transform:none!important}.master-wealth-native{outline:none!important}}

@@ -1,0 +1,41 @@
+/* Généré par scripts/synchroniser_navigation.cjs depuis le chapitre 1.
+   Ne pas modifier directement ; empreinte des sources : 18ad5a6a3750368f9ca126c84b5fe1050ccf51bb27dfda4dd49722a52b2c2264. */
+/* ---------- Graphiques (style maison) ---------- */
+.chart{position:relative;width:100%}
+.chart svg{display:block;overflow:visible}
+.chart text{font-family:var(--sans);font-variant-numeric:lining-nums}
+/* Chiffres tabulaires pour les nombres seulement (graduations, valeurs) : avec Inter, tnum élargit aussi le trait d'union des noms (États-Unis) */
+.chart text.ch-num,.chart text.ch-val,.chart .ch-num{font-variant-numeric:tabular-nums lining-nums}
+.ch-tick{font-size:19px;fill:#222}
+.ch-ytitle{font-size:19px;font-weight:700;fill:#111}
+.ch-xtitle{font-size:19px;font-weight:700;fill:#111}
+.ch-val{font-size:19px;font-weight:700}
+.ch-lab{font-size:19px;font-weight:600}
+.ch-small{font-size:15px;fill:#555}
+.ch-axis{stroke:#111;stroke-width:2.4;fill:none}
+.ch-tickmark{stroke:#111;stroke-width:1.6}
+.ch-line{fill:none;stroke-width:4;stroke-linejoin:round;stroke-linecap:round}
+.ch-guide{stroke:#555;stroke-width:1.4;stroke-dasharray:4 5}
+.ch-hit{fill:transparent;cursor:crosshair}
+.ch-readout{position:absolute;top:0;right:0;font:500 17px/1.35 var(--sans);background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:8px;padding:8px 12px;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .15s}
+.ch-readout.on{opacity:1}
+.ch-readout b{font-weight:700}
+.ch-legend{display:flex;gap:26px;justify-content:center;font:500 19px/1.2 var(--sans);margin-top:8px}
+.ch-legend span{display:inline-flex;align-items:center;gap:9px}
+.ch-legend i{display:inline-block;width:26px;height:4px;border-radius:2px}
+.ch-legend i.dash{background:repeating-linear-gradient(90deg,currentColor 0 7px,transparent 7px 12px)!important}
+.ch-bg{font:600 150px/1 var(--serif);fill:#EEEAE2;font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.02em}
+.ch-tip{position:absolute;pointer-events:none;background:rgba(24,33,43,.92);color:#fff;font:500 16px/1.35 var(--sans);padding:7px 10px;border-radius:5px;white-space:nowrap;transform:translate(-50%,-120%);opacity:0;transition:opacity .12s}
+.ch-tip.on{opacity:1}
+@keyframes ch-draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+/* both : la courbe reste invisible pendant le délai de départ (sinon elle s'affiche entière puis disparaît) */
+.ch-anim{stroke-dasharray:var(--len);animation:ch-draw var(--dur,1.6s) ease-out both}
+@keyframes ch-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes ch-growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.ch-bar{transform-box:fill-box}
+.ch-bar.anim-y{transform-origin:50% 100%;animation:ch-grow .7s cubic-bezier(.2,.7,.2,1) both}
+.ch-bar.anim-y.neg{transform-origin:50% 0}
+.ch-bar.anim-x{transform-origin:0 50%;animation:ch-growx .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes ch-pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.ch-pop{transform-box:fill-box;transform-origin:center;animation:ch-pop .5s ease-out both}
+.ch-fade{animation:fadeup .6s ease both}

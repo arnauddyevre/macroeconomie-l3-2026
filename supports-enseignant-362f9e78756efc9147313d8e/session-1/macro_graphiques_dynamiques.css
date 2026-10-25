@@ -1,0 +1,29 @@
+/* Graphiques locaux de la révision : moteurs et repères Charts, typographie du projet. */
+.macro-figure{height:100%;margin:0;display:flex;flex-direction:column;gap:10px;min-height:0}
+.macro-metadata{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif;font-size:20px;line-height:1.25;color:#536078;margin:0}
+.macro-chart-area{height:500px;flex:0 0 500px;min-height:0}
+.macro-native{width:100%;position:relative}
+.macro-native .p-zin{position:relative}
+.macro-native text,.macro-native .ch-readout,.macro-legend{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif!important}
+.macro-native .ch-readout{z-index:3;max-width:90%;white-space:normal;box-sizing:border-box;line-height:1.35}
+.macro-native .p-zin:focus-visible{outline:2px solid #B45309;outline-offset:3px}
+.macro-figure figcaption{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif;font-size:25px;line-height:1.3;color:#000;margin:0}
+.macro-legend{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 28px;font-size:21px;line-height:1.2;margin:4px 0 0}
+.macro-legend>span{display:inline-flex;align-items:center;gap:9px}
+.macro-legend i{display:inline-block;width:29px;height:10px;background:var(--series);flex:none}
+.macro-legend i.dashed{height:4px;background:repeating-linear-gradient(90deg,var(--series) 0 7px,transparent 7px 12px)}
+.macro-legend i.hatched{background:repeating-linear-gradient(135deg,#E1E5EA 0 4px,var(--series) 4px 5px,#E1E5EA 5px 8px);height:14px}
+.macro-axis-note{font-size:19px;color:#536078;text-align:center;line-height:1.2;margin:8px 0 0}
+.macro-panels{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.macro-panel h3{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif;font-size:26px;font-weight:normal;color:#001F5F;text-align:center;line-height:1.2;margin:0 0 4px}
+.macro-unit{font-size:19px;line-height:1.2;text-align:center;color:#536078;margin:0}
+.macro-bls-native .ch-readout{font-size:14px;line-height:1.16;max-width:430px}
+.macro-bls-native .ch-lab{font-size:17px}
+.macro-prices .macro-axis-note{font-size:18px;margin-top:5px}
+@keyframes macro-chart-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes macro-chart-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.macro-reveal{transform-origin:0 0;animation:macro-chart-draw 2s ease-out both}
+.macro-grow{transform-box:fill-box;animation:macro-chart-grow 2s ease-out both}
+body.reading .macro-reveal,body.reading .macro-grow{animation:none!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){.macro-reveal,.macro-grow{animation:none!important;transform:none!important}}
+@media print{.macro-reveal,.macro-grow{animation:none!important;transform:none!important}.macro-native .ch-readout{display:none!important}.macro-native .p-zin{outline:none!important}}

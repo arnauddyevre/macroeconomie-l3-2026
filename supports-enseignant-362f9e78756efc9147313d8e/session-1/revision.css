@@ -1,0 +1,153 @@
+/* Charte Arnaud Dyèvre, 2026. Le moteur et la structure d’Antonin sont conservés. */
+:root{--paper:#fff;--paper-2:#f4f5f7;--stone:#f1f3f6;--ink:#000;--ink-2:#000;--muted:#536078;--rule:#cdd2da;--rule-2:#e8ebef;--blue:#001F5F;--blue-d:#001F5F;--blue-w:#f0f3f8;--red:#B45309;--red-d:#8a3e07;--red-w:#fbf4ee;--teal:#526780;--teal-d:#001F5F;--teal-w:#f0f3f8;--amber:#B45309;--amber-d:#8a3e07;--amber-w:#fbf4ee;--amber-f:#fbf4ee;--violet:#526780;--violet-d:#001F5F;--violet-w:#f0f3f8;--olive:#526780;--prune:#001F5F;--slate:#738095;--grey:#cdd2da;--sans:Palatino,"Palatino Linotype","Book Antiqua","TeX Gyre Pagella",serif;--serif:var(--sans);--line:#d9dde3;--line-stone:#d9dde3;--line-blue:#d9dde3;--line-teal:#d9dde3;--line-red:#e6d2bf;--line-amber:#e6d2bf;--line-violet:#d9dde3;--line-paper:#d9dde3}
+body.proj .slide h1,.cover-title,.sec-q,.sec-num,.def-term,.pj-card .h,.kicker,.cover-chap{color:var(--blue)}
+.k-vol,.k-h,.k-pop,.k-nom,.k-rev,.k-med,.k-em,.k-int,.k-res{color:#000}
+.k-prix{color:var(--red)}
+svg text{font-family:var(--serif)!important}
+#trois-approches .pj-f{font-size:45px}
+body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-open{background:#001F5F!important;color:#fff!important}
+.slide.section-open *{color:#fff!important}
+.rev-section-overview .pj-plan-row,.rev-section-overview .pj-plan-row *{color:#8f9bb3!important}
+.rev-section-overview .pj-plan-row.is-current,.rev-section-overview .pj-plan-row.is-current *{color:#fff!important}
+.def,.callout,.warn,.pj-card,.p-kpi,.fiche,.card{box-shadow:none}
+.rev-body{display:flex;flex-direction:column;gap:25px;height:100%;justify-content:center}
+.rev-body p{margin:0;font-size:34px;line-height:1.35}
+.rev-body .rev-small{font-size:27px;line-height:1.35}
+.rev-lead{color:var(--blue);font-size:42px!important}
+.rev-quote{font-size:44px;line-height:1.4;margin:20px 35px;border-left:4px solid var(--red);padding-left:30px}
+.rev-history{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;height:100%;align-items:center}
+.rev-history-text{display:flex;flex-direction:column;gap:25px;min-width:0}
+.rev-history .rev-body{height:auto;gap:22px}
+.rev-history .rev-body p{font-size:28px;line-height:1.34}
+.rev-history .rev-lead{font-size:32px!important}
+.rev-history-quote{margin:0;padding-left:22px;border-left:4px solid var(--red)}
+.rev-history-quote blockquote{margin:0 0 12px;font-size:28px;line-height:1.35;font-style:italic}
+.rev-history-quote figcaption{font-size:21px;line-height:1.3;color:var(--muted)}
+.rev-history-quote strong{color:var(--blue)}
+.rev-history-images{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start;min-width:0}
+.rev-history-images figure{margin:0;min-width:0}
+.rev-history-images img{display:block;width:100%;height:470px;object-fit:contain;object-position:center}
+.rev-history-images figcaption{margin-top:10px;font-size:16px;line-height:1.25;color:var(--muted)}
+.rev-history-images figcaption strong{display:block;margin-bottom:5px;font-size:21px;line-height:1.25;color:var(--blue)}
+.rev-history-images figcaption span{display:block}
+.rev-history-images figcaption a{color:inherit;text-decoration:none}
+.rev-figure{margin:0;display:flex;flex-direction:column;gap:10px;min-height:0;height:100%}
+.rev-figure img{width:100%;height:535px;object-fit:contain;display:block}
+.rev-figure figcaption{font-size:25px;line-height:1.3;margin:0;color:#000}
+.rev-pending{border-left:5px solid var(--red);padding:24px 30px;background:#faf7f2;max-width:1200px}
+.rev-pending .rev-small{margin-top:18px}
+.rev-pending-label{font-size:22px;letter-spacing:.04em;color:var(--red);margin-bottom:15px}
+.rev-timer-controls{display:flex;align-items:center;justify-content:center;gap:18px;font-size:26px}
+.rev-timer-controls input{width:100px;padding:8px;border:1px solid #999}
+.rev-time{font-size:170px;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--blue);text-align:center;margin:12px 0}
+.rev-timer-actions{display:flex;gap:20px;justify-content:center}
+.rev-timer-actions button{font-size:25px;padding:12px 22px;border:1px solid var(--blue);background:white;cursor:pointer;border-radius:4px}
+.rev-timer-actions button:first-child{background:var(--blue);color:white}
+.rev-timer-status{min-height:40px;text-align:center;font-size:26px}
+.rev-chart-controls{display:flex;align-items:center;gap:16px;font-size:25px;margin-bottom:6px}
+.rev-chart-controls select,.rev-chart-controls input{font-size:23px;padding:6px 10px;max-width:360px;background:#fff;border:1px solid #aab1be}
+.rev-interactive{height:495px;width:100%}
+.rev-interactive svg{height:100%;width:100%;overflow:visible;font-family:var(--serif)}
+.rev-legend{display:flex;gap:28px;font-size:23px;align-items:center}
+.rev-legend span:before{content:"";display:inline-block;width:32px;height:0;margin-right:9px;border-top:4px solid var(--blue);vertical-align:middle}
+.rev-legend .co2:before{border-color:var(--red)}
+.rev-legend .cons:before{border-color:var(--red);border-top-style:dashed}
+.rev-chart-note{font-size:23px;line-height:1.3;margin:5px 0 0}
+.rev-decoupling-intro{font-size:27px;line-height:1.3;margin:0 0 14px}
+.rev-decoupling .rev-chart-controls{gap:22px;margin:0 0 6px}
+.rev-decoupling .rev-interactive{height:480px}
+.rev-decoupling-country{font-size:28px;color:var(--blue);margin:6px 0 0}
+.rev-decoupling .rev-chart-note{font-size:21px;color:var(--muted)}
+@keyframes rev-decoupling-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.rev-decoupling-reveal{transform-origin:0 0;animation:rev-decoupling-draw 2s ease-out both}
+.rev-static{display:none}
+.rev-audit-note{border-left:3px solid var(--red);padding-left:12px;font-size:20px}
+/* Nuance santé/longévité : grandes parenthèses autour de la troisième case. */
+.rev-health-limits{gap:54px}
+.rev-health-card{position:relative}
+.rev-health-parenthesis{position:absolute;top:-6px;width:24px;height:calc(100% + 12px);overflow:visible;fill:none;stroke:var(--blue);stroke-width:2;pointer-events:none}
+.rev-health-parenthesis path{vector-effect:non-scaling-stroke}
+.rev-health-parenthesis.left{left:-29px}
+.rev-health-parenthesis.right{right:-29px}
+.rev-health-note{margin:0;padding:16px 22px;border-left:3px solid var(--red);font:400 25px/1.35 var(--serif);color:var(--ink)}
+.rev-health-note strong{color:var(--blue)}
+.rev-limits-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.revision-label{position:absolute;right:80px;bottom:16px;font-size:15px;color:#536078}
+.timing{display:none!important}
+.rev-cover{height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:65px;box-sizing:border-box;gap:30px}
+.rev-cover .rev-cover-kicker{transform:translateY(-70px);color:#B45309;font-size:27px;letter-spacing:.04em}
+.rev-cover h1{font-size:72px!important;line-height:1.15!important;font-weight:normal!important;color:#001F5F!important;margin:15px 0 35px!important;white-space:nowrap;min-height:212px;display:flex;align-items:center}
+.rev-cover p{font-size:30px;margin:0;transform:translateY(70px)}.rev-cover .rev-cover-term{font-size:25px;color:#536078}
+.slide-page-number{position:absolute;right:32px;bottom:16px;font:400 18px/1.36 var(--serif);font-variant-numeric:tabular-nums;color:var(--muted);pointer-events:none}
+.slide:not(.cover) .slide-foot{margin-right:80px}
+.rev-meeting-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;height:100%;align-items:start}
+.rev-meeting-column{margin:0;min-width:0;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) 104px;gap:18px;align-items:start}
+.rev-meeting-photo{display:block;width:100%;height:400px;object-fit:contain;object-position:center}
+.rev-meeting-visual{display:flex;flex-direction:column;gap:4px}
+.rev-meeting-column .rev-photo-credit{margin:0;font-size:15px;line-height:1.2;color:var(--muted);text-align:right}
+.rev-meeting-column blockquote{margin:0;font-family:var(--serif);font-size:22px;line-height:1.3;font-style:italic}
+.rev-meeting-column .rev-meeting-speaker{margin:0 0 4px;font-family:var(--serif);font-size:27px;line-height:1.25;color:var(--blue);font-weight:700;font-style:normal}
+.rev-meeting-column .rev-meeting-date{margin:0;font-family:var(--serif);font-size:24px;line-height:1.3;color:var(--muted)}
+.rev-photo-credit a{color:inherit;text-decoration:none}
+.rev-kennedy{grid-template-rows:minmax(0,1fr) 104px}
+.rev-kennedy-text{display:grid;grid-template-columns:320px minmax(0,1fr);gap:4px 26px;align-items:center}
+.rev-kennedy .rev-meeting-visual{display:contents}
+.rev-kennedy .rev-meeting-photo{grid-column:1;grid-row:1;height:auto}
+.rev-kennedy .rev-photo-credit{grid-column:1;grid-row:2;text-align:left;align-self:start}
+.rev-kennedy blockquote{grid-column:2;grid-row:1}
+@media print{
+ html,body,body.reading{background:#fff!important;width:1600px!important;margin:0!important;padding:0!important;overflow:visible!important}
+ body.reading #viewport,body.reading #stage,#viewport,#stage{position:static!important;display:block!important;transform:none!important;width:1600px!important;height:auto!important;background:#fff!important;margin:0!important;padding:0!important}
+ body.reading .slide-wrap,.slide-wrap{display:contents!important}
+ body.proj .slide,body.reading .slide,.slide{position:relative!important;display:flex!important;transform:none!important;width:1600px!important;height:900px!important;min-height:900px!important;max-height:900px!important;margin:0!important;break-after:page!important;page-break-after:always!important;break-inside:avoid!important;box-sizing:border-box!important}
+ .rev-chart-controls,.rev-timer-controls,.rev-timer-actions,.rev-timer-status{display:none!important}
+ .rev-interactive{display:none!important}.rev-static{display:block!important;width:100%;height:510px;object-fit:contain}
+ .rev-decoupling .rev-interactive{display:block!important}
+ .rev-decoupling-reveal{animation:none!important;transform:none!important}
+ .rev-time{font-size:150px}.revision-label{font-size:15px}
+ .slide:last-child{break-after:auto!important;page-break-after:auto!important}
+}
+/* Les tirets gardent leur motif pendant le tracé progressif. */
+@keyframes ch-dash-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.ch-dash-reveal{transform-origin:0 0;animation:ch-dash-draw 1.6s ease-out both}
+@media (prefers-reduced-motion:reduce){.ch-dash-reveal{animation:none!important;transform:none!important}}
+@media print{.ch-dash-reveal{animation:none!important;transform:none!important}}
+/* Fiches « Ce qu’il faut retenir » — réorganisation du 23 octobre 2026 (reorganisation.js). */
+.rev-retenir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 20px;width:100%}
+.rev-retenir-item{background:var(--blue-w);border:1px solid var(--line);border-radius:12px;padding:14px 18px 16px}
+.rev-retenir-term{font:650 22px/1.2 var(--sans);color:var(--blue);margin-bottom:6px}
+.rev-retenir-item p{font:400 20px/1.35 var(--serif);color:var(--ink);margin:0}
+.rev-formules{gap:16px 20px;width:100%}
+.rev-formules .pj-fm{padding:12px 18px 14px}
+.rev-formules .pj-fm .t{font-size:19px}
+.rev-formules .pj-fm .e{font-size:25px;line-height:1.3}
+/* Exercice de rattrapage : tout l’énoncé est visible, la correction reste dans les notes. */
+.rev-rattrapage-content{display:flex;flex-direction:column;justify-content:space-between;gap:22px;height:100%;font-size:29px;line-height:1.3}
+.rev-rattrapage-data{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:40px;align-items:center}
+.rev-rattrapage-intro p{margin:0}
+.rev-rattrapage-intro .rev-rattrapage-notation{margin-top:18px;font-size:26px;line-height:1.3}
+.rev-rattrapage-table{width:100%;border-collapse:collapse;font-size:26px;line-height:1.25}
+.rev-rattrapage-table th,.rev-rattrapage-table td{padding:12px 15px;border-bottom:1px solid #d8c9b9;text-align:right;white-space:nowrap}
+.rev-rattrapage-table th:first-child{text-align:left;white-space:normal}
+.rev-rattrapage-table thead{color:var(--blue);background:#fff8f0}
+.rev-rattrapage-table tbody th{font-weight:400}
+.rev-rattrapage-questions{margin:0;padding-left:38px;display:flex;flex-direction:column;gap:17px}
+.rev-rattrapage-questions li{padding-left:6px}
+.rev-rattrapage-questions li::marker,.rev-rattrapage-questions strong{color:var(--blue);font-weight:700}
+.rev-rattrapage-logs{margin:0;padding:13px 18px;background:#fff8f0;font-size:25px;line-height:1.3}
+.rev-rattrapage-content sub{font-size:.72em}
+
+/* Long terme : encadré et tendances réservés à la vue logarithmique. */
+.rev-longrun-fit{pointer-events:none}
+.rev-longrun-log .p-grow{gap:16px!important}
+.rev-longrun-log .p-kpi{padding:16px 22px}
+.rev-longrun-log .p-kpi .v{font-size:56px}
+.rev-longrun-log .p-kpi .l{font-size:25px}
+.rev-longrun-log .p-kpi .s{font-size:22px}
+.rev-longrun-log .p-txt{font-size:26px;line-height:1.3}
+.rev-moore-card{width:100%;padding:15px 22px;background:#fff;border:1px solid #001F5F;border-top:3px solid #B45309;border-radius:3px;box-sizing:border-box;font-family:Palatino,"Palatino Linotype",serif;color:#001F5F}
+.rev-moore-card h3{font-size:29px;line-height:1.2;margin:0 0 7px;font-weight:700}
+.rev-moore-card p{font-size:22px;line-height:1.25;margin:0 0 8px;color:#536078}
+.rev-moore-card dl{margin:0;font-size:25px;line-height:1.3}
+.rev-moore-card dl>div{display:flex;justify-content:space-between;gap:12px}
+.rev-moore-card dt,.rev-moore-card dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums}

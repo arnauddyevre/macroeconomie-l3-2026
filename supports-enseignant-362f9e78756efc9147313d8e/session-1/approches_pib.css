@@ -1,0 +1,49 @@
+/* Trois approches du PIB : même exemple, même composition, cours sans label d’exercice. */
+.bp-slide .slide-body{font-family:Palatino,"Palatino Linotype","Book Antiqua","TeX Gyre Pagella",serif}
+.bp-definitions{height:100%;display:flex;flex-direction:column;gap:20px;justify-content:center}
+.bp-definition-intro{margin:0 0 8px;font-size:33px;line-height:1.3}
+.bp-definition{display:grid;grid-template-columns:205px 1fr;gap:28px;padding:19px 25px;border:1px solid #d7dce5;border-left:5px solid #B45309;background:#f6f7fa;align-items:center}
+.bp-definition h2{font-size:33px;line-height:1.2;color:#001F5F;margin:0}
+.bp-definition p{font-size:28px;line-height:1.25;margin:0}
+.bp-definition .bp-definition-formula{margin-top:9px;color:#001F5F;font-size:26px;line-height:1.3}
+.bp-precision{font-size:.88em;color:#4c586d}
+.bp-bread{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px;height:100%;align-items:center}
+.bp-photo .photo{margin:0;width:100%;height:600px!important}
+.bp-example{display:flex;flex-direction:column;gap:30px;justify-content:center}
+.bp-chain{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.bp-actor{position:relative;padding:23px 18px;background:#f6f7fa;border:1px solid #ccd3df;border-top:4px solid #001F5F;min-height:340px}
+.bp-actor:not(:last-child)::after{content:'→';position:absolute;right:-24px;top:142px;width:24px;text-align:center;font-size:30px;color:#B45309;z-index:1}
+.bp-actor h2{font-size:31px;line-height:1.15;margin:0 0 4px;color:#001F5F}
+.bp-actor .bp-country{font-size:22px;line-height:1.2;margin:0 0 27px;color:#536078}
+.bp-country-flag{display:inline-block;width:33px;height:22px;margin-right:8px;vertical-align:-4px;border:1px solid #ccd3df;shape-rendering:crispEdges}
+.bp-actor .bp-product{font-size:25px;line-height:1.25;margin:0 0 6px}
+.bp-price{font-size:47px;line-height:1.15;color:#001F5F;margin-bottom:23px}
+.bp-actor-lines p{font-size:25px;line-height:1.28;margin:15px 0 0}
+.bp-actor-lines strong{color:#B45309}
+.bp-result{padding:19px 12px;text-align:center;border-top:2px solid #001F5F;border-bottom:2px solid #001F5F;color:#001F5F;font-size:41px;line-height:1.25}
+.bp-detail{margin:0;font-size:27px;line-height:1.4;text-align:center}
+.bp-expenditure{height:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding:5px 0 6px 100px;align-content:center}
+.bp-spending-col{display:flex;flex-direction:column;gap:17px;min-width:0}
+.bp-eq-term{height:118px;position:relative;display:flex;align-items:center;justify-content:center;font-size:87px;line-height:1;color:#001F5F;font-weight:500;white-space:nowrap}
+.bp-eq-prefix{position:absolute;right:calc(100% - 12px);font-size:79px}
+.bp-eq-op{position:absolute;left:-30px;font-size:62px;font-style:normal}
+.bp-eq-trade{justify-content:space-around}
+.bp-eq-trade>span:not(.bp-eq-op){font-size:58px}
+.bp-spending-box{border:1px solid #cbd2dd;border-top:3px solid #B45309;padding:16px 15px;background:#f7f8fa;font-size:25px;line-height:1.28;flex:1}
+.bp-spending-box h2{color:#001F5F;font-size:29px;line-height:1.15;margin:0 0 13px}
+.bp-spending-box p{margin:0 0 10px}
+.bp-spending-box p:last-child{margin-bottom:0}
+.bp-spending-box .bp-small-note{font-size:23px;color:#4c586d}
+.bp-trade-boxes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.bp-trade-boxes .bp-spending-box{padding:16px 10px;font-size:23px;overflow-wrap:normal}
+.bp-trade-boxes h2{text-align:center;font-size:29px}
+.bp-trade-boxes b{font-size:21px}
+.bp-net-exports{flex:1;font-size:24px}
+.bp-animated .bp-actor{animation:bp-appear .5s both}
+.bp-animated .bp-actor:nth-child(2){animation-delay:.18s}
+.bp-animated .bp-actor:nth-child(3){animation-delay:.36s}
+.bp-animated .bp-result{animation:bp-appear .5s .6s both}
+@keyframes bp-appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+body.reading .bp-animated .bp-actor,body.reading .bp-animated .bp-result{animation:none}
+@media print{.bp-animated .bp-actor,.bp-animated .bp-result{animation:none}}
+@media(prefers-reduced-motion:reduce){.bp-animated .bp-actor,.bp-animated .bp-result{animation:none}}
