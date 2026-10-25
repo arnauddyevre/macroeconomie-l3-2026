@@ -54,54 +54,5 @@ const INTRO_SLIDES = [
     "title": "Comment aborder ce cours ?",
     "part": "Le cours",
     "html": "<div class=\"cards c3\"><div class=\"card\"><h2>Curiosité</h2><p>Accepter les résultats qui surprennent.<br>Demander d’où ils viennent.</p></div><div class=\"card\"><h2>Fondations</h2><p>Soigner les définitions.<br>Refaire les raisonnements et les calculs.</p></div><div class=\"card\"><h2>Esprit critique</h2><p>Examiner les hypothèses et les données.<br>Ne pas confondre autorité et démonstration.</p></div></div><p class=\"note\">Votre parcours et votre point de vue ont leur place dans la discussion.</p>"
-  },
-  {
-    "id": "macro-definition",
-    "title": "Qu’est-ce que la macroéconomie ?",
-    "part": "La macroéconomie",
-    "html": "<p class=\"lead\">L’étude de l’économie dans son ensemble.</p><p>Une région, un pays, le monde.</p><div class=\"tags\"><span>Production</span><span>Emploi</span><span>Prix</span><span>Croissance</span><span>Politiques publiques</span></div><p class=\"note\">Les décisions des ménages, des entreprises et des pouvoirs publics interagissent.</p>"
-  },
-  {
-    "id": "modeles-donnees",
-    "title": "Des données et des modèles",
-    "part": "La macroéconomie",
-    "html": "<div class=\"cards c2\"><div class=\"card blue\"><p class=\"label\">Les données</p><p class=\"lead-small\">Que se passe-t-il ?</p><ul><li>Mesurer et comparer.</li><li>Repérer les évolutions.</li><li>Évaluer les explications.</li></ul></div><div class=\"card blue\"><p class=\"label\">Les modèles</p><p class=\"lead-small\">Par quels mécanismes ?</p><ul><li>Préciser les hypothèses.</li><li>Relier des variables.</li><li>En déduire des conséquences.</li></ul></div></div><p class=\"note\">Un modèle simplifie la réalité pour rendre un raisonnement explicite.</p>"
-  },
-  {
-    "id": "equilibre-general",
-    "title": "Des marchés reliés entre eux",
-    "part": "La macroéconomie",
-    "html": "<p class=\"lead-small\">Équilibre général : l’équilibre simultané de plusieurs marchés.</p><p>Une décision peut avoir des effets ailleurs dans l’économie.</p><div class=\"flow\" aria-label=\"Exemple de mécanisme : demande, prix, taux, crédit et demande\"><div>Demande<br>plus forte</div><b>→</b><div>Pressions<br>sur les prix</div><b>→</b><div>Réaction possible<br>des taux</div><b>→</b><div>Crédit<br>et demande</div></div><p class=\"sub\">Un mécanisme possible, dont le sens et l’ampleur dépendent des hypothèses.</p>"
-  },
-  {
-    "id": "pour-vous",
-    "title": "Pourquoi la macroéconomie vous concerne",
-    "part": "À quoi cela sert-il ?",
-    "html": "<ul class=\"list\"><li>Acheter ou louer un logement ?</li><li>Dépenser aujourd’hui ou épargner ?</li><li>Comprendre l’évolution des inégalités ?</li><li>Entrer sur quel marché du travail ?</li><li>Comment l’IA transformera-t-elle les tâches et les métiers ?</li></ul>"
-  },
-  {
-    "id": "finance",
-    "title": "Comprendre les marchés financiers",
-    "part": "À quoi cela sert-il ?",
-    "html": "<div class=\"cards c3\"><div class=\"card\"><h2>Croissance</h2><p>Ventes attendues.<br>Profits et risques.</p></div><div class=\"card\"><h2>Inflation</h2><p>Pouvoir d’achat des revenus.<br>Rendements réels.</p></div><div class=\"card\"><h2>Taux d’intérêt</h2><p>Coût du financement.<br>Valeur des revenus futurs.</p></div></div><p class=\"note\">Lire un prix de marché suppose de comprendre des anticipations.</p><p class=\"sub\">Crédit, liquidité et risques internationaux comptent aussi.</p>"
-  },
-  {
-    "id": "politiques",
-    "title": "Comprendre les choix publics",
-    "part": "À quoi cela sert-il ?",
-    "html": "<ol class=\"questions\"><li>Comment réagir à une récession ?</li><li>Comment financer les dépenses publiques ?</li><li>Comment réduire l’inflation ?</li></ol><p class=\"note\">Comparer les effets attendus, les coûts et les arbitrages.</p>"
-  },
-  {
-    "id": "carrieres",
-    "title": "Des outils pour vos projets professionnels",
-    "part": "À quoi cela sert-il ?",
-    "html": "<div class=\"cards c2\"><div class=\"card\"><h2>Conseil et entreprise</h2><p>Construire un scénario.<br>Tester une hypothèse de demande ou de coût.</p></div><div class=\"card\"><h2>Finance</h2><p>Interpréter la conjoncture.<br>Analyser les risques et le financement.</p></div><div class=\"card\"><h2>Institutions publiques</h2><p>Comparer des politiques.<br>En mesurer les effets.</p></div><div class=\"card\"><h2>Recherche</h2><p>Poser une question.<br>La confronter aux modèles et aux données.</p></div></div>"
-  },
-  {
-    "id": "suite",
-    "title": "Mesurer la richesse nationale",
-    "kind": "divider",
-    "part": "La suite",
-    "html": "<div class=\"plan\"><div class=\"plan-row is-current\" aria-current=\"step\"><span class=\"n\">1</span><span class=\"q\">Mesurer la richesse nationale</span></div><div class=\"plan-row\"><span class=\"n\">2</span><span class=\"q\">Comprendre la richesse des nations</span></div><div class=\"plan-row\"><span class=\"n\">3</span><span class=\"q\">Emploi, tâches et intelligence artificielle</span></div><div class=\"plan-row\"><span class=\"n\">4</span><span class=\"q\">Politique budgétaire et dette publique</span></div><div class=\"plan-row\"><span class=\"n\">5</span><span class=\"q\">Monnaie, inflation et politique monétaire</span></div></div>"
   }
 ];
