@@ -223,7 +223,7 @@
   const OBSERVATIONS_A_ETIQUETER = [
     'correlation-infant', 'correlation-learning', 'correlation-consumption',
     'correlation-aic', 'correlation-manufacturing', 'correlation-freedom',
-    'correlation-happiness', 'correlation-life', 'pib-mots',
+    'correlation-happiness', 'correlation-life',
     'decouplage-def', 'ai-investissement',
     'prix-americains', 'chine-etats-unis', 'ons-productivite',
     'redistribution-elargie', 'transferts-nature', 'decouplage-monde',

@@ -27,8 +27,7 @@ function calendrierHtml() {
     return `<tr${cls ? ` class="${cls}"` : ''}><td class="n">${r[0]}</td><td class="date">${r[1]}</td><td class="date">${r[2]}</td>${first ? `<td class="ch" rowspan="${span(r[3])}">${r[3]}</td>` : ''}<td>${r[4]}</td><td class="q">${r[5] ? `<span class="quiz-tag">Quiz ${r[5]}</span>` : ''}</td></tr>`;
   }).join('');
   return `<p class="cal-groups"><span><b>FR05</b>13 h–14 h 30</span><span><b>FR01</b>14 h 40–16 h 10</span><span><b>FR02</b>9 h 40–11 h 10</span></p>`
-    + `<table class="cal"><thead><tr><th class="n">Séance</th><th>FR05 · FR01</th><th>FR02</th><th class="ch">Chapitre</th><th>Thème</th><th class="q">Quiz</th></tr></thead><tbody>${rows}</tbody></table>`
-    + `<p class="sub small"><span class="nw">Quiz sur papier de 15 minutes, pendant la séance.</span> <span class="nw">Thèmes ajustables au rythme des groupes.</span> <span class="nw">Salles : emploi du temps HEC.</span> <span class="nw">Examen final : date à préciser.</span></p>`;
+    + `<table class="cal"><thead><tr><th class="n">Séance</th><th>FR05 · FR01</th><th>FR02</th><th class="ch">Chapitre</th><th>Thème</th><th class="q">Quiz</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 
@@ -50,18 +49,18 @@ const INTRO_SLIDES = [
   },
   {
     id: 'organisation', title: 'Notre cours cet automne', part: 'Le cours', sourcePages: [4],
-    html: `<div class="key-numbers"><div><strong>12</strong><span>séances de 1 h 30</span></div><div><strong>18 h</strong><span>par groupe</span></div><div><strong>5</strong><span>chapitres</span></div><div><strong>6</strong><span>semaines</span></div></div><p class="center lead-small">Du 26 octobre au 8 décembre 2026 · En français</p><p class="center">FR05 · FR01 · FR02</p><p class="sub center">Le calendrier du syllabus fait référence pour les dates de votre groupe.</p>`,
+    html: `<div class="key-numbers"><div><strong>12</strong><span>séances de 1 h 30</span></div><div><strong>18 h</strong><span>par groupe</span></div><div><strong>5</strong><span>chapitres</span></div><div><strong>6</strong><span>semaines</span></div></div><p class="center lead-small">Du 26 octobre au 8 décembre 2026 · En français</p><p class="center">FR05 · FR01 · FR02</p><p class="sub center">Le calendrier du syllabus fait référence pour les dates de votre groupe.</p><p class="sub center">Supports HTML et PDF :<br><a href="https://arnauddyevre.github.io/macroeconomie-l3-2026/" target="_blank" rel="noopener noreferrer">arnauddyevre.github.io/macroeconomie-l3-2026</a></p>`,
     notes: 'Le calendrier du master 2025 est remplacé par celui du syllabus L3 validé. Il y a 12 séances par groupe, en général deux par semaine ; ne pas présenter cette introduction comme une 13e séance. Pas de minutage ajouté.'
-  },
-  {
-    id: 'calendrier', title: 'Calendrier des séances et des quiz', part: 'Le cours', sourcePages: [],
-    html: calendrierHtml(),
-    notes: 'Créée le 23 octobre 2026 à la demande d’Arnaud. Reprend le tableau « Organisation et progression proposée » du syllabus 2026 : séances, dates FR05/FR01 et FR02, chapitres, thèmes et quiz. Dates et quiz contrôlés contre organisation/calendrier.md : 36 créneaux, aucun écart. Les salles et la date de l’examen final ne sont pas affichées : les premières figurent dans l’emploi du temps HEC, la seconde n’est pas fixée. Le syllabus présente le découpage thématique comme une proposition ajustable.'
   },
   {
     id: 'programme', title: 'Cinq questions pour le semestre', part: 'Le cours', sourcePages: [4],
     html: `<div class="plan"><div class="plan-row"><span class="n">1</span><span class="q">Mesurer la richesse nationale<small>Que produit-on ? À quels prix ? Pour qui ?</small></span></div><div class="plan-row"><span class="n">2</span><span class="q">Comprendre la richesse des nations<small>Pourquoi certains pays sont-ils plus riches ?</small></span></div><div class="plan-row"><span class="n">3</span><span class="q">Emploi, tâches et intelligence artificielle<small>Comment l’IA transforme-t-elle le travail ?</small></span></div><div class="plan-row"><span class="n">4</span><span class="q">Politique budgétaire et dette publique<small>Que peuvent faire les pouvoirs publics ?</small></span></div><div class="plan-row"><span class="n">5</span><span class="q">Monnaie, inflation et politique monétaire<small>Comment la monnaie et les taux agissent-ils ?</small></span></div></div>`,
     notes: 'Les cinq thèmes suivent le syllabus L3. Le chapitre 1 porte le nouveau titre demandé par Arnaud. L’innovation et la productivité liées à l’IA sont également traitées dans le chapitre 2. Mise en page au gabarit du plan du chapitre 1 (23 octobre 2026).'
+  },
+  {
+    id: 'calendrier', title: 'Calendrier des séances et des quiz', part: 'Le cours', sourcePages: [],
+    html: calendrierHtml(),
+    notes: 'Créée le 23 octobre 2026 à la demande d’Arnaud. Reprend le tableau « Organisation et progression proposée » du syllabus 2026 : séances, dates FR05/FR01 et FR02, chapitres, thèmes et quiz. Dates et quiz contrôlés contre organisation/calendrier.md : 36 créneaux, aucun écart. Les salles et la date de l’examen final ne sont pas affichées : les premières figurent dans l’emploi du temps HEC, la seconde n’est pas fixée. Le syllabus présente le découpage thématique comme une proposition ajustable.'
   },
   {
     id: 'evaluation', title: 'Comment serez-vous évalués ?', part: 'Le cours', sourcePages: [4],
@@ -90,7 +89,7 @@ const INTRO_SLIDES = [
   },
   {
     id: 'pour-vous', title: 'À quoi sert la macroéconomie pour vous ?', part: 'La macroéconomie', sourcePages: [9], prov:'obs',
-    html: `<div class="master-personal"><ul class="list"><li>Dois-je acheter un logement ou continuer à louer ?</li><li>Dois-je dépenser ou épargner ?</li><li>Comment investir si j’ai de l’épargne ?</li><li>Quels sont les déterminants des inégalités ?</li><li>Comment l’IA va-t-elle affecter mes perspectives sur le marché du travail ?</li></ul><figure class="canaries-figure"><img src="assets/canaries_coal_mine_emploi_age_2026.png" width="1286" height="705" alt="Emploi par tranche d’âge dans l’échantillon ADP, de janvier 2021 à juin 2026 ; indice 1 en novembre 2022. Les trajectoires des jeunes et des travailleurs plus âgés divergent après 2022."><figcaption>Capture d’écran fournie par l’enseignant. Erik Brynjolfsson, Bharat Chandar et Ruyu Chen, <a href="https://digitaleconomy.stanford.edu/app/uploads/2026/08/Canaries_August2026.pdf#page=9" target="_blank" rel="noopener noreferrer"><em>Canaries in the Coal Mine? Six Facts about the Recent Employment Effects of Artificial Intelligence</em></a>, Stanford Digital Economy Lab, août 2026, fig. 2, p. 9.</figcaption></figure></div>`,
+    html: `<div class="master-personal"><ul class="list"><li>Dois-je acheter un logement ou continuer à louer ?</li><li>Dois-je dépenser ou épargner ?</li><li>Comment investir si j’ai de l’épargne ?</li><li>Quels sont les déterminants des inégalités ?</li><li>Comment l’IA va-t-elle affecter mes perspectives sur le marché du travail ?</li></ul><figure class="canaries-figure"><img src="assets/canaries_coal_mine_emploi_age_2026.png" width="1286" height="705" alt="Emploi par tranche d’âge dans l’échantillon ADP, de janvier 2021 à juin 2026 ; indice 1 en novembre 2022. Les trajectoires des jeunes et des travailleurs plus âgés divergent après 2022."><figcaption>Erik Brynjolfsson, Bharat Chandar et Ruyu Chen, <a href="https://digitaleconomy.stanford.edu/app/uploads/2026/08/Canaries_August2026.pdf#page=9" target="_blank" rel="noopener noreferrer"><em>Canaries in the Coal Mine? Six Facts about the Recent Employment Effects of Artificial Intelligence</em></a>, Stanford Digital Economy Lab, août 2026, fig. 2, p. 9.</figcaption></figure></div>`,
     notes: 'Cinq questions traduites de la page 9 du master, avec la capture fournie par Arnaud le 25 octobre 2026. La nouvelle image correspond à la figure 2, page 9, de la révision du 12 août 2026 de Brynjolfsson, Chandar et Chen, vérifiée dans le PDF primaire Stanford. Elle porte sur l’ensemble de l’échantillon ADP, tous métiers, par âge ; données janvier 2021–juin 2026, indice 1 en novembre 2022. Ne pas la présenter comme le seul emploi des développeurs : ce dernier était le graphique du master, remplacé ici. Image conservée telle que fournie à la demande expresse d’Arnaud, exception locale au principe de reconstruction dynamique des graphiques. Questions de motivation du cours, pas un exercice : fond blanc.'
   },
   {

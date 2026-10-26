@@ -10,7 +10,7 @@ Arnaud Dyèvre
 | 0. Introduction à la macroéconomie | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/introduction/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/introduction/cours.pdf) |
 | 1. Mesurer la richesse nationale | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/cours.pdf) |
 
-Version du 25 octobre 2026, destinée à la préparation du cours : les exercices sont proposés sans corrigé.
+Version du 26 octobre 2026, destinée à la préparation du cours : les exercices sont proposés sans corrigé.
 
 Les ordinateurs ne sont pas autorisés en classe. Les PDF peuvent être imprimés et annotés ; les calculs au tableau sont à prendre en note.
 

@@ -34,11 +34,11 @@
         '71','Remplace la reproduction historique en annexe par les données des auteurs, figure I de Capital is Back (QJE, 2014). Huit séries annuelles 1970–2010, 41 points chacune ; AppendixTables.xls, Table A5!A105:I145, identiques au cache du graphique Figure1. Ratios multipliés par 100, sans actualisation. Le patrimoine privé net comprend les ménages et les institutions sans but lucratif au service des ménages, actifs non financiers et financiers moins passifs. Le dénominateur est le revenu national net, pas le PIB du calcul précédent. La valorisation des actifs peut varier sans production correspondante.',wealthSource('I')),
       make('master-patrimoine-france','Le patrimoine en France : composition et évolution',P1,
         wealthChart('france','Patrimoine national, 1700–2010 · en % du revenu national net',
-          'Dates repères : années ou moyennes décennales, espacées régulièrement comme dans l’original.<br>Les actifs extérieurs nets négatifs sont représentés sous zéro.'),
+          'Les actifs extérieurs nets négatifs sont représentés sous zéro.'),
         '72','Remplace la figure d’annexe par les 13 repères de Figures.xls, DataFig9!A9:F21, figure IX de l’article. Patrimoine national = privé + public = terres agricoles + logements + autre capital intérieur + actifs extérieurs nets. Les ratios sont multipliés par 100 ; aucune nouvelle observation annuelle interpolée. Les dates sont les étiquettes des auteurs, mêlant observations ponctuelles et moyennes de décennies ; voir la note de source. Pour rendre les valeurs négatives visibles, les actifs extérieurs nets négatifs sont sous zéro, et la ligne de total conserve leur soustraction. Distinguer changements de composition, prix des actifs et accumulation.',wealthSource('IX')),
       make('master-patrimoine-us','Le patrimoine aux États-Unis : une autre trajectoire',P1,
         wealthChart('us','États-Unis, 1770–2010 · en % du revenu national net',
-          '* Valorisation historique des personnes réduites en esclavage dans les comptes des propriétaires.<br>Dates repères espacées régulièrement ; actifs extérieurs nets négatifs sous zéro.'),
+          '* Valorisation historique des personnes réduites en esclavage dans les comptes des propriétaires.<br>Actifs extérieurs nets négatifs sous zéro.'),
         '73','Remplace la figure d’annexe par les 11 repères nationaux de Figures.xls, DataFig10!A11:I21, figure X publiée (Figure11 dans le classeur). Les lignes séparées Nord/Sud 1770 ne sont pas reprises. Le total historique, colonne H, ajoute la colonne I « Slaves » au patrimoine national de la colonne B. Cette composante documente les valorisations des sociétés esclavagistes, pas une valeur légitime des personnes. Les observations regroupent années et moyennes de décennies ; les segments relient les repères d’origine et ne créent pas de données annuelles. Actifs extérieurs nets négatifs conservés sous zéro et soustraits du total. Période et valeurs historiques inchangées.',wealthSource('X'))
     ]);
 
@@ -46,7 +46,7 @@
       make('master-brut-net','Brut ou net : faut-il retrancher l’usure du capital ?',P1,stack(
         formula('Produit intérieur net = PIB − consommation de capital fixe'),
         table(['Exemple fictif, sur un an','Montant'],[['Valeur ajoutée de l’économie','100 €'],['Usure et obsolescence du capital','10 €'],['Produit intérieur net','90 €']]),
-        '<p class="p-sub">L’investissement remplace une partie du capital usé. Il ne faut pas le compter deux fois.</p>'
+        '<p class="p-sub">L’investissement remplace une partie du capital usé. Le produit intérieur net déduit la valeur du capital usé, que l’investissement de remplacement vise à compenser.</p>'
       ),'18','Exemple simplifié sans impôts sur les produits. Le master ajoutait 10 de dépenses de remplacement à une VA de 60, sans préciser si cette VA était celle de l’usine ou de toute l’économie. Cet exemple ambigu n’est pas repris. La CCF est une mesure économique, pas l’amortissement fiscal. Le produit net ne mesure pas à lui seul un revenu soutenable au sens environnemental.')
     ]);
     insert('trois-approches',[

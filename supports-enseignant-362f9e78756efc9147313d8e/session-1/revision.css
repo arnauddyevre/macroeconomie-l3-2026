@@ -7,6 +7,8 @@ svg text{font-family:var(--serif)!important}
 #trois-approches .pj-f{font-size:45px}
 body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-open{background:#001F5F!important;color:#fff!important}
 .slide.section-open *{color:#fff!important}
+/* Même espace que le titre du sommaire (54 px × 1,08 + 30 px de marge), sans titre visible. */
+body.proj .rev-section-overview::before{content:"";display:block;flex:0 0 calc(54px * 1.08 + 30px)}
 .rev-section-overview .pj-plan-row,.rev-section-overview .pj-plan-row *{color:#8f9bb3!important}
 .rev-section-overview .pj-plan-row.is-current,.rev-section-overview .pj-plan-row.is-current *{color:#fff!important}
 .def,.callout,.warn,.pj-card,.p-kpi,.fiche,.card{box-shadow:none}
@@ -14,13 +16,15 @@ body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-op
 .rev-body p{margin:0;font-size:34px;line-height:1.35}
 .rev-body .rev-small{font-size:27px;line-height:1.35}
 .rev-lead{color:var(--blue);font-size:42px!important}
-.rev-quote{font-size:44px;line-height:1.4;margin:20px 35px;border-left:4px solid var(--red);padding-left:30px}
+.rev-quote{font-size:44px;line-height:1.4;margin:20px 35px;padding-left:0}
 .rev-history{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;height:100%;align-items:center}
 .rev-history-text{display:flex;flex-direction:column;gap:25px;min-width:0}
 .rev-history .rev-body{height:auto;gap:22px}
 .rev-history .rev-body p{font-size:28px;line-height:1.34}
 .rev-history .rev-lead{font-size:32px!important}
-.rev-history-quote{margin:0;padding-left:22px;border-left:4px solid var(--red)}
+.rev-history-points{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:22px;font-size:28px;line-height:1.34}
+.rev-history-points li::marker{color:var(--blue)}
+.rev-history-quote{margin:0;padding-left:0}
 .rev-history-quote blockquote{margin:0 0 12px;font-size:28px;line-height:1.35;font-style:italic}
 .rev-history-quote figcaption{font-size:21px;line-height:1.3;color:var(--muted)}
 .rev-history-quote strong{color:var(--blue)}
@@ -34,7 +38,7 @@ body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-op
 .rev-figure{margin:0;display:flex;flex-direction:column;gap:10px;min-height:0;height:100%}
 .rev-figure img{width:100%;height:535px;object-fit:contain;display:block}
 .rev-figure figcaption{font-size:25px;line-height:1.3;margin:0;color:#000}
-.rev-pending{border-left:5px solid var(--red);padding:24px 30px;background:#faf7f2;max-width:1200px}
+.rev-pending{padding:24px 30px;background:#faf7f2;max-width:1200px}
 .rev-pending .rev-small{margin-top:18px}
 .rev-pending-label{font-size:22px;letter-spacing:.04em;color:var(--red);margin-bottom:15px}
 .rev-timer-controls{display:flex;align-items:center;justify-content:center;gap:18px;font-size:26px}
@@ -61,15 +65,16 @@ body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-op
 @keyframes rev-decoupling-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .rev-decoupling-reveal{transform-origin:0 0;animation:rev-decoupling-draw 2s ease-out both}
 .rev-static{display:none}
-.rev-audit-note{border-left:3px solid var(--red);padding-left:12px;font-size:20px}
+.rev-audit-note{padding-left:0;font-size:20px}
 /* Nuance santé/longévité : grandes parenthèses autour de la troisième case. */
-.rev-health-limits{gap:54px}
+.rev-health-limits{gap:12px 54px}
+.rev-domestic-note{grid-column:1;grid-row:2;margin:0;font:400 21px/1.3 var(--serif);color:var(--muted)}
 .rev-health-card{position:relative}
 .rev-health-parenthesis{position:absolute;top:-6px;width:24px;height:calc(100% + 12px);overflow:visible;fill:none;stroke:var(--blue);stroke-width:2;pointer-events:none}
 .rev-health-parenthesis path{vector-effect:non-scaling-stroke}
 .rev-health-parenthesis.left{left:-29px}
 .rev-health-parenthesis.right{right:-29px}
-.rev-health-note{margin:0;padding:16px 22px;border-left:3px solid var(--red);font:400 25px/1.35 var(--serif);color:var(--ink)}
+.rev-health-note{margin:0;padding:16px 22px;font:400 25px/1.35 var(--serif);color:var(--ink)}
 .rev-health-note strong{color:var(--blue)}
 .rev-limits-three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .revision-label{position:absolute;right:80px;bottom:16px;font-size:15px;color:#536078}

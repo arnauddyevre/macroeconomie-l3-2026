@@ -2313,10 +2313,10 @@ window.SLIDES = window.SLIDES || [];
     ['Produit', 'Toute production nouvelle, <b>marchande</b> (vendue) ou <b>non marchande</b> (école, hôpital publics, évalués à leur coût).'],
     ['Intérieur', 'Produit sur le territoire par des unités résidentes, quel que soit le propriétaire : l\'usine Toyota de Valenciennes compte dans le PIB français.'],
     ['Brut', `L'usure du capital, ${pct(R.fr_ccf_part_pib_2025, 1)} du PIB en 2025, n'est pas déduite.`],
-    ['Sur une période', 'Un <b>flux</b> : des euros <b>par an</b> (ou par trimestre).']
+    ['Sur un an', 'Un <b>flux</b> : des euros <b>par an</b> (ou par trimestre).<span style="display:block;margin-top:18px;font-size:24px;line-height:1.35">(croissance trimestrielle, glissement annuel, croissance annuelle ou croissance trimestrielle annualisée)</span>']
   ];
   SLIDES.push({
-    id: 'pib-mots', part: P, title: 'Produit, intérieur, brut : chaque mot compte',
+    id: 'pib-mots', part: P, title: 'Produit, intérieur, brut, annuel : chaque mot compte',
     html: `<div class="p-center"><div class="p-grid2" style="gap:26px 34px">${mots.map((m, i) => { const h = `<div class="pj-card pj-word" style="height:100%"><div class="w">${m[0]}</div><p>${m[1]}</p></div>`; return i ? s(i, h) : `<div>${h}</div>`; }).join('')}</div></div>`,
     source: `${SRC.pib_def}. Consommation de capital fixe : ${SRC.insee_cn}, tableau 1.112.`,
     prov: null

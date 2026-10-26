@@ -67,11 +67,12 @@
     const data = window.MASTER_WEALTH_DATA[key];
     const box = window.PJ.zoom(`master-wealth-${key === 'usa' ? 'us' : key}-chart`, 1.2);
     if (!box) return;
-    box.classList.add('master-wealth-native');
+    box.classList.add('master-wealth-native', 'master-wealth-sided');
     const isUS = key === 'usa', totalName = isUS ? 'Total historique' : 'Patrimoine national';
-    const height = box.clientHeight - (isUS ? 78 : 57);
+    const height = box.clientHeight;
+    const width = box.clientWidth - 260; // Légende à droite, sans réduire la hauteur du tracé.
     const chart = CH.line(box, {
-      height, animate:false, ends:false, legend:false, hover:false,
+      width, height, animate:false, ends:false, legend:false, hover:false,
       aria:`Composition du patrimoine ${isUS ? 'aux États-Unis' : 'en France'}, en pourcentage du revenu national`,
       x:{min:0, max:data.years.length - 1, ticks:data.years.map((_,i) => i), format:i => String(data.years[i])},
       y:{min:-50, max:isUS ? 700 : 800, ticks:isUS ? [0,200,400,600,700] : [0,200,400,600,800]},
