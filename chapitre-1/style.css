@@ -975,6 +975,12 @@ body.proj .rev-section-overview::before{content:"";display:block;flex:0 0 calc(5
 .master-table th,.master-table td{padding:13px 18px}
 .master-stack>.rev-body{height:auto;flex:0 1 auto}
 .master-stack .pj-f{font-size:36px;line-height:1.3}
+#master-ipc-formule .pj-fbox{padding:28px 30px}
+#master-ipc-formule .pj-f{font-size:54px;color:#001F5F}
+.master-ipc-equation{display:inline-flex;align-items:center;justify-content:center;gap:20px}
+.master-ipc-sum{display:inline-flex;flex-direction:column;align-items:center;font-size:1.25em;line-height:1}
+.master-ipc-sum sub{font-size:.4em;line-height:1.2;position:static}
+.master-ipc-prices{color:#B45309}
 .master-stack .p-sub{margin:0;font-size:29px;line-height:1.35}
 .master-stack .p-txt{margin:0;font-size:34px;line-height:1.35}
 .master-figure{justify-content:center}

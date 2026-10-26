@@ -2552,7 +2552,6 @@ window.SLIDES = window.SLIDES || [];
       <div class="pj-fbox"><p class="pj-f">1 + ${k('nom', gN)} = (1 + ${k('vol', gR)}) × (1 + ${k('prix', 'π')})</p></div>
       ${s(1, `<p class="p-txt" style="text-align:center">Pour des taux faibles : ${k('vol', gR)} ≈ ${k('nom', gN)} − ${k('prix', 'π')}</p>`)}
       ${s(2, `<p class="p-txt" style="text-align:center">Exemple : ${nm('1,155')} / ${pr('1,10')} − 1 = ${q('5 %')} ; l'approximation donne ${nm('15,5')} − ${pr('10')} = 5,5 %.</p>`)}
-      ${s(3, warn(`PIB réel = PIB nominal / (${pr('déflateur')} / 100) : on divise par ${pr('1,10')}, jamais par ${pr('110')}.`, { label: 'Piège fréquent' }))}
     </div>`,
     prov: null
   });
@@ -3395,7 +3394,7 @@ window.NOTES = window.NOTES || {};
     'deux-biens': t('2 min', '<p>Lire le code couleur : quantités en bleu, prix en rouge, valeurs nominales en gris. Clic : +15,5 % en euros, mais les prix ont augmenté de 10 %. Faire chercher le volume avant l\'écran suivant.</p>'),
     'deux-biens-reel': t('2 min', '<p>Les quantités de l\'année 1 aux prix de l\'année 0 : 420 €. Un calcul par clic : croissance réelle +5 % ; déflateur 110 ; 1,155 = 1,05 × 1,10. Les prix chaînés et les effets qualité sont des approfondissements du cours complet.</p>'),
     'nominal-reel': t('2 min', '<p>Deux définitions, puis (clic) les deux suivantes, qui les remplacent.</p>'),
-    'formule-reel': t('2 min', '<p>Faire écrire la formule exacte. Clic 1 : l\'approximation. Clic 2 : l\'exemple. Clic 3 : l\'erreur la plus fréquente, diviser par 110 au lieu de 1,10.</p>'),
+    'formule-reel': t('2 min', '<p>Faire écrire la formule exacte. Clic 1 : l\'approximation. Clic 2 : l\'exemple.</p>'),
     'france-1950': t('0 min', `<p><b>Facultatif, 2 minutes</b>, si l'horaire le permet ; sinon passer. Échelle logarithmique : l'écart vertical entre les deux courbes est le niveau des prix ; elles se croisent en 2020, année de référence des volumes. ${n(fr(1950)[1], 0)} → ${n(fr(2025)[1], 0)} Md€ en valeur (× ${n(fr(2025)[1] / fr(1950)[1], 0)}), ${n(fr(1950)[2], 0)} → ${n(fr(2025)[2], 0)} Md€ en volume (× ${n(fr(2025)[2] / fr(1950)[2], 1)}).</p>`),
     'us-2022-reponse': t('2 min', `<p>Clic 1 : ${n(1 + u22[2] / 100, 3)} / ${n(1 + u22[4] / 100, 3)} − 1 ≈ ${n(((1 + u22[2] / 100) / (1 + u22[4] / 100) - 1) * 100, 1)} %. Clic 2 : réponse B. Le CPI à 8 % répond à une autre question, les prix payés par les consommateurs : transition vers l'écran suivant.</p>`),
     'ipc-deflateur': t('2 min', '<p>Deux indices, deux paniers : ce que les ménages achètent (importations comprises), ce que le pays produit. Clic : le choix de l\'indice dépend de la question. La construction de l\'IPC (140 000 prix par mois, pondérations) est un approfondissement du cours complet.</p>'),

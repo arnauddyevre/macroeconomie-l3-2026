@@ -43,9 +43,9 @@
       'limites-1', 'limites-2', 'stiglitz-sen-fitoussi']},
     {id: 'p2', title: 'Combien reste-t-il après les prix ?', ids: [
       'us-2022', 'labo-q', 'labo-scen', 'deux-biens', 'deux-biens-reel', 'nominal-reel', 'formule-reel',
-      'france-1950', 'us-2022-reponse', 'ipc-deflateur', 'master-ipc-formule', 'master-ipc-panier',
+      'france-1950', 'us-2022-reponse', 'ipc-deflateur', 'prix-americains', 'master-ipc-formule', 'master-ipc-panier',
       'master-ipc-limites', 'master-ipc-poids', 'master-ipc-heterogeneite', 'master-inflation-mesures',
-      'master-cpi-core', 'prix-americains', 'ipc-defl-fr', 'courses', 'salaire-q', 'salaire-scen',
+      'master-cpi-core', 'ipc-defl-fr', 'courses', 'salaire-q', 'salaire-scen',
       'pouvoir-achat', 'p2-verif', 'pause']},
     {id: 'p3', title: 'Par personne et par heure ?', ids: [
       'ppa-change', 'chine-etats-unis', 'fr-us-q', 'fr-us', 'par-habitant', 'ph-verif', 'ralentissement',

@@ -1,5 +1,5 @@
 /* Généré par scripts/synchroniser_navigation.cjs depuis le chapitre 1.
-   Ne pas modifier directement ; empreinte des sources : 04407167e8d6fd77b6e012ebf2ccf88229647c8b2efea15ff56dff7e46adf098. */
+   Ne pas modifier directement ; empreinte des sources : bac57a275e6608692d24bc543f29aea67e2dd0c8eeb4889ed2d559bcd6e4dbf7. */
 /* ==========================================================================
    Moteur de présentation commun (sans dépendance).
    - Scène 1600×900 mise à l'échelle ; révélations pas à pas (data-step) ;
