@@ -1289,10 +1289,11 @@ body.reading .pib-schema-block,body.reading .pib-schema-arrow{animation:none!imp
 .nv-page-5 .nv-context{font-size:27px}
 .nv-data-table{border-collapse:collapse;width:100%;font-size:29px;line-height:1.2;table-layout:fixed}
 .nv-data-table thead{background:#F0F3F8;color:#001F5F}
-.nv-data-table th,.nv-data-table td{padding:7px 14px;border-bottom:1px solid #CCD2DC;text-align:center;vertical-align:middle}
+.nv-data-table th,.nv-data-table td{padding:7px 11px;border-bottom:1px solid #CCD2DC;text-align:center;vertical-align:middle}
 .nv-data-table thead th{font-size:24px;font-weight:700}
-.nv-data-table thead th[rowspan]{width:40%;text-align:left}
+.nv-data-table thead th[rowspan]{width:34%;text-align:left}
 .nv-data-table thead span{display:block;font-size:19px;font-weight:400;margin-top:4px}
+.nv-data-table .nv-country-start{border-left:2px solid #CCD2DC}
 .nv-data-table tbody th{font-size:26px;font-weight:400;text-align:left}
 .nv-data-table small{display:block;font-size:21px;font-weight:400;color:#536078;margin-top:5px}
 .nv-table-ratio{margin-left:12px;font-size:.9em;display:inline-block;vertical-align:middle}

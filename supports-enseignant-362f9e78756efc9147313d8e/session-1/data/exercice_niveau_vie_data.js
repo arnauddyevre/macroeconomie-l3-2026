@@ -1,5 +1,6 @@
 // Généré par sources/exercice_niveau_vie_2026-10-27/calculer.py.
-// Croissances logarithmiques annuelles en %. Niveaux absolus de 2021 et indices USA = 100.
+// Croissances logarithmiques annuelles en %. levels : niveaux absolus de 2000 et 2023.
+// levelFrance, levelUSA et levelFranceIndex conservent le benchmark 2021 pour provenance.
 // ratios : rapports bruts France/USA ; trajectory : base 100 en 2000 pour chaque pays.
 window.EXERCICE_NIVEAU_VIE_DATA = {
   "years": {
@@ -10,6 +11,16 @@ window.EXERCICE_NIVEAU_VIE_DATA = {
   "metrics": [
     {
       "key": "y",
+      "levels": {
+        "FRA": {
+          "start": 43837.97076318871,
+          "end": 51698.77810914328
+        },
+        "USA": {
+          "start": 55171.31976438132,
+          "end": 72718.48665065484
+        }
+      },
       "levelFrance": 50201.634194783735,
       "levelUSA": 69617.53786785022,
       "levelFranceIndex": 72.11061426802792,
@@ -18,6 +29,16 @@ window.EXERCICE_NIVEAU_VIE_DATA = {
     },
     {
       "key": "p",
+      "levels": {
+        "FRA": {
+          "start": 67.20781489202663,
+          "end": 78.02001640094932
+        },
+        "USA": {
+          "start": 59.27203201012015,
+          "end": 83.33814844207255
+        }
+      },
       "levelFrance": 78.91600734441393,
       "levelUSA": 82.30280303402171,
       "levelFranceIndex": 95.8849570552199,
@@ -26,6 +47,16 @@ window.EXERCICE_NIVEAU_VIE_DATA = {
     },
     {
       "key": "h",
+      "levels": {
+        "FRA": {
+          "start": 1542.14,
+          "end": 1487.1
+        },
+        "USA": {
+          "start": 1887.58,
+          "end": 1788.88
+        }
+      },
       "levelFrance": 1468.61,
       "levelUSA": 1788.7,
       "levelFranceIndex": 82.10488063957064,
@@ -34,6 +65,16 @@ window.EXERCICE_NIVEAU_VIE_DATA = {
     },
     {
       "key": "e",
+      "levels": {
+        "FRA": {
+          "start": 0.422967370262136,
+          "end": 0.44558859650486693
+        },
+        "USA": {
+          "start": 0.49312632731602557,
+          "end": 0.4877752680406351
+        }
+      },
       "levelFrance": 0.4331579295666625,
       "levelUSA": 0.47289696443345847,
       "levelFranceIndex": 91.59668218331572,

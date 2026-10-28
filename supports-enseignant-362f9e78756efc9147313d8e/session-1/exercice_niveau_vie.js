@@ -20,7 +20,7 @@
   const part = 'Partie 3 · Par personne et par heure ?';
   const slide = (number, title, html, extra = {}) => ({
     id: `exercice-niveau-vie-${number}`, title: `${number}. ${title}`, part,
-    exercise: number < 5, cls: `nv-slide nv-page-${number}`, source: '',
+    exercise: true, cls: `nv-slide nv-page-${number}`, source: '',
     html: `<div class="nv-content">${html}</div>`, ...extra
   });
   const years = data.years;
@@ -30,15 +30,17 @@
     {key: 'h', label: 'Heures par personne en emploi', ratio: `${v('H')}/${v('L')}`, unit: 'heures par an', digits: 0, scale: 1},
     {key: 'e', label: 'Personnes en emploi par habitant', ratio: `${v('L')}/${v('N')}`, unit: '% de la population totale', digits: 1, scale: 100}
   ];
+  const countries = [['FRA', 'growthFrance'], ['USA', 'growthUSA']];
   const table = `<table class="nv-data-table"><thead>
-    <tr><th rowspan="2" scope="col">Grandeur</th><th colspan="2" scope="colgroup">Niveaux en ${years.level}</th><th colspan="2" scope="colgroup">Croissance ${years.start}–${years.end}<span>% par an, moyenne logarithmique</span></th></tr>
-    <tr><th scope="col">France</th><th scope="col">États-Unis</th><th scope="col">France</th><th scope="col">États-Unis</th></tr>
+    <tr><th rowspan="2" scope="col">Grandeur</th><th colspan="3" scope="colgroup">France</th><th colspan="3" scope="colgroup" class="nv-country-start">États-Unis</th></tr>
+    <tr><th scope="col">${years.start}</th><th scope="col">${years.end}</th><th scope="col">Croissance<span>% par an</span></th><th scope="col" class="nv-country-start">${years.start}</th><th scope="col">${years.end}</th><th scope="col">Croissance<span>% par an</span></th></tr>
     </thead><tbody>${metrics.map(item => {
       const row = data.metrics.find(value => value.key === item.key);
-      if (!row || !['levelFrance', 'levelUSA', 'growthFrance', 'growthUSA'].every(key => Number.isFinite(row[key]))) {
+      if (!row || !countries.every(([country, growth]) => [row.levels?.[country]?.start, row.levels?.[country]?.end, row[growth]].every(Number.isFinite))) {
         throw new Error(`Données de niveau ou de croissance incomplètes : ${item.key}`);
       }
-      return `<tr${item.key === 'y' ? ' class="nv-total"' : ''}><th scope="row"><span>${item.label} <span class="nv-table-ratio">${item.ratio}</span></span><small>${item.unit}</small></th><td>${fmt(item.scale * row.levelFrance, item.digits)}</td><td>${fmt(item.scale * row.levelUSA, item.digits)}</td><td>${fmt(row.growthFrance, 2)}</td><td>${fmt(row.growthUSA, 2)}</td></tr>`;
+      const values = countries.map(([country, growth]) => `<td${country === 'USA' ? ' class="nv-country-start"' : ''}>${fmt(item.scale * row.levels[country].start, item.digits)}</td><td>${fmt(item.scale * row.levels[country].end, item.digits)}</td><td>${fmt(row[growth], 2)}</td>`).join('');
+      return `<tr${item.key === 'y' ? ' class="nv-total"' : ''}><th scope="row"><span>${item.label} <span class="nv-table-ratio">${item.ratio}</span></span><small>${item.unit}</small></th>${values}</tr>`;
     }).join('')}</tbody></table>`;
 
   const slides = [
@@ -90,7 +92,7 @@
   window.SLIDES.splice(index, 1, ...slides);
   delete window.NOTES['exercice-rattrapage'];
   for (let number = 1; number <= 4; number++) delete window.NOTES[`correction-niveau-vie-${number}`];
-  const provenance = '<p>28 octobre 2026 : exercice synchronisé avec le document TeX relu et validé par Arnaud. Les quatre premières diapositives reprennent ses quatorze sous-questions, sans correction. <a href="exercices/niveau_vie_exercice_etudiant.pdf">Feuille étudiante</a>. Les sept propriétés du logarithme et les autres rappels sont fournis dans la feuille. La dérivée du logarithme composé est aussi rappelée sur la première diapositive. Les interprétations détaillées de l’illustration restent dans la feuille.</p><p>Provenance mathématique : six propriétés tirées des photographies de l’appendice Jones–Vollrath, A.2, avec les rappels A.3.1–A.3.3. Septième propriété ajoutée à la demande d’Arnaud : dérivée du logarithme d’une fonction. <a href="sources/exercice_niveau_vie_2026-10-27/README.md">Sources et calculs</a>.</p>';
+  const provenance = '<p>28 octobre 2026 : exercice synchronisé avec le document TeX relu et validé par Arnaud. Les quatre premières diapositives reprennent ses quatorze sous-questions, sans correction. <a href="exercices/niveau_vie_exercice_etudiant.pdf">Feuille étudiante</a> · <a href="exercices/niveau_vie_exercice_corrige.pdf">Exercice et corrigé</a>. Les sept propriétés du logarithme et les autres rappels sont fournis dans la feuille. La dérivée du logarithme composé est aussi rappelée sur la première diapositive. Les interprétations détaillées de l’illustration restent dans la feuille.</p><p>Provenance mathématique : six propriétés tirées des photographies de l’appendice Jones–Vollrath, A.2, avec les rappels A.3.1–A.3.3. Septième propriété ajoutée à la demande d’Arnaud : dérivée du logarithme d’une fonction. <a href="sources/exercice_niveau_vie_2026-10-27/README.md">Sources et calculs</a>.</p>';
   slides.forEach(item => { window.NOTES[item.id] = provenance; });
-  window.NOTES['exercice-niveau-vie-5'] += '<p>Source : Penn World Table 11.0. Feenstra, Inklaar et Timmer (2015), « The Next Generation of the Penn World Table », American Economic Review, 105(10), 3150–3182. Niveaux 2021 : rgdpna/pop, rgdpna/(emp×avh), avh et emp/pop. L’emploi concerne toute la population, pas les seuls 15–64 ans. Croissances : 100×ln(x2023/x2000)/23. 2021 est une année de sortie de pandémie. La décomposition est comptable et ne démontre pas une causalité.</p>';
+  window.NOTES['exercice-niveau-vie-5'] += '<p>28 octobre 2026 : à la demande d’Arnaud, l’illustration adopte le fond orange clair et le repère « Exercice » du reste de l’activité. Tableau 2000–2023 et label « Données observées » conservés.</p><p>Source : Penn World Table 11.0. Feenstra, Inklaar et Timmer (2015), « The Next Generation of the Penn World Table », American Economic Review, 105(10), 3150–3182. Niveaux de 2000 et 2023 : rgdpna/pop, rgdpna/(emp×avh), avh et emp/pop. Les niveaux réels conservent le même ancrage PPA de 2021. L’emploi concerne toute la population, pas les seuls 15–64 ans. Croissances : 100×ln(x2023/x2000)/23. La décomposition est comptable et ne démontre pas une causalité.</p>';
 })();

@@ -1,5 +1,5 @@
 (() => {
-  const allowed=new Set(["index.html","cours.pdf","exercices/rattrapage_correction_enseignant.pdf"].map(p=>new URL(p,location.href).pathname));
+  const allowed=new Set(["index.html","cours.pdf","exercices/rattrapage_correction_enseignant.pdf","exercices/niveau_vie_exercice_corrige.pdf"].map(p=>new URL(p,location.href).pathname));
   const published=new Map([["exercices/niveau_vie_exercice_etudiant.pdf","https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/exercices/niveau_vie_exercice_etudiant.pdf"]].map(([local,url])=>[new URL(local,location.href).pathname,url]));
   const publicSource=url => {
   if(url.includes('19340104_nationalinc.pdf'))return 'https://fraser.stlouisfed.org/title/national-income-1929-1932-971';
