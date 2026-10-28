@@ -1,5 +1,5 @@
 /* Généré par scripts/synchroniser_navigation.cjs depuis le chapitre 1.
-   Ne pas modifier directement ; empreinte des sources : bac57a275e6608692d24bc543f29aea67e2dd0c8eeb4889ed2d559bcd6e4dbf7. */
+   Ne pas modifier directement ; empreinte des sources : 231adab8a688215ec6545f63472842ce93c3e41d5f79dd6f77662cda5f56ac37. */
 /* ==========================================================================
    Graphiques SVG au « style maison » (graph_style_guide) :
    axes = flèches noires épaisses (l'axe des x sert de ligne zéro), aucune grille,

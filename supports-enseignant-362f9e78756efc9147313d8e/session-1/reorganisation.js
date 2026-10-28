@@ -29,28 +29,34 @@
     'correlation-freedom': 'liberté humaine',
     'correlation-happiness': 'satisfaction de vie'
   };
-  const OUVERTURE = ['pib-melenchon', ...Object.keys(MOTIVATIONS), 'q-1820', 'deux-siecles', 'plan'];
-  const ANNEXES_DEPLACEES = ['correlation-life', 'pib-q', 'pib-combien'];
-  const RETRAITS = ['bastiat', 'bastiat-citation', 'va-def', 'importations', 'ai-croissance', 'master-mesure', 'pause-repartition'];
+  const OUVERTURE = ['pib-melenchon', ...Object.keys(MOTIVATIONS), 'q-1820', 'deux-siecles', 'moore-cpu-gpu', 'plan'];
+  const ANNEXES_DEPLACEES = ['correlation-life', 'pib-q', 'pib-combien', 'ons-productivite'];
+  const RETRAITS = ['bastiat', 'bastiat-citation', 'va-def', 'importations', 'ai-croissance', 'master-mesure', 'pause-repartition',
+    'master-brut-net', 'flux-stock', 'master-stocks-vente',
+    'us-2022', 'labo-q', 'labo-scen', 'deux-biens', 'deux-biens-reel', 'us-2022-reponse',
+    'master-ipc-panier', 'ipc-defl-fr',
+    'salaire-q', 'salaire-scen', 'pouvoir-achat', 'p2-verif', 'pause',
+    'fr-us-q', 'fr-us', 'par-habitant', 'ph-verif', 'ralentissement',
+    'decomp-q', 'decomp', 'keynes', 'keynes-bilan', 'long-terme-verif']; // Retraits et fusion demandés le 27 octobre.
   const PARTIES = [
     {id: 'p1', title: 'Que mesure-t-on ?', ids: [
       'histoire-pib', 'pib-mots', 'pib-def', 'pain', 'pain-revenus', 'va-revenus-schema', 'pain-depenses', 'va-depenses-schema',
-      'pib-depenses', 'ai-investissement', 'trois-approches', 'master-composantes-france',
-      'four', 'master-brut-net', 'master-stocks-production', 'master-stocks-vente',
+      'pib-depenses', 'ai-investissement', 'master-composantes-france', 'trois-approches',
+      'four', 'master-stocks-production',
       'ca-compte-1', 'ca-compte-2', 'loyers-imputes',
-      'flux-stock', 'patrimoine', 'master-patrimoine-monde', 'master-patrimoine-france',
+      'patrimoine', 'master-patrimoine-monde', 'master-patrimoine-france',
       'master-patrimoine-us', 'notre-dame',
       'limites-1', 'limites-2', 'stiglitz-sen-fitoussi']},
-    {id: 'p2', title: 'Combien reste-t-il après les prix ?', ids: [
-      'us-2022', 'labo-q', 'labo-scen', 'deux-biens', 'deux-biens-reel', 'nominal-reel', 'formule-reel',
-      'france-1950', 'us-2022-reponse', 'ipc-deflateur', 'prix-americains', 'master-ipc-formule', 'master-ipc-panier',
-      'master-ipc-limites', 'master-ipc-poids', 'master-ipc-heterogeneite', 'master-inflation-mesures',
-      'master-cpi-core', 'ipc-defl-fr', 'courses', 'salaire-q', 'salaire-scen',
-      'pouvoir-achat', 'p2-verif', 'pause']},
+    {id: 'p2', title: 'Comment prendre en compte les changements de prix ?', ids: [
+      'nominal-reel', 'formule-reel',
+      'france-1950', 'ipc-deflateur', 'master-ipc-formule', 'prix-americains', 'master-ipc-poids',
+      'master-ipc-limites', 'master-ipc-heterogeneite', 'master-inflation-mesures',
+      'master-cpi-core', 'courses', 'ppa-change', 'chine-etats-unis']},
     {id: 'p3', title: 'Par personne et par heure ?', ids: [
-      'ppa-change', 'chine-etats-unis', 'fr-us-q', 'fr-us', 'par-habitant', 'ph-verif', 'ralentissement',
-      'r70-q', 'regle-70', 'exercice-rattrapage', 'identite', 'identite-defs', 'ons-productivite', 'decomp-q', 'decomp', 'keynes',
-      'keynes-bilan', 'long-terme', 'long-terme-verif', 'heures-choix']},
+      'identite', 'identite-defs', 'r70-q', 'regle-70',
+      'exercice-niveau-vie-1', 'exercice-niveau-vie-2', 'exercice-niveau-vie-3', 'exercice-niveau-vie-4',
+      'exercice-niveau-vie-5',
+      'long-terme', 'heures-choix']},
     {id: 'p4', title: 'Pour qui ?', ids: [
       'master-rnb', 'master-rnb-quiz', 'rdb-q', 'pib-revenu', 'niveau-vie', 'us-mediane', 'redistribution',
       'comptes-distribues', 'redistribution-elargie', 'transferts-nature']},
@@ -59,7 +65,12 @@
       'empreinte-verif', 'decouplage-monde', 'decouplage-habitant']}
   ];
   const CONCLUSION = ['deux-camps', 'reponse', 'debattu', 'retenir-definitions', 'formules-1', 'reperes-fin', 'lectures'];
-  const PAUSES = new Set(['pause']); // garde son libellé « Pause »
+
+  // 27 octobre 2026 : titre autonome après le retrait de l’exemple américain de 2022.
+  edit('ipc-deflateur', s => { s.title = "Deux indices d'inflation importants à connaître"; });
+  note('ipc-deflateur', '<p>27 octobre 2026 : titre renommé à la demande d’Arnaud. La comparaison IPC / déflateur est conservée après le retrait des exemples américains de 2022.</p>');
+  ['ppa-change', 'chine-etats-unis'].forEach(id =>
+    note(id, '<p>27 octobre 2026 : déplacée à la fin de la partie 2, renommée « Comment prendre en compte les changements de prix ? », à la demande d’Arnaud. Contenu et sources conservés.</p>'));
 
   // 1. Motivation dans l’introduction ; l’ancienne séparation p-importance est supprimée.
   Object.entries(MOTIVATIONS).forEach(([id, sujet]) => edit(id, s => {
@@ -70,7 +81,9 @@
   ANNEXES_DEPLACEES.forEach(id => edit(id, s => {
     s.appendix = true;
     s.part = 'Annexes';
-    note(id, `<p>${DATE} : passage en annexe demandé par Arnaud ; contenu conservé. Pour l’espérance de vie, la courbe de Preston reste dans l’introduction. ${ORIGINE}</p>`);
+    note(id, id === 'ons-productivite'
+      ? '<p>27 octobre 2026 : passage en annexe demandé par Arnaud. Contenu et sources conservés.</p>'
+      : `<p>${DATE} : passage en annexe demandé par Arnaud ; contenu conservé. Pour l’espérance de vie, la courbe de Preston reste dans l’introduction. ${ORIGINE}</p>`);
   }));
   ['limites-1', 'limites-2', 'stiglitz-sen-fitoussi'].forEach(id =>
     note(id, `<p>${DATE} : déplacée à la fin de la partie 1, « Que mesure-t-on ? », après la définition et la frontière de production. ${ORIGINE}</p>`));
@@ -173,7 +186,7 @@
   note('preston', `<p>${DATE} : motivation dans l’introduction. Annoncer que le PIB, la PPA et l’échelle logarithmique seront définis dans les parties 1 à 3. ${ORIGINE}</p>`);
   note('deux-camps', `<p>${DATE} : placée en conclusion pour introduire « Alors, faut-il encore de la croissance ? ». ${ORIGINE}</p>`);
 
-  // 8. Nouvel ordre du corps ; trois diapositives rejoignent le début des annexes.
+  // 8. Nouvel ordre du corps et diapositives déplacées au début des annexes.
   // Retraits demandés : exclure aussi les écrans de la reprise des identifiants non déclarés.
   window.SLIDES = window.SLIDES.filter(s => !RETRAITS.includes(s.id));
   RETRAITS.forEach(id => { delete window.NOTES[id]; });
@@ -202,7 +215,6 @@
   // 9. Libellés de partie fixés par appartenance.
   OUVERTURE.forEach(id => edit(id, s => { s.part = 'Ouverture'; }));
   PARTIES.forEach((partie, i) => [partie.id, ...partie.ids].forEach(id => {
-    if (PAUSES.has(id)) return;
     const s = byId(id);
     if (s) s.part = `Partie ${i + 1} · ${partie.title}`;
   }));

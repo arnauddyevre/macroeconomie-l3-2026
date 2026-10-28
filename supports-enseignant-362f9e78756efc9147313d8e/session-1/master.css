@@ -4,6 +4,19 @@
 .master-list li::marker{color:#B45309}
 .master-table{font-size:29px}
 .master-table th,.master-table td{padding:13px 18px}
+#master-ipc-heterogeneite h1{font-size:52px}
+.master-stocks{height:100%;display:flex;flex-direction:column;justify-content:center;gap:24px}
+.master-stocks-assumptions{margin:0;font-size:24px;line-height:1.3;color:var(--muted)}
+.master-stocks-periods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:42px}
+.master-stocks-periods section{min-width:0}
+.master-stocks-periods h2{margin:0 0 16px;font-size:32px;line-height:1.2;color:var(--blue);font-weight:600}
+.master-stocks-scenario{margin:0 0 20px;font-size:28px;line-height:1.35}
+.master-stocks .master-table{font-size:25px;width:100%}
+.master-stocks .master-table th,.master-stocks .master-table td{padding:14px 12px}
+.master-stocks .master-table th:last-child,.master-stocks .master-table td:last-child{white-space:nowrap;text-align:right}
+.master-stocks .master-table tbody tr:last-child{font-weight:700;color:var(--blue)}
+.master-stocks-message{margin:18px 0 0;font-size:26px;line-height:1.35}
+.master-stocks-conclusion{margin:0;padding:18px 24px;background:var(--blue-w);color:var(--blue);font-size:30px;line-height:1.3;text-align:center}
 .master-stack>.rev-body{height:auto;flex:0 1 auto}
 .master-stack .pj-f{font-size:36px;line-height:1.3}
 #master-ipc-formule .pj-fbox{padding:28px 30px}

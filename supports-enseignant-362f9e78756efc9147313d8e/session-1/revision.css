@@ -1,4 +1,8 @@
 /* Charte Arnaud Dyèvre, 2026. Le moteur et la structure d’Antonin sont conservés. */
+/* Repère de progression demandé le 27 octobre 2026, conservé dans les exports étudiants. */
+#four{overflow:hidden}
+#four .slide-head{max-width:1200px}
+#four::after{content:"Fin du premier cours";position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
 :root{--paper:#fff;--paper-2:#f4f5f7;--stone:#f1f3f6;--ink:#000;--ink-2:#000;--muted:#536078;--rule:#cdd2da;--rule-2:#e8ebef;--blue:#001F5F;--blue-d:#001F5F;--blue-w:#f0f3f8;--red:#B45309;--red-d:#8a3e07;--red-w:#fbf4ee;--teal:#526780;--teal-d:#001F5F;--teal-w:#f0f3f8;--amber:#B45309;--amber-d:#8a3e07;--amber-w:#fbf4ee;--amber-f:#fbf4ee;--violet:#526780;--violet-d:#001F5F;--violet-w:#f0f3f8;--olive:#526780;--prune:#001F5F;--slate:#738095;--grey:#cdd2da;--sans:Palatino,"Palatino Linotype","Book Antiqua","TeX Gyre Pagella",serif;--serif:var(--sans);--line:#d9dde3;--line-stone:#d9dde3;--line-blue:#d9dde3;--line-teal:#d9dde3;--line-red:#e6d2bf;--line-amber:#e6d2bf;--line-violet:#d9dde3;--line-paper:#d9dde3}
 body.proj .slide h1,.cover-title,.sec-q,.sec-num,.def-term,.pj-card .h,.kicker,.cover-chap{color:var(--blue)}
 .k-vol,.k-h,.k-pop,.k-nom,.k-rev,.k-med,.k-em,.k-int,.k-res{color:#000}
@@ -15,6 +19,19 @@ body.proj .rev-section-overview::before{content:"";display:block;flex:0 0 calc(5
 .rev-body{display:flex;flex-direction:column;gap:25px;height:100%;justify-content:center}
 .rev-body p{margin:0;font-size:34px;line-height:1.35}
 .rev-body .rev-small{font-size:27px;line-height:1.35}
+.rev-ssf{display:grid;grid-template-columns:minmax(0,1fr) 460px;align-items:center;gap:44px;height:100%;min-height:0}
+.rev-ssf-points{margin:0;padding-left:28px;display:flex;flex-direction:column;gap:16px;font-size:27px;line-height:1.3}
+.rev-ssf-points li::marker{color:var(--red)}
+.rev-ssf-points b{color:var(--blue);font-weight:600}
+.rev-ssf-subpoints{margin:14px 0 0;padding-left:32px;display:flex;flex-direction:column;gap:12px;list-style-type:circle}
+.rev-ssf-images{min-width:0}
+.rev-ssf-portraits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.rev-ssf-portraits figure{margin:0;min-width:0;text-align:center}
+.rev-ssf-portraits img{display:block;width:100%;height:auto;aspect-ratio:5/7;object-fit:cover;object-position:center}
+.rev-ssf-portraits figcaption{margin-top:12px}
+.rev-ssf-portraits strong{display:block;color:var(--blue);font-size:22px;line-height:1.2}
+.rev-ssf-role{display:block;font-size:19px;line-height:1.25;margin-top:3px}
+.rev-ssf-credit{margin:22px 0 0;text-align:center;font-size:17px;line-height:1.3;color:var(--muted)}
 .rev-lead{color:var(--blue);font-size:42px!important}
 .rev-quote{font-size:44px;line-height:1.4;margin:20px 35px;padding-left:0}
 .rev-history{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;height:100%;align-items:center}

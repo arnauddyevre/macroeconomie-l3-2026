@@ -219,6 +219,7 @@
     s.source += ' Montant de 845 M€ du support initial : confirmation documentaire en attente ; ne pas le confondre avec une dépense exécutée ou une valeur ajoutée.';
   });
   edit('limites-1',s=>{
+    s.title='Pour conclure : Ce que le PIB ne compte pas';
     const content = document.createElement('template');
     content.innerHTML = s.html;
     content.content.querySelector('.pj-limits').classList.add('rev-health-limits');
@@ -230,6 +231,7 @@
     s.html = content.innerHTML;
   });
   edit('limites-2',s=>{
+    s.title='Pour conclure : Ce que le PIB compte sans en retirer le coût';
     const content = document.createElement('template');
     content.innerHTML = s.html;
     const grid = content.content.querySelector('.pj-limits');
@@ -268,7 +270,7 @@
   link('https://fraser.stlouisfed.org/title/national-income-1929-1932-971','Department of Commerce, National Income, 1929–32 (1934), pp. ix, xi et 7')+' ; '+link('https://apps.bea.gov/scb/issues/2007/0207_history_article.pdf','Marcuss et Kane, BEA (2007), pp. 32–34')+'.',
   '23 octobre 2026 : lecture ciblée du rapport intégral fourni par Arnaud : lettre p. ix (PDF 10), remerciements p. xi (PDF 12), mise en garde sur le bien-être p. 7 (PDF 19). Kuznets, du NBER, dirige l’étude, prépare les estimations finales, organise et rédige le rapport ; travail collectif du Department of Commerce avec le NBER. Le secrétaire au Commerce par intérim transmet le rapport au Sénat : ne pas dire que Kuznets le remet personnellement. Ce rapport inaugure la série continue du Department of Commerce, non la toute première estimation du revenu national ni un système complet de comptes modernes. Antécédents : Petty au XVIIe siècle, NBER dans les années 1920, FTC en 1926. Suite américaine : PNB officiel en 1942, comptes en partie double en 1947 ; cadre international : premier SCN de l’ONU en 1953. Voir la note de sources/kuznets_1934/README.md. La traduction française de la citation fournie antérieurement est conservée ; l’anglais précise « as defined above ». Le portrait date de 1971, et non de la rédaction du rapport. Statut indiqué par Commons : domaine public aux États-Unis, publication sans mention de copyright ; aucune affirmation de domaine public universel. Le portrait et la capture sont placés côte à côte, en format vertical à droite. Lecture ciblée, pas intégrale.')]);
   addAfter('trois-approches',[
-    slide('ai-investissement','Investissement lié à l’IA et PIB aux États-Unis',P1,
+    slide('ai-investissement',"L'utilité de la mesure du PIB par les dépenses : Investissement lié à l’IA et PIB aux États-Unis",P1,
       figure('epoch_investissement','Dépenses d’infrastructure informatique et estimation de la composante IA, en pourcentage du PIB américain',
       'Dépenses nominales rapportées au PIB nominal. La composante « IA » est une estimation d’Epoch, pas une catégorie directement observée des comptes nationaux.'),
       link('https://epoch.ai/data-insights/ai-datacenter-share-gdp','Epoch AI, AI datacenter investment as a share of GDP'), 'D02. Cette part du PIB ne mesure pas une contribution à la croissance réelle. Voir sources/fournis et data/README.md.'),
@@ -280,26 +282,28 @@
   addAfter('bastiat',[slide('bastiat-citation','Ce qu’on voit… et ce qu’il faut prévoir',P1,
     `<div class="rev-body"><blockquote class="rev-quote">« Entre un mauvais et un bon Économiste, voici toute la différence : l’un s’en tient à l’effet visible ; l’autre tient compte et de l’effet qu’on voit et de ceux qu’il faut prévoir. »</blockquote><p class="rev-small">Frédéric Bastiat, <i>Ce qu’on voit et ce qu’on ne voit pas</i>, introduction, 1850.</p><p>Après une destruction, regarder les travaux de reconstruction ne suffit pas : il faut aussi considérer ce qui a été perdu et les autres usages possibles des ressources.</p></div>`,
     link('https://fr.wikisource.org/wiki/Ce_qu%E2%80%99on_voit_et_ce_qu%E2%80%99on_ne_voit_pas/Introduction','Bastiat, texte français de l’introduction (1850)'))]);
-  addAfter('ca-compte-2',[slide('loyers-imputes','Pourquoi compter mon logement, mais pas ma cuisine ?',P1,body(
-    '<b>Propriétaire occupant :</b> les comptes enregistrent un service de logement, évalué par un loyer imputé comparable à celui du marché.',
-    '<b>Une estimation relativement simple :</b> les loyers observés au m² de logements comparables, en tenant compte du quartier, fournissent un prix de référence. Cette possibilité de valorisation facilite leur prise en compte dans le PIB.',
-    'Ainsi, deux logements identiques produisent un service mesuré de façon comparable, que leur occupant soit propriétaire ou locataire.',
-    '<b>Repas préparé chez soi :</b> les ingrédients achetés sont comptés ; le service de cuisine effectué pour soi-même ne l’est pas. Le même service acheté à un professionnel entre dans la production.',
-    '<span class="rev-small"><strong class="c-red">C’est une frontière conventionnelle de la production, pas un jugement sur l’utilité de ces activités.</strong> Les comptes satellites peuvent élargir cette frontière.</span>'
-  ),link('https://www.insee.fr/fr/statistiques/fichier/1372376/conso09c.pdf#page=16','Insee, estimation des loyers imputés')+' ; '+link('https://www.ons.gov.uk/economy/grossdomesticproductgdp/methodologies/improvementstoprivateactualandimputedrentalsinhouseholdexpenditureinuknationalaccountsbluebook2026','ONS, méthode des loyers effectifs et imputés (2026)')+'.',
+  addAfter('ca-compte-2',[slide('loyers-imputes','Pourquoi compter mon logement, mais pas ma cuisine ?',P1,
+    '<div class="rev-body"><ul class="master-list">'+
+    '<li><b>Propriétaire occupant :</b> les comptes enregistrent un service de logement, évalué par un loyer imputé comparable à celui du marché.</li>'+
+    '<li><b>Une estimation relativement simple :</b> les loyers observés au m² de logements comparables, en tenant compte du quartier, fournissent un prix de référence. Cette possibilité de valorisation facilite leur prise en compte dans le PIB.</li>'+
+    '<li>Ainsi, deux logements identiques produisent un service mesuré de façon comparable, que leur occupant soit propriétaire ou locataire.</li>'+
+    '<li><b>Repas préparé chez soi :</b> les ingrédients achetés sont comptés. Le service de cuisine effectué pour soi-même ne l’est pas. Le même service acheté à un professionnel entre dans la production.</li>'+
+    '<li><span class="rev-small"><strong class="c-red">C’est une frontière conventionnelle de la production, pas un jugement sur l’utilité de ces activités.</strong> Les comptes satellites peuvent élargir cette frontière.</span></li>'+
+    '</ul></div>',link('https://www.insee.fr/fr/statistiques/fichier/1372376/conso09c.pdf#page=16','Insee, estimation des loyers imputés')+' ; '+link('https://www.ons.gov.uk/economy/grossdomesticproductgdp/methodologies/improvementstoprivateactualandimputedrentalsinhouseholdexpenditureinuknationalaccountsbluebook2026','ONS, méthode des loyers effectifs et imputés (2026)')+'.',
   'Un prix du logement est un prix d’actif ; le loyer est un flux de service. Ne pas imputer une valeur arbitraire au travail domestique. Précision du 23 octobre 2026 : les loyers imputés sont estimés par comparaison avec les loyers observés selon la localisation, la surface, le nombre de pièces et le confort (Insee, La consommation des ménages depuis cinquante ans, encadré 4, p. 28). Le quartier est un critère de comparaison, sans garantie de précision uniforme sur tous les territoires. La possibilité de valorisation facilite la mesure ; la comparabilité entre propriétaires et locataires reste une justification distincte. Notes locales de dina-squared consultées.')]);
-  addAfter('ipc-deflateur',[slide('prix-americains','Un même taux d’inflation masque des prix très différents',P2,
+  addAfter('ipc-deflateur',[slide('prix-americains','Des trajectoires de prix très différentes (<var>pᵢ</var>)',P2,
     figure('bls_prix_categories','Évolution des indices de prix américains par catégorie depuis janvier 2002',
     'CPI-U non désaisonnalisé, janvier 2002 = 0 % de variation. Les catégories peuvent se recouper : leurs variations ne s’additionnent pas. Les ruptures de série restent visibles.'),
     link('https://data.bls.gov/series-report','BLS, CPI-U, 15 séries officielles, extraction du 22 octobre 2026'),
     'D04. Nouvelle figure inspirée de l’image fournie, pas reproduction exacte de son millésime. La base commune 2002 inclut les manuels universitaires. La correspondance « household furnishings » avec SAH3 reste à confirmer. Ne pas confondre variation d’un indice à qualité constante et simple variation d’un prix affiché.')]);
   addAfter('p3',[
-    slide('ppa-change','Comparer deux pays : change ou pouvoir d’achat ?',P3,body(
-      '<b>Au taux de change :</b> on convertit la valeur de la production dans une même monnaie aux taux observés. Cette mesure importe pour acheter des biens, des actifs ou des services sur les marchés internationaux.',
-      '<b>En parité de pouvoir d’achat (PPA) :</b> on corrige les différences de prix entre pays pour comparer des volumes de biens et de services.',
-      'Un service local peut être moins cher en Chine qu’aux États-Unis. La conversion au taux de change et la conversion en PPA répondent donc à deux questions différentes.',
-      '<span class="rev-small">La PPA n’est pas un taux auquel on peut échanger sa monnaie. Et le PIB total ne décrit pas le niveau de vie par habitant.</span>'
-    ), link('https://www.noahpinion.blog/p/how-do-we-measure-whether-chinas','Noah Smith, comparaison du PIB chinois')+' ; '+wdi+' et définitions des indicateurs NY.GDP.MKTP.CD / PP.CD.'),
+    slide('ppa-change','Comparer deux pays : taux de change ou pouvoir d’achat ?',P3,
+      '<div class="rev-body"><ul class="master-list">'+
+      '<li><b>Au taux de change :</b> on convertit la valeur de la production dans une même monnaie aux taux observés. Cette mesure importe pour acheter des biens, des actifs ou des services sur les marchés internationaux.</li>'+
+      '<li><b>En parité de pouvoir d’achat (PPA) :</b> on corrige les différences de prix entre pays pour comparer des volumes de biens et de services.</li>'+
+      '<li>Un service local peut être moins cher en Chine qu’aux États-Unis. La conversion au taux de change et la conversion en PPA répondent donc à deux questions différentes.</li>'+
+      '<li><span class="rev-small">La PPA n’est pas un taux auquel on peut échanger sa monnaie. Et le PIB total ne décrit pas le niveau de vie par habitant.</span></li>'+
+      '</ul></div>', link('https://www.noahpinion.blog/p/how-do-we-measure-whether-chinas','Noah Smith, comparaison du PIB chinois')+' ; '+wdi+' et définitions des indicateurs NY.GDP.MKTP.CD / PP.CD.'),
     slide('chine-etats-unis','Chine–États-Unis : le classement dépend de la mesure',P3,
       figure('chine_usa_ppa','PIB total de la Chine et des États-Unis au taux de change et en PPA, 2025',
       'Même année et même agrégat : le PIB total de 2025. Les deux panneaux utilisent des unités différentes ; leurs niveaux ne sont pas à additionner.'),
@@ -326,13 +330,33 @@
       'Prélèvements, prestations monétaires et transferts en nature : la valorisation des services publics élargit fortement la mesure des ressources redistribuées.'),
       insee+' : mêmes groupes et même édition que la figure précédente. Montants arrondis par la source.')
   ]);
-  addAfter('limites-2',[slide('stiglitz-sen-fitoussi','Stiglitz–Sen–Fitoussi (2009) : compléter le PIB',P5,body(
-    '<span class="rev-lead">Le PIB mesure la production ; il ne résume pas le bien-être.</span>',
-    '<b>Du côté des ménages :</b> examiner revenus, consommation, patrimoine et répartition, en tenant compte des services publics reçus en nature.',
-    '<b>La qualité de vie :</b> suivre aussi la santé, l’éducation, les conditions de vie et l’évaluation que chacun fait de sa vie.',
-    '<b>La soutenabilité :</b> évaluer séparément les ressources et le patrimoine transmis aux générations futures, avec des indicateurs physiques de l’environnement.'
-  ),link('sources/fournis/094000427.pdf#page=13','Stiglitz, Sen et Fitoussi, Rapport de la Commission sur la mesure des performances économiques et du progrès social (2009), synthèse, p. 13–20'),
-  'D07. Rapport français intégral fourni par Arnaud le 23 octobre 2026. Lecture ciblée documentée dans sources/note_stiglitz_sen_fitoussi_2026-10-23.md. Relier aux comptes distribués et à la frontière de production. Cadre de mesure : ces recommandations ne sont pas une estimation causale. Aucun chiffre ancien repris.', '23 octobre 2026')]);
+  addAfter('limites-2',[slide('stiglitz-sen-fitoussi','Stiglitz–Sen–Fitoussi (2009) : compléter le PIB',P5,
+    `<div class="rev-ssf">
+      <ul class="rev-ssf-points">
+        <li>Créée en <b>2008 à l’initiative de Nicolas Sarkozy</b>, la commission remet son rapport le <b>14 septembre 2009</b> pour mieux mesurer les performances économiques et le progrès social.</li>
+        <li><b>Compléter le PIB avec d’autres indicateurs</b>
+          <ul class="rev-ssf-subpoints">
+            <li class="rev-ssf-finding"><b>Niveau de vie :</b> revenus, consommation et patrimoine des ménages, leur répartition et les services publics reçus.</li>
+            <li class="rev-ssf-finding"><b>Qualité de vie :</b> santé, éducation, conditions de vie et appréciation des personnes sur leur propre vie.</li>
+            <li class="rev-ssf-finding"><b>Soutenabilité :</b> suivre séparément les ressources transmises aux générations futures et les pressions environnementales, avec des indicateurs physiques.</li>
+          </ul>
+        </li>
+        <li class="rev-ssf-opinion"><b>Mon sentiment personnel à propos de ce rapport :</b> un rapport intéressant, mais qui n’a pas remis en cause la suprématie du PIB dans les statistiques nationales. Les méthodologies des agences statistiques nationales ont, selon moi, peu changé.</li>
+      </ul>
+      <div class="rev-ssf-images">
+        <div class="rev-ssf-portraits">
+          <figure><a href="https://commons.wikimedia.org/wiki/File:Joseph_E._Stiglitz,_2019_(cropped).jpg" target="_blank" rel="noopener noreferrer" title="Jérémy Barande / École polytechnique Université Paris-Saclay · CC BY-SA 2.0 · format d’affichage harmonisé"><img src="assets/stiglitz_sen_fitoussi/joseph_stiglitz_2019.jpg" alt="Joseph Stiglitz en 2019"></a>
+            <figcaption><strong>Joseph<br>Stiglitz</strong><span class="rev-ssf-role">Président</span></figcaption></figure>
+          <figure><a href="https://commons.wikimedia.org/wiki/File:Amartya_Sen,_c2000_(4378493325).jpg" target="_blank" rel="noopener noreferrer" title="LSE Library · aucune restriction de droit d’auteur connue · format d’affichage harmonisé"><img src="assets/stiglitz_sen_fitoussi/amartya_sen_c2000.jpg" alt="Amartya Sen vers 2000"></a>
+            <figcaption><strong>Amartya<br>Sen</strong><span class="rev-ssf-role">Conseiller</span></figcaption></figure>
+          <figure><a href="https://commons.wikimedia.org/wiki/File:Jean-Paul_Fitoussi.jpg" target="_blank" rel="noopener noreferrer" title="Andreas Caranti · CC BY-SA 2.0 · recadrage vertical d’affichage"><img src="assets/stiglitz_sen_fitoussi/jean_paul_fitoussi_2009.jpg" alt="Jean-Paul Fitoussi en 2009, recadrage vertical"></a>
+            <figcaption><strong>Jean-Paul<br>Fitoussi</strong><span class="rev-ssf-role">Coordinateur</span></figcaption></figure>
+        </div>
+        <p class="rev-ssf-credit">Source : Wikipédia (images libres de droits)</p>
+      </div>
+    </div>`,
+    link('sources/fournis/094000427.pdf#page=13','Stiglitz, Sen et Fitoussi, rapport (2009), synthèse, p. 13–20')+' · '+link('https://fr.wikipedia.org/wiki/Commission_Stiglitz','Wikipédia, « Commission Stiglitz »'),
+    'D07. Rapport français intégral fourni par Arnaud le 23 octobre 2026. Lecture ciblée documentée dans sources/note_stiglitz_sen_fitoussi_2026-10-23.md. Ajout du contexte et des trois portraits exacts demandés le 27 octobre 2026. Présentation en trois puces principales, avec trois sous-puces sous « Compléter le PIB avec d’autres indicateurs », et portraits à droite avec recadrage vertical d’affichage demandé par Arnaud. Les JPEG originaux sont conservés. Sources, crédits et licences dans sources/stiglitz_sen_fitoussi_2026-10-27/README.md. Stiglitz : Jérémy Barande / École polytechnique Université Paris-Saclay, CC BY-SA 2.0. Sen : LSE Library, aucune restriction de droit d’auteur connue. Fitoussi : Andreas Caranti, CC BY-SA 2.0. Les liens sur les portraits mènent aux notices Commons complètes. Licence : https://creativecommons.org/licenses/by-sa/2.0/. Le jugement sur la suprématie du PIB et le faible changement des méthodologies est la conclusion personnelle demandée par Arnaud, pas une conclusion du rapport. La page Wikipédia mentionne plus de 50 travaux Insee publiés entre 2010 et 2013, dont beaucoup déjà engagés avant le rapport. Ne pas interpréter ce jugement comme une absence de suites statistiques.', '27 octobre 2026')]);
   const corr=[
     ['consumption','Consommation finale par habitant','2022','Dollars constants de 2015 ; consommation totale, y compris administrations.'],
     ['manufacturing','Valeur ajoutée manufacturière par habitant','2023','Dollars courants ; valeur ajoutée, pas chiffre d’affaires industriel.'],

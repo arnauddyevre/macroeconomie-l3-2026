@@ -1020,12 +1020,6 @@ function scenes(id, draw, last = 99) {
     });
   }
 const BLUE = CH.PAL.blue, RED = CH.PAL.red, SLATE = CH.PAL.slate;
-once('ralentissement', animate => {
-    const dec = D.fr_decennies, box = PJ.zoom('pj-ral', 1.2);
-    CH.bars(box, { height: box.clientHeight, animate, y: { min: 0, max: 5, ticks: [0, 1, 2, 3, 4, 5], format: x => fmt(x, 0) }, yTitle: 'Croissance du PIB réel par habitant, % par an',
-      format: x => fmt(x, 1), color: 'blue',
-      data: dec.map((d, i) => ({ label: `${d[1]}-${String(d[2]).slice(2)}`, value: d[3], color: i === dec.length - 1 ? 'red' : 'blue' })) });
-  });
 once('emissions-monde', animate => {
     const rows = D.monde_co2.filter(r => r[0] >= 1960 && r[2] != null), b = rows.find(r => r[0] === 1990);
     zline('pj-em', 1.2, { animate, duration: 2, stagger: 0.3, ends: true,
@@ -1093,12 +1087,6 @@ function zgrouped(id, o) {
     res.box = box;
     return res;
   }
-once('ipc-defl-fr', animate => {
-    const yrs = [2021, 2022, 2023, 2024, 2025];
-    zgrouped('pj-ipcd', { animate, categories: yrs.map(String), y: { min: 0, max: 6, ticks: [0, 2, 4, 6] }, yTitle: 'Hausse annuelle des prix, %', format: x => fmt(x, 1),
-      series: [{ name: 'Prix à la consommation (IPC)', color: 'red', values: yrs.map(y => D.fr_ipc_annuel.find(r => r[0] === y)[4]) },
-               { name: 'Déflateur du PIB', color: 'blue', values: yrs.map(y => D.fr_annuel.rows.find(r => r[0] === y)[9]) }] });
-  });
 let crsMode = null;
 function drawCourses(mode, animate) {
     const rows = D.fr_ipc_mensuel.filter(r => r[0] >= '2019-01'), b0 = rows[0];
@@ -1119,22 +1107,6 @@ scenes('courses', (s, animate) => {
     crsMode = mode; drawCourses(mode, animate);
   }, 2);
 Deck.on('courses', { leave() { crsMode = null; } });
-once('pouvoir-achat', animate => {
-    const rows = D.fr_pouvoir_achat.filter(r => r[0] >= 2019);
-    const res = zgrouped('pj-pa', { animate, valueLabels: false, categories: rows.map(r => String(r[0])), y: { min: -8, max: 8, ticks: [-8, -4, 0, 4, 8] }, yTitle: 'Variation annuelle, %',
-      series: [{ name: 'PIB réel', color: 'blue', values: rows.map(r => r[1]) }, { name: 'Pouvoir d\'achat par unité de consommation', color: 'teal', values: rows.map(r => r[4]) }] });
-    const { svg, S, m } = res, Wd = +svg.getAttribute('width'), bw = (Wd - m.l - m.r) / rows.length, inner = bw * 0.72, w = inner / 2;
-    rows.forEach((r, i) => {
-      if (r[0] !== 2020 && r[0] !== 2025) return;
-      [[r[1], 'blue'], [r[4], 'teal']].forEach(([val, c], j) => {
-        
-        
-        const x0 = m.l + bw * i + (bw - inner) / 2 + j * w, y = S.Y(val), deep = val < 0 && y - S.Y(0) > 60;
-        if (deep) CH.txt(svg, x0 - 4, y - 6, fmt(val, 1), 'ch-val', { fill: CH.darken(c), 'text-anchor': 'end' });
-        else CH.txt(svg, x0 + w / 2, val >= 0 ? y - 10 : y + 26, fmt(val, 1), 'ch-val', { fill: CH.darken(c), 'text-anchor': 'middle' });
-      });
-    });
-  });
 const BCL = D.bcl;
 const ltOpts = { duration: 2.2, stagger: 0.3, ends: true, starts: true, x: { min: 1890, max: 2024, ticks: [1890, 1930, 1970, 2024] } };
 const drawLTP = animate => zline('pj-ltp', 1.2, Object.assign({ animate }, ltOpts, {
@@ -1778,6 +1750,56 @@ install('prix-americains', 'États-Unis · janvier 2002–septembre 2026 · CPI-
       });
     });
 
+  const consommation = window.CONSOMMATION_INSEE_DATA;
+  const consumptionStyles = {
+    CP01:{name:'Alimentation et boissons non alcoolisées',endLabel:'Alimentation',color:'#B45309',dash:false},
+    CP04:{name:'Logement, eau et énergie',endLabel:'Logement, eau et énergie',color:'#001F5F',dash:false},
+    CP03:{name:'Habillement et chaussures',endLabel:'Habillement',color:'#B45309',dash:'9 5'},
+    CP07:{name:'Transports',endLabel:'Transports',color:'#001F5F',dash:'3 5'}
+  };
+  install('master-ipc-poids',
+    `<div class="master-consumption-layout">
+      <figure class="master-native-figure master-consumption-figure">
+        <p class="master-chart-metadata">France · 1960–2025 · parts des dépenses à prix courants · 2025 provisoire</p>
+        <div id="master-consumption-chart" class="master-native-chart"></div>
+        <figcaption>La structure des dépenses change. Les <b>pondérations d’un indice de prix doivent être actualisées.</b></figcaption>
+        <p class="master-chart-definition">Quatre postes sélectionnés. Logement : eau, énergie et loyers imputés inclus. Ces parts des comptes nationaux diffèrent des poids exacts de l’IPC.</p>
+      </figure>
+      <aside class="def master-chain-note" aria-labelledby="master-chain-title">
+        <h2 id="master-chain-title">Une solution partielle : le chaînage d'indice</h2>
+        <p class="master-chain-idea"><b>Idée :</b> actualiser le panier tous les ans et calculer l'inflation sur plusieurs années comme un produit d'inflations annuelles.</p>
+        <p>À chaque étape, on compare <b>le même panier aux prix des deux dates</b> (principe de Laspeyres).</p>
+        <p>On multiplie les <b>facteurs 1 + π<sub>t</sub></b>, avec π<sub>t</sub> le taux annuel en décimal.</p>
+        <div class="master-chain-formula" aria-label="IPC à la date T égale IPC initial multiplié par le produit, de t égal 1 à T, de 1 plus pi t">
+          <span>IPC<sub><var>T</var></sub> = IPC<sub>0</sub> ×</span>
+          <span class="master-chain-product"><sup><var>T</var></sup><span>∏</span><sub><var>t</var> = 1</sub></span>
+          <span>(1 + <var>π</var><sub><var>t</var></sub>)</span>
+        </div>
+        <p class="master-chain-example"><b>10 % puis 5 % :</b> 1,10 × 1,05 − 1 = <b>15,5 %</b> au total.</p>
+        <p class="master-chain-limit"><b>Limite :</b> les substitutions entre produits et les changements de qualité restent à traiter.</p>
+      </aside>
+    </div>`,
+    link(consommation.sourceUrl,'Insee, comptes nationaux, tableau 2.201, base 2020')+' · publication du 29 mai 2026.',
+    '',
+    (el, ctx) => {
+      const host=el.querySelector('#master-consumption-chart');
+      host.innerHTML='';
+      const box=window.PJ.zoom(host,1.1);
+      C.line(box,{
+        height:box.clientHeight,animate:animated(ctx),duration:2,stagger:0,
+        hover:!ctx.print,ends:true,legend:false,labelGap:29,
+        aria:'France, parts de la consommation des ménages de 1960 à 2025. Alimentation, logement, habillement et transports. Comptes nationaux, loyers imputés inclus.',
+        yTitle:'Part des dépenses (%)',
+        y:{min:0,max:35,ticks:[0,5,10,15,20,25,30,35]},
+        x:{min:1960,max:2025,ticks:[1960,1980,2000,2025]},
+        series:consommation.series.map(s=>({...consumptionStyles[s.code],
+          endLabel:s.code==='CP04'?'Logement':consumptionStyles[s.code].endLabel,
+          data:s.values,gaps:1.5,format:pct}))
+      });
+      box.querySelector('.ch-readout')?.setAttribute('aria-live','polite');
+    });
+  
+
   const informal = window.MASTER_INFORMAL_DATA;
   install('master-informel',
     '<figure class="master-native-figure"><p class="master-chart-metadata">Économie souterraine estimée · moyennes 1991–2015 · 19 économies sélectionnées</p><div class="master-informal-panels"><div class="master-informal-panel"></div><div class="master-informal-panel"></div></div><figcaption>Informel ne signifie pas automatiquement « hors PIB ». Le problème est aussi l’observation.</figcaption><p class="master-chart-definition">Estimations de recherche, principalement d’activités productives légales dissimulées aux autorités. Les transactions illégales consenties peuvent aussi entrer dans les comptes.</p></figure>',
@@ -1821,6 +1843,94 @@ install('prix-americains', 'États-Unis · janvier 2002–septembre 2026 · CPI-
         });
       });
     });
+})();
+
+
+(function () {
+  'use strict';
+  const CH=window.Charts, data=window.MOORE_CPU_GPU_DATA, id='moore-cpu-gpu';
+  const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const count=value=>value>=1e12?`${CH.fmt(value/1e12,0)} billion`:value>=1e9?`${CH.fmt(value/1e9,0)} Md`:value>=1e6?`${CH.fmt(value/1e6,0)} M`:CH.fmt(value,0);
+  const cpu=data.points.filter(p=>p.type==='CPU').length, gpu=data.points.filter(p=>p.type==='GPU').length;
+  const years=data.points.map(p=>p.year), lo=Math.min(...years),hi=Math.max(...years);
+  const fit=data.fit, fitted=year=>Math.exp(fit.a+fit.b*(year-fit.origin));
+  const statement=`Ajustement commun : un doublement tous les ${CH.fmt(fit.doublingYears,2)} ans`;
+  
+  
+  
+  let serial=0;
+  function draw(ctx) {
+    const box=window.PJ.zoom('moore-cpu-gpu-chart',1.2);
+    box.classList.add('rev-moore-native');
+    const animated=!(ctx.reading||ctx.print||window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const rows=data.points.slice().sort((a,b)=>a.year-b.year||a.type.localeCompare(b.type)||a.name.localeCompare(b.name));
+    const top=Math.max(...rows.map(p=>p.high||p.count),fitted(hi));
+    const ymax=10**Math.ceil(Math.log10(top*1.15));
+    const ticks=[1e3,1e5,1e7,1e9,1e11,1e13].filter(x=>x<=ymax);
+    const chart=CH.scatter(box,{
+      height:box.clientHeight,animate:animated,
+      aria:`Nombre de transistors par processeur, ${cpu} CPU et ${gpu} GPU, ${lo}–${hi}. Axe vertical logarithmique. ${statement}.`,
+      x:{min:lo-1,max:hi+1,ticks:[1970,1980,1990,2000,2010,2020,hi]},
+      y:{log:true,min:1000,max:ymax,ticks,format:count},
+      yTitle:'Nombre de transistors · échelle logarithmique',xTitle:'Année d’introduction',
+      margin:{l:115,r:35,t:52,b:66},radius:()=>4.5,opacity:.72,
+      points:rows.map(p=>({...p,x:p.year,y:p.count,color:p.type==='CPU'?'#001F5F':'#B45309'})),tip:()=>''
+    });
+    const pointGroup=chart.svg.querySelector('circle[data-k]').parentNode;
+    const fitLine=CH.el('path',{
+      d:`M${chart.S.X(lo)},${chart.S.Y(fitted(lo))}L${chart.S.X(hi)},${chart.S.Y(fitted(hi))}`,
+      class:'ch-line rev-moore-fit',stroke:'#536078','stroke-width':3,'stroke-dasharray':'9 6',fill:'none',
+      'aria-label':'Droite MCO commune, ajustée sur les valeurs ponctuelles CPU et GPU'
+    });
+    chart.svg.insertBefore(fitLine,pointGroup);
+    if(animated){
+      const clipId=`moore-fit-${++serial}`;
+      const clip=CH.el('clipPath',{id:clipId,clipPathUnits:'userSpaceOnUse'},chart.svg.querySelector('defs'));
+      CH.el('rect',{x:0,y:0,width:chart.svg.getAttribute('width'),height:chart.svg.getAttribute('height'),class:'rev-correlation-reveal'},clip);
+      fitLine.setAttribute('clip-path',`url(#${clipId})`);
+    }
+    const byKey=new Map(rows.map((p,i)=>[p.key,i]));
+    chart.svg.querySelectorAll('circle[data-k]').forEach(circle=>{
+      const p=rows[byKey.get(circle.dataset.k)];
+      circle.classList.add(p.type==='GPU'?'rev-moore-gpu':'rev-moore-cpu');
+      if(p.qualifier==='exact')return;
+      const x=chart.S.X(p.year), color=p.type==='CPU'?'#001F5F':'#B45309';
+      const g=CH.el('g',{'pointer-events':'none',class:'rev-moore-uncertain',stroke:color,'stroke-width':1.8,fill:'none'},pointGroup);
+      if(p.qualifier==='range'){
+        const y0=chart.S.Y(p.low),y1=chart.S.Y(p.high);
+        CH.el('path',{d:`M${x},${y0}V${y1}M${x-5},${y0}H${x+5}M${x-5},${y1}H${x+5}`},g);
+      }else{
+        const y=chart.S.Y(p.count);
+        CH.el('path',{d:`M${x},${y-5}V${y-19}M${x-4},${y-15}L${x},${y-19}L${x+4},${y-15}`},g);
+      }
+    });
+    const readout=document.createElement('div');readout.className='ch-readout rev-moore-readout';readout.setAttribute('aria-live','polite');box.appendChild(readout);
+    const marker=CH.el('circle',{r:9,fill:'none',stroke:'#000','stroke-width':2,opacity:0,'pointer-events':'none','aria-hidden':'true'},chart.svg);
+    let current=0;
+    function show(index){
+      current=Math.max(0,Math.min(rows.length-1,index));const p=rows[current];
+      marker.setAttribute('cx',chart.S.X(p.year));marker.setAttribute('cy',chart.S.Y(p.count));marker.setAttribute('opacity',1);
+      const note=p.qualifier==='range'?'Fourchette : point au centre géométrique ; hors ajustement.':p.qualifier==='lower-bound'?'Borne inférieure ; hors ajustement.':'';
+      readout.innerHTML=`<strong>${esc(p.name)}</strong><div>${esc(p.type)} · ${p.year} · ${esc(p.designer||'')}</div><div>${esc(p.countText)} transistors</div>${note?`<div class="rev-moore-detail">${note}</div>`:''}`;
+      readout.classList.add('on');
+    }
+    function hide(){marker.setAttribute('opacity',0);readout.classList.remove('on');}
+    chart.svg.querySelectorAll('circle[data-k]').forEach(circle=>{
+      circle.addEventListener('pointerenter',()=>show(byKey.get(circle.dataset.k)));
+      circle.addEventListener('pointerleave',()=>{if(document.activeElement!==box)hide();});
+    });
+    box.tabIndex=0;box.setAttribute('data-keys','');box.setAttribute('aria-label','CPU et GPU : survol ou flèches pour parcourir tous les processeurs, y compris les points superposés.');
+    box.addEventListener('focus',()=>show(current));box.addEventListener('blur',hide);
+    box.addEventListener('keydown',event=>{
+      if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Escape'].includes(event.key))return;
+      event.preventDefault();event.stopPropagation();
+      if(event.key==='Escape'){hide();box.blur();}
+      else if(event.key==='Home')show(0);
+      else if(event.key==='End')show(rows.length-1);
+      else show(current+(['ArrowRight','ArrowUp'].includes(event.key)?1:-1));
+    });
+  }
+  window.Deck.on(id,{enter(el,ctx){draw(ctx);}});
 })();
 
 

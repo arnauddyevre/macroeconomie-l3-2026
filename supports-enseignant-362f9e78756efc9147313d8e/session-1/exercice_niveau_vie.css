@@ -1,0 +1,48 @@
+/* Cinq parties de l’exercice : charte Palatino, titres marine et énoncés orange clair. */
+.nv-content{height:100%;display:flex;flex-direction:column;justify-content:center;gap:25px;font-size:30px;line-height:1.3;min-height:0}
+.nv-content p{margin:0}
+.nv-content var{font-style:italic}
+.nv-content sub,.nv-content sup{font-size:.7em}
+.nv-content strong,.nv-content b{font-weight:700}
+.nv-context{font-size:28px;line-height:1.3}
+.nv-context .frac{font-size:.9em}
+.nv-lead{font-size:33px;line-height:1.3}
+.nv-questions{margin:0;padding-left:40px;display:flex;flex-direction:column;gap:26px;font-size:31px;line-height:1.36;list-style-type:lower-alpha}
+.nv-questions li{padding-left:8px}
+.nv-questions li::marker{color:#000;font-weight:700}
+.nv-questions .frac{font-size:.87em}
+.nv-definitions{display:grid;grid-template-columns:1fr 1fr;gap:14px 30px;font-size:29px;line-height:1.3}
+.nv-definitions b{font-weight:700}
+.nv-given-equations{display:flex;justify-content:space-around;gap:35px;align-items:center;padding:6px 0}
+.nv-equation{display:flex;align-items:center;justify-content:center;font-size:31px;line-height:1.25;gap:6px}
+.nv-overdot{position:relative;display:inline-block;padding-top:.05em}
+.nv-overdot>span{position:absolute;left:50%;transform:translateX(-50%);top:-.44em;font-size:.85em;line-height:1;font-weight:600}
+.nv-page-1 .nv-content{gap:12px}
+.nv-page-1 .nv-context{font-size:26px}
+.nv-page-1 .nv-questions{font-size:28px;line-height:1.29;gap:17px}
+.nv-log-reminder{display:flex;align-items:center;justify-content:center;gap:22px;padding:9px 18px;background:var(--blue-w);border:1px solid var(--line-blue);border-radius:12px;font-size:25px;line-height:1.25}
+.nv-log-reminder strong{color:var(--blue)}
+.nv-log-reminder>.frac,.nv-log-reminder>span:first-of-type{font-size:28px}
+.nv-page-3 .nv-content{gap:27px}
+.nv-page-3 .nv-questions{font-size:30px;gap:24px;line-height:1.34}
+.nv-page-4 .nv-questions{gap:35px;font-size:33px}
+.nv-page-5 .nv-content{gap:13px;justify-content:flex-start}
+.nv-page-5 .nv-context{font-size:27px}
+.nv-data-table{border-collapse:collapse;width:100%;font-size:29px;line-height:1.2;table-layout:fixed}
+.nv-data-table thead{background:#F0F3F8;color:#001F5F}
+.nv-data-table th,.nv-data-table td{padding:7px 14px;border-bottom:1px solid #CCD2DC;text-align:center;vertical-align:middle}
+.nv-data-table thead th{font-size:24px;font-weight:700}
+.nv-data-table thead th[rowspan]{width:40%;text-align:left}
+.nv-data-table thead span{display:block;font-size:19px;font-weight:400;margin-top:4px}
+.nv-data-table tbody th{font-size:26px;font-weight:400;text-align:left}
+.nv-data-table small{display:block;font-size:21px;font-weight:400;color:#536078;margin-top:5px}
+.nv-table-ratio{margin-left:12px;font-size:.9em;display:inline-block;vertical-align:middle}
+.nv-data-table td{font-variant-numeric:tabular-nums}
+.nv-data-table .nv-total th,.nv-data-table .nv-total td{font-weight:700;color:#001F5F}
+.nv-empirical-benchmarks{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;font-size:26px;line-height:1.3;padding-top:5px}
+.nv-empirical-benchmarks strong{font-size:24px;color:#001F5F}
+.nv-empirical-benchmarks b{color:#B45309}
+.nv-content .nv-data-note{font-size:22px;line-height:1.3;color:#536078}
+.nv-data-note .frac{font-size:.9em}
+.nv-page-5 .source{max-width:1130px}
+@media(max-width:900px){body.reading .nv-given-equations{flex-wrap:wrap}body.reading .nv-definitions,body.reading .nv-empirical-benchmarks{grid-template-columns:1fr}}

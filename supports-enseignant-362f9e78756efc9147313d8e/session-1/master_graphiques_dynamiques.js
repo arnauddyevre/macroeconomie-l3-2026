@@ -1,4 +1,4 @@
-/* Reconstruction de deux graphiques historiques, depuis les données archivées.
+/* Graphiques natifs du master et actualisations Insee, depuis les données archivées.
  * Charger après integrerApportsMaster(). */
 (function () {
   'use strict';
@@ -52,6 +52,56 @@
         series:fields.map(f => ({...f, endLabel:f.name, data:data.rows.map(r => [r.year,r[f.key]]), gaps:1.5, format:pct}))
       });
     });
+
+  const consommation = window.CONSOMMATION_INSEE_DATA;
+  const consumptionStyles = {
+    CP01:{name:'Alimentation et boissons non alcoolisées',endLabel:'Alimentation',color:'#B45309',dash:false},
+    CP04:{name:'Logement, eau et énergie',endLabel:'Logement, eau et énergie',color:'#001F5F',dash:false},
+    CP03:{name:'Habillement et chaussures',endLabel:'Habillement',color:'#B45309',dash:'9 5'},
+    CP07:{name:'Transports',endLabel:'Transports',color:'#001F5F',dash:'3 5'}
+  };
+  install('master-ipc-poids',
+    `<div class="master-consumption-layout">
+      <figure class="master-native-figure master-consumption-figure">
+        <p class="master-chart-metadata">France · 1960–2025 · parts des dépenses à prix courants · 2025 provisoire</p>
+        <div id="master-consumption-chart" class="master-native-chart"></div>
+        <figcaption>La structure des dépenses change. Les <b>pondérations d’un indice de prix doivent être actualisées.</b></figcaption>
+        <p class="master-chart-definition">Quatre postes sélectionnés. Logement : eau, énergie et loyers imputés inclus. Ces parts des comptes nationaux diffèrent des poids exacts de l’IPC.</p>
+      </figure>
+      <aside class="def master-chain-note" aria-labelledby="master-chain-title">
+        <h2 id="master-chain-title">Une solution partielle : le chaînage d'indice</h2>
+        <p class="master-chain-idea"><b>Idée :</b> actualiser le panier tous les ans et calculer l'inflation sur plusieurs années comme un produit d'inflations annuelles.</p>
+        <p>À chaque étape, on compare <b>le même panier aux prix des deux dates</b> (principe de Laspeyres).</p>
+        <p>On multiplie les <b>facteurs 1 + π<sub>t</sub></b>, avec π<sub>t</sub> le taux annuel en décimal.</p>
+        <div class="master-chain-formula" aria-label="IPC à la date T égale IPC initial multiplié par le produit, de t égal 1 à T, de 1 plus pi t">
+          <span>IPC<sub><var>T</var></sub> = IPC<sub>0</sub> ×</span>
+          <span class="master-chain-product"><sup><var>T</var></sup><span>∏</span><sub><var>t</var> = 1</sub></span>
+          <span>(1 + <var>π</var><sub><var>t</var></sub>)</span>
+        </div>
+        <p class="master-chain-example"><b>10 % puis 5 % :</b> 1,10 × 1,05 − 1 = <b>15,5 %</b> au total.</p>
+        <p class="master-chain-limit"><b>Limite :</b> les substitutions entre produits et les changements de qualité restent à traiter.</p>
+      </aside>
+    </div>`,
+    link(consommation.sourceUrl,'Insee, comptes nationaux, tableau 2.201, base 2020')+' · publication du 29 mai 2026.',
+    '<p>27 octobre 2026 : graphique demandé par Arnaud après la proposition de quatre courbes sur 1960–2025. Remplace le tableau historique du master p. 64, dont la somme des postes visibles était à confirmer. Source officielle : tableau 2.201 à prix courants, publication du 29 mai 2026. Pour chaque année, part = 100 × dépense du poste / dépense de consommation individuelle des ménages (S14). Quatre séries complètes, CP01, CP04, CP03 et CP07, 66 observations annuelles chacune. Les lignes relient les observations sans inventer d’année manquante. Le champ inclut les loyers imputés et ne représente pas les pondérations officielles de l’IPC. La dépense totale S14 inclut le solde territorial CP16. Les changements de parts reflètent prix relatifs et quantités, sans identifier séparément leurs contributions. Données 2025 provisoires. Le classeur conserve aussi 1959, hors fenêtre affichée. Source, extraction reproductible et contrôles dans sources/consommation_insee_2026-10-27/README.md. L’ancienne image et sa transcription restent archivées.</p>',
+    (el, ctx) => {
+      const host=el.querySelector('#master-consumption-chart');
+      host.innerHTML='';
+      const box=window.PJ.zoom(host,1.1);
+      C.line(box,{
+        height:box.clientHeight,animate:animated(ctx),duration:2,stagger:0,
+        hover:!ctx.print,ends:true,legend:false,labelGap:29,
+        aria:'France, parts de la consommation des ménages de 1960 à 2025. Alimentation, logement, habillement et transports. Comptes nationaux, loyers imputés inclus.',
+        yTitle:'Part des dépenses (%)',
+        y:{min:0,max:35,ticks:[0,5,10,15,20,25,30,35]},
+        x:{min:1960,max:2025,ticks:[1960,1980,2000,2025]},
+        series:consommation.series.map(s=>({...consumptionStyles[s.code],
+          endLabel:s.code==='CP04'?'Logement':consumptionStyles[s.code].endLabel,
+          data:s.values,gaps:1.5,format:pct}))
+      });
+      box.querySelector('.ch-readout')?.setAttribute('aria-live','polite');
+    });
+  window.NOTES['master-ipc-poids'] += '<p>28 octobre 2026 : graphique placé à gauche et ajout à droite de l’encadré bleu « Une solution partielle : le chaînage d’indice », à la demande d’Arnaud. Sa première phrase reprend la formulation demandée. La formule précise que le produit porte sur les facteurs 1 + π_t, pas sur les taux eux-mêmes. Exemple fictif : 1,10 × 1,05 − 1 = 15,5 %. Chaque maillon compare un panier fixé aux prix des deux dates. L’IPC français est de type Laspeyres, avec mise à jour annuelle du panier et des pondérations, raccordement en décembre. Le schéma pédagogique ne décrit pas les calculs élémentaires ni le décalage des données de pondération. L’actualisation ne résout pas seule les substitutions ou les ajustements de qualité. Source méthodologique : <a href="https://www.insee.fr/fr/statistiques/documentation/IPC_op%C3%A9rations%20changement%20ann%C3%A9e%202024.pdf" target="_blank" rel="noopener noreferrer">Insee, changements de l’IPC en 2024</a>, pp. 1–2, consulté le 28 octobre 2026. Les quatre séries de comptabilité nationale et leurs 264 observations sont conservées. « Logement » abrège uniquement le libellé de fin de courbe. Le nom complet reste accessible dans l’infobulle et le champ est précisé sous le graphique.</p>';
 
   const informal = window.MASTER_INFORMAL_DATA;
   install('master-informel',

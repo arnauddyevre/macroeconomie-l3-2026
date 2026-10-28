@@ -72,11 +72,23 @@
         '29','Figure Insee du master conservée comme document historique. Parts du PIB depuis 1949 ; dernier repère d’axe 2017, courbes jusqu’à environ 2018–2019. Le point terminal exact et les séries brutes ne sont pas fournis. Elle complète la photographie 2025 de trois-approches, sans la remplacer.','Insee')
     ]);
     insert('importations',[
-      make('master-stocks-production','Produire sans vendre : le rôle des stocks',P1,stack(
-        '<p class="p-txt">200 voitures produites ; 100 vendues à 700 €. Aucun intrant.</p>',
-        table(['Dépense comptabilisée','Montant'],[['Consommation : 100 × 700 €','70 000 €'],['Entrée en stocks : 100 × 700 €','70 000 €'],['Production de la période','140 000 €']]),
-        '<p class="p-sub">Les biens invendus sont une production. L’entreprise les ajoute à ses stocks.</p>'
-      ),'31','Exemple fictif du master. Prix volontairement stylisé de 700 € ; ce n’est pas le prix observé d’une Twingo. Hypothèses : pas d’intrants, d’impôts, de marge commerciale ou de coûts de stockage.'),
+      make('master-stocks-production','Produire puis vendre : le rôle des stocks',P1,
+        `<div class="master-stocks"><p class="master-stocks-assumptions">Exemple fictif. Aucun intrant, impôt, coût de stockage ou marge commerciale.</p>
+          <div class="master-stocks-periods">
+            <section><h2>Période 1 · Produire et stocker</h2>
+              <p class="master-stocks-scenario">200 voitures produites.<br>100 vendues à 700 €.</p>
+              ${table(['Dépense comptabilisée','Montant'],[['Consommation : 100 × 700 €','70 000 €'],['Entrée en stocks : 100 × 700 €','70 000 €'],['Production de la période','140 000 €']])}
+              <p class="master-stocks-message">Les biens invendus sont une production. L’entreprise les ajoute à ses stocks.</p>
+            </section>
+            <section><h2>Période 2 · Vendre le stock</h2>
+              <p class="master-stocks-scenario">Aucune nouvelle production.<br>Les 100 voitures sont vendues à 600 €.</p>
+              ${table(['Dépense comptabilisée','Montant'],[['Consommation : 100 × 600 €','+60 000 €'],['Sortie de stocks au prix courant','−60 000 €'],['Production de la période','0 €']])}
+              <p class="master-stocks-message">La baisse de valeur de 10 000 € est une perte de détention. Elle ne réduit pas la production.</p>
+            </section>
+          </div>
+          <p class="master-stocks-conclusion">La vente d’un stock ne crée pas une seconde production.</p>
+        </div>`,
+        '31–32','27 octobre 2026 : les deux tableaux sont réunis à la demande d’Arnaud. Exemple fictif du master, prix stylisés. Hypothèses : pas d’intrants, d’impôts, de marge commerciale ou de coûts de stockage. La sortie de stocks est évaluée au prix courant, 100 × 600 €, et non au coût historique de 70 000 €. La différence de 10 000 € est une perte de détention, distincte de la variation de stocks comptabilisée dans le PIB.'),
       make('master-stocks-vente','Vendre un stock ne produit pas une seconde fois',P1,stack(
         '<p class="p-txt">Période suivante : aucune production. Les 100 voitures sont vendues à 600 €.</p>',
         table(['Dépense comptabilisée','Montant'],[['Consommation','+60 000 €'],['Sortie de stocks au prix courant','−60 000 €'],['Production de la période','0 €']]),
@@ -118,10 +130,10 @@
       make('master-ipc-limites','Mesurer les prix exige des choix',P2,list(
         '<b>Substitution :</b> les achats changent quand les prix changent.','<b>Nouveaux produits :</b> quand les faire entrer dans le panier ?','<b>Qualité :</b> un prix plus élevé peut acheter un meilleur produit.','<b>Points de vente :</b> magasins, promotions, achats en ligne.'
       ),'60–62','L’IPC sert notamment à comparer le pouvoir d’achat et à négocier les salaires, mais n’est pas une mesure complète du coût de la vie de chaque ménage. Ajustements hédoniques = méthodes possibles de correction de qualité, pas recette universelle. Les poids sont régulièrement actualisés.'),
-      make('master-ipc-poids','Le panier de consommation évolue',P2,
+      make('master-ipc-poids','Problème : Le panier de consommation évolue (<var>wᵢ</var>)',P2,
         fig('p64_ponderations_ipc_1970_2021.png','Pondérations de l’IPC français de 1970 à 2021','Les poids suivent la structure des dépenses. Ils ne sont pas des taux d’inflation.'),
         '64','Tableau Insee historique 1970–2021 repris du master. Les valeurs lisibles sont archivées avec la figure. Somme des catégories visibles : 99,3 % en 1970 et 99,9 % en 2021 ; la première divergence ne s’explique pas par les seuls arrondis affichés. Cohérence de la transcription/source d’origine à confirmer, ne pas présenter cet extrait comme un panier exhaustif prêt à recalculer l’IPC. Ne pas le présenter comme le panier de 2026.','Insee, pondérations de l’IPC, 1970–2021'),
-      make('master-ipc-heterogeneite','Même pays, paniers différents',P2,
+      make('master-ipc-heterogeneite','Un panier de consommation qui varie en fonction du revenu',P2,
         fig('p65_jaravel_inflation.png','Inflation et revenu des ménages dans la figure de Jaravel (2019)','Inflation annuelle moyenne, 2004–2015, par quintile de revenu. Des paniers différents exposent à des prix différents.'),
         '63,65','Figure historique attribuée à Jaravel (2019) dans le master. Axe de la figure : « Tornqvist Annual Inflation Rate, Avg. 2004–2015, % ». Quintiles de revenu de 1 à 5. Le marché couvert n’est pas précisé dans l’image ; ne pas en tirer une mesure de l’inflation française actuelle. Les données brutes et le texte intégral de l’article n’ont pas été fournis avec ce PDF.','Jaravel (2019)'),
       make('master-prix-en-ligne','Mesurer les prix à partir des magasins en ligne',P2,list(

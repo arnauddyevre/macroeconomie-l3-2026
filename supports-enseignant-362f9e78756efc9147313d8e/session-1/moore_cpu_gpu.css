@@ -1,0 +1,22 @@
+/* Palatino, palette et moteur Charts communs au chapitre. */
+.rev-moore-full{height:100%;display:flex;flex-direction:column;gap:10px;margin:0;min-height:0}
+.rev-moore-meta{display:flex;justify-content:space-between;font-size:22px;color:var(--muted)}
+.rev-moore-series{display:flex;align-items:center;gap:10px;color:#000}
+.rev-moore-series i{display:inline-block;flex-shrink:0}
+.rev-moore-series .cpu{width:12px;height:12px;border-radius:50%;background:#001F5F}
+.rev-moore-series .gpu{width:12px;height:12px;border-radius:50%;border:2px solid #B45309;margin-left:25px}
+.rev-moore-series .fit{width:38px;border-top:3px dashed #536078;margin-left:25px}
+#moore-cpu-gpu-chart{flex:1 1 0;width:100%;min-height:380px}
+.rev-moore-full figcaption{font-size:25px;line-height:1.3;margin:0}
+.rev-moore-full figcaption strong{color:#001F5F}
+.rev-moore-full .rev-moore-sample{font-size:19px;line-height:1.3;margin:0;color:var(--muted)}
+.rev-moore-native>.ch-tip{display:none}
+.rev-moore-native .rev-moore-gpu{fill:#fff;fill-opacity:.85;stroke:#B45309;stroke-width:1.8}
+.rev-moore-native .rev-moore-cpu{fill:#001F5F;stroke:#fff;stroke-width:.5}
+.rev-moore-fit{pointer-events:none}
+.rev-moore-readout{max-width:540px;white-space:normal;font-size:17px;line-height:1.3;z-index:2}
+.rev-moore-readout>div{margin-top:5px}
+.rev-moore-detail{color:var(--muted)}
+.rev-moore-native:focus-visible{outline:2px solid #B45309;outline-offset:4px}
+@media (prefers-reduced-motion:reduce){.rev-moore-native .ch-pop,.rev-moore-native .rev-correlation-reveal{animation:none!important;opacity:1!important;transform:none!important}}
+@media print{.rev-moore-native .ch-pop,.rev-moore-native .rev-correlation-reveal{animation:none!important;opacity:1!important;transform:none!important}.rev-moore-readout{display:none!important}.rev-moore-native{outline:none!important}}
