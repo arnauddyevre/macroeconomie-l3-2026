@@ -1,0 +1,28 @@
+/* Cascade des revenus : styles strictement limités à pib-revenu. */
+#pib-revenu #pj-rev{height:540px}
+#pib-revenu #pj-rev .p-zin{position:relative}
+#pib-revenu #pj-rev .rm-svg text{font-family:var(--serif)}
+#pib-revenu .rm-heading{font-size:23px;font-weight:700;fill:#001F5F}
+#pib-revenu .rm-meta{font-size:20px;fill:#536078}
+#pib-revenu .rm-label{font-size:23px;font-weight:600;fill:#001F5F}
+#pib-revenu .rm-value{font-size:24px;font-weight:700;fill:#001F5F}
+#pib-revenu .rm-deduction .rm-label,#pib-revenu .rm-deduction .rm-value{fill:#B45309}
+#pib-revenu .rm-origin{stroke:#65768C;stroke-width:1.1}
+#pib-revenu .rm-connector{stroke:#8C98A8;stroke-width:1.3;stroke-dasharray:3 3}
+#pib-revenu .rm-in-kind-value{font-size:20px;font-weight:700;fill:#001F5F}
+#pib-revenu .rm-in-kind-label{font-size:19px;fill:#536078}
+#pib-revenu .rm-hit{fill:transparent;stroke:transparent;stroke-width:1.3}
+#pib-revenu .rm-row{cursor:help;outline:none}
+#pib-revenu .rm-row.rm-focused .rm-hit{stroke:#7D8FA7;fill:rgba(240,243,248,.55)}
+#pib-revenu .rm-row.rm-focused .rm-bar{filter:brightness(1.13)}
+#pib-revenu .rm-bar.rm-subtract.anim-x{transform-origin:100% 50%}
+#pib-revenu #pj-rev .rm-readout{left:7px;right:auto;max-width:calc(100% - 14px);width:490px;box-sizing:border-box;font:400 20px/1.26 var(--serif);white-space:normal;z-index:5;padding:13px 16px;background:rgba(255,255,255,.98);border-color:#BAC4D3;box-shadow:0 3px 14px rgba(0,31,95,.13)}
+#pib-revenu .rm-readout strong,#pib-revenu .rm-readout span{display:block}
+#pib-revenu .rm-readout strong{color:#001F5F;margin-bottom:7px}
+body.reading #pib-revenu .rm-bar{animation:none!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){#pib-revenu .rm-bar{animation:none!important;transform:none!important}}
+@media print{
+  #pib-revenu .rm-bar{animation:none!important;transform:none!important}
+  #pib-revenu .rm-readout{display:none!important}
+  #pib-revenu .rm-row.rm-focused .rm-hit{stroke:transparent;fill:transparent}
+}

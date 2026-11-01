@@ -8,7 +8,7 @@
     'master-rnb-quiz', 'us-2022', 'labo-q', 'labo-scen', 'deux-biens',
     'courses', 'salaire-q', 'salaire-scen', 'p2-verif', 'fr-us-q',
     'par-habitant', 'ph-verif', 'decomp-q', 'keynes', 'long-terme-verif',
-    'rdb-q', 'kaya-q', 'decouplage-verif', 'empreinte-verif', 'reponse', 'master-va-profit'
+    'rdb-q', 'kaya-q', 'decouplage-verif', 'empreinte-verif', 'master-va-profit'
   ]);
   const corrections = new Set([
     'deux-siecles', 'regle-70', 'pib-combien', 'deux-biens-reel',

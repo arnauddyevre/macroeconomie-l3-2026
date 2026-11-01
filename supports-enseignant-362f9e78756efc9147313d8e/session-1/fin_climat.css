@@ -1,0 +1,55 @@
+/* Partie 5 uniquement. Palatino et palette du support, 1600 × 900. */
+.fin-climat .slide-body{display:flex;align-items:center;}
+.fin-climat-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;width:100%;align-items:center;}
+.fin-climat-copy{font-size:31px;line-height:1.26;min-width:0;}
+.fin-climat-lead{font-size:30px;color:#001F5F;font-weight:700;margin:0 0 26px;}
+.fin-climat-copy ul{padding-left:28px;margin:0;display:flex;flex-direction:column;gap:25px;}
+.fin-climat-copy li{padding-left:6px;}
+.fin-climat-copy strong{color:#001F5F;}
+.fin-climat-context{font-size:27px;line-height:1.3;margin:29px 0 0;padding:18px 21px;background:#F0F3F8;border-radius:12px;}
+.fin-climat-small{font-size:22px;line-height:1.3;color:#536078;margin:22px 0 0;}
+.fin-climat-figure{margin:0;min-width:0;width:100%;}
+.fin-climat-figure>div[id^="pj-"]{height:530px!important;}
+.fin-climat-figure figcaption{font-size:18px;line-height:1.25;color:#536078;margin-top:13px;}
+.fin-climat-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:42px;font-size:23px;}
+.fin-climat-controls label{display:flex;align-items:center;gap:10px;}
+.fin-climat-controls select,.fin-climat-controls button{font:inherit;color:#001F5F;border:1px solid #B8C1CE;border-radius:7px;padding:6px 10px;background:#fff;}
+.fin-climat-controls button{font-size:20px;cursor:pointer;}
+.fin-climat-controls :focus-visible,.fin-climat-timeline :focus-visible{outline:3px solid #B45309;outline-offset:3px;}
+.fin-climat-controls .rev-decoupling-country{font-size:24px;font-weight:700;color:#001F5F;}
+.fin-climat-line{height:485px;width:100%;margin-top:10px;}
+.fin-climat-inplot-legend{font-size:21px;font-weight:600;pointer-events:none;}
+.fin-climat .ch-tick,.fin-climat .ch-ytitle,.fin-climat .ch-xtitle{font-size:21px;}
+.fin-climat-line .ch-lab{font-size:21px;}
+.fin-climat-scatter .ch-lab{font-size:21px!important;}
+.fin-climat-zone-label{font-size:19px;fill:#536078;}
+.fin-climat-timeline{display:flex;align-items:center;gap:14px;margin-top:12px;font-size:21px;}
+.fin-climat-timeline label{display:flex;gap:13px;align-items:center;flex:1;}
+.fin-climat-timeline input{flex:1;min-width:0;accent-color:#001F5F;}
+.fin-climat-timeline output{font-size:25px;font-weight:700;color:#001F5F;min-width:55px;text-align:right;}
+.fin-climat-scatter{width:100%;height:455px;margin-top:10px;}
+.fin-climat-scatter .ch-tip{font-size:20px;line-height:1.3;z-index:4;}
+/* Les observations annuelles sont déplacées par le curseur, sans transition
+   CSS implicite des coordonnées (y compris en mode animations réduites). */
+.fin-climat-scatter circle{transition:none!important;}
+.fin-climat-scatter circle[tabindex="0"]{cursor:help;}
+.fin-climat-scatter circle.fin-climat-focused{stroke:#000!important;stroke-width:3px!important;outline:none;}
+.fin-climat-footprint .p-txt{font-size:29px;line-height:1.25;margin-top:25px;}
+.fin-climat-footprint .pj-def{font-size:29px;}
+@media print{
+  .fin-climat-controls button,.fin-climat-timeline input{display:none!important;}
+  .fin-climat-scatter .ch-tip,.fin-climat-line .ch-readout{display:none!important;}
+}
+#kaya .slide-head h1{text-wrap:balance}
+#nordhaus .nd-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.85fr);gap:72px;height:100%;align-items:center}
+#nordhaus .nd-copy{min-width:0}
+#nordhaus .nd-lead{margin:0 0 26px;color:#001F5F;font:600 32px/1.25 var(--serif)}
+#nordhaus .nd-copy ul{margin:0;padding-left:28px;display:flex;flex-direction:column;gap:25px;font:400 31px/1.3 var(--serif)}
+#nordhaus .nd-copy li{padding-left:5px}
+#nordhaus .nd-copy strong{color:#001F5F}
+#nordhaus .nd-portrait{margin:0;display:flex;flex-direction:column;gap:13px;align-items:center;min-width:0}
+#nordhaus .nd-portrait img{display:block;width:auto;height:560px;max-width:100%;object-fit:contain;border-radius:5px}
+#nordhaus .nd-portrait figcaption{text-align:center;line-height:1.3}
+#nordhaus .nd-memorial{margin:0 0 9px;font-size:24px;color:#001F5F}
+#nordhaus .nd-credit{margin:0;font-size:15px;color:#536078}
+#nordhaus .nd-credit a{color:inherit}

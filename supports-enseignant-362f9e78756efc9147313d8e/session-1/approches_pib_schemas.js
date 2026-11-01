@@ -67,7 +67,12 @@
       const readout = figure.querySelector('.pib-schema-readout');
       const blocks = [...figure.querySelectorAll('.pib-schema-block')];
       const show = block => {
-        readout.textContent = block.dataset.detail;
+        const label = document.createElement('div');
+        label.className = 'def-label';
+        label.textContent = 'Définition';
+        const detail = document.createElement('div');
+        detail.textContent = block.dataset.detail;
+        readout.replaceChildren(label, detail);
         readout.classList.add('on');
         block.classList.add('pib-schema-selected');
       };

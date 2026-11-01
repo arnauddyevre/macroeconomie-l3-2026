@@ -15,7 +15,7 @@
     s(step, html, tag = 'div', cls = '') { return `<${tag} class="${cls}" data-step="${step}">${html}</${tag}>`; },
     
     def(term, text, o = {}) {
-      return `<div class="def ${o.cls || ''}" data-term="${attr(o.key || term)}"${st(o.step)}><div class="def-label">${o.label || 'Définition'}</div><div class="def-term">${term}</div><p class="def-text">${text}</p>${o.note ? `<p class="def-note">${o.note}</p>` : ''}</div>`;
+      return `<div class="def definition-bubble ${o.cls || ''}" data-term="${attr(o.key || term)}"${st(o.step)}><div class="def-label">${o.label || 'Définition'}</div><div class="def-term">${term}</div><p class="def-text">${text}</p>${o.note ? `<p class="def-note">${o.note}</p>` : ''}</div>`;
     },
     
     rep(value, label, o = {}) {
@@ -1080,13 +1080,6 @@ once('france-1950', animate => {
       series: [{ name: 'Euros courants', color: 'nom', data: rows.map(r => [r[0], r[1]]), endLabel: 'en valeur', format: x => fmt(x, 0) },
                { name: 'Volume, euros de 2020', color: 'blue', data: rows.map(r => [r[0], r[2]]), endLabel: 'en volume', format: x => fmt(x, 0) }] });
   });
-function zgrouped(id, o) {
-    const box = PJ.zoom(id, 1.2);
-    const res = CH.grouped(box, Object.assign({ height: box.clientHeight }, o));
-    res.svg.querySelectorAll('text.ch-val').forEach(t => { t.style.fontSize = '19px'; });
-    res.box = box;
-    return res;
-  }
 let crsMode = null;
 function drawCourses(mode, animate) {
     const rows = D.fr_ipc_mensuel.filter(r => r[0] >= '2019-01'), b0 = rows[0];
@@ -1121,17 +1114,17 @@ Deck.on('long-terme', {
     enter(el, ctx) { const ro = ctx.reading || ctx.print; drawLTP(!ro); byId('pj-lth').innerHTML = ''; if ((ctx.step || 0) >= 1 || ro) drawLTH(!ro); },
     step(el, n, o) { const b = byId('pj-lth'); if (n >= 1 && !b.firstChild) drawLTH(!o.jump); if (n < 1) b.innerHTML = ''; }
   });
+once('pib-revenu', animate => {
+    const V = D.fr_revenu_2025, box = PJ.zoom('pj-rev', 1.2);
+    CH.hbars(box, { height: box.clientHeight, animate, yTitle: 'France, 2025, milliards d\'euros', format: x => fmt(x, 0),
+      data: [{ label: 'PIB', value: V.pib, color: 'blue' }, { label: 'Revenu national brut', value: V.rnb, color: 'slate' },
+             { label: 'RDB ajusté des ménages', value: V.rdb_ajuste, color: 'teal' }, { label: 'RDB des ménages', value: V.rdb_menages, color: 'teal' }] });
+  });
 once('us-mediane', animate => zline('pj-usm', 1.2, { animate, duration: 2, stagger: 0.3, ends: true,
     x: { min: 1984, max: 2025, ticks: [1984, 1995, 2005, 2015, 2025] },
     y: { min: 80, max: 220, ticks: [80, 100, 120, 140, 160, 180, 200, 220] }, yTitle: 'Indice, 1984 = 100, termes réels',
     series: [{ name: 'PIB réel par habitant', color: 'blue', data: pairs(D.us_revenus, 0, 6), endLabel: 'PIB par habitant', format: x => fmt(x, 0) },
              { name: 'Revenu médian des ménages', color: 'teal', data: pairs(D.us_revenus, 0, 4), endLabel: 'Revenu médian', format: x => fmt(x, 0) }] }));
-once('redistribution', animate => {
-    const r = D.fr_niveaux_de_vie.find(x => x[0] === 2024);
-    zgrouped('pj-red', { animate, categories: ['D1', 'Médiane', 'D9'], y: { min: -10, max: 12, ticks: [-10, -5, 0, 5, 10] },
-      yTitle: 'Niveau de vie, 2008-2024, %, euros constants', format: x => (x > 0 ? '+' : '') + fmt(x, 1),
-      series: [{ name: 'Avant impôts et prestations', color: 'slate', values: [r[4] - 100, r[5] - 100, r[6] - 100] }, { name: 'Après redistribution', color: 'blue', values: [r[7] - 100, r[8] - 100, r[9] - 100] }] });
-  });
 const PR = D.preston, PR0 = PR.an[0], PR1 = PR.an[1];
 const PR_HL = { FRA: ['France', 'blue'], USA: ['États-Unis', 'red'], CHN: ['Chine', 'amber'], IND: ['Inde', 'amber'], NGA: ['Nigeria', 'amber'], KOR: ['Corée du Sud', 'violet'] };
 const prRad = p => Math.max(3, Math.sqrt(p.pop) * 0.8);
@@ -1264,6 +1257,19 @@ function legend(host, items) {
     node.innerHTML = items.map(s => `<span><i class="${s.hatch ? 'hatched' : s.dash ? 'dashed' : ''}" style="--series:${s.color}"></i>${esc(s.name)}</span>`).join('');
     host.appendChild(node);
   }
+function incomeLegend(chart, fields, bottom=false) {
+    const svg=chart.svg, H=Number(svg.getAttribute('height'));
+    const x=chart.m.l+12, row=31, width=322, height=fields.length*row+18;
+    const y=bottom?H-chart.m.b-height-7:chart.m.t+10;
+    const g=C.el('g',{class:'income-inset-legend','pointer-events':'none'},svg);
+    C.el('rect',{x,y,width,height,rx:6,fill:'#FFFFFF','fill-opacity':.96},g);
+    fields.forEach((f,i)=>{
+      const yy=y+12+i*row;
+      const pattern=svg.querySelector('pattern[id^="macro-hatch-"]');
+      C.el('rect',{x:x+12,y:yy+1,width:23,height:15,fill:f.hatch&&pattern?`url(#${pattern.id})`:f.color},g);
+      C.txt(g,x+45,yy+17,f.name,'income-legend-text',{fill:'#000000'});
+    });
+  }
 function inspectGroups(host, chart, rows, fields, title, format, ctx) {
     if (ctx.print) return;
     const {svg, S, m} = chart;
@@ -1300,6 +1306,9 @@ function inspectGroups(host, chart, rows, fields, title, format, ctx) {
 function install(id, metadata, render, options = {}) {
     const slide = window.SLIDES.find(s => s.id === id);
     if (!slide) throw new Error('Diapositive absente : ' + id);
+    
+    
+    const targetId = options.targetId || id;
     const caption = (slide.html.match(/<figcaption>([\s\S]*?)<\/figcaption>/) || [,''])[1];
     
     
@@ -1309,9 +1318,28 @@ function install(id, metadata, render, options = {}) {
       target.innerHTML = '';
       render(target, ctx);
     };
-    window.Deck.on(id, {enter(el, ctx) { draw(el, ctx || {}); }});
-    window.addEventListener('beforeprint', () => { const el = window.Deck.slideEl(id); if (el) draw(el, {print:true}); });
-    window.addEventListener('afterprint', () => { const el = window.Deck.slideEl(id); if (el) draw(el, {reading:document.body.classList.contains('reading')}); });
+    const deferred = Number.isFinite(options.revealStep);
+    if (deferred) {
+      let visible = false;
+      const visibleAt = (el,step,ctx = {}) => ctx.reading || ctx.print || document.body.classList.contains('reading') || el.classList.contains('show-all') || step >= options.revealStep;
+      window.Deck.on(targetId, {
+        enter(el,ctx = {}) {
+          visible = visibleAt(el,ctx.step || 0,ctx);
+          
+          
+          draw(el,visible ? ctx : {...ctx,reading:true});
+        },
+        step(el,n,ctx = {}) {
+          const nextVisible = visibleAt(el,n);
+          if (nextVisible && !visible) {
+            draw(el,{reading:!!ctx.jump || document.body.classList.contains('reading') || el.classList.contains('show-all')});
+          }
+          visible = nextVisible;
+        }
+      });
+    } else window.Deck.on(targetId, {enter(el,ctx) { draw(el,ctx || {}); }});
+    window.addEventListener('beforeprint', () => { const el = window.Deck.slideEl(targetId); if (el) draw(el, {print:true}); });
+    window.addEventListener('afterprint', () => { const el = window.Deck.slideEl(targetId); if (el) draw(el, {reading:deferred || document.body.classList.contains('reading')}); });
   }
 function chartBox(host, height = 442, zoom = 1.2) {
     const outer = document.createElement('div'); outer.className = 'macro-native'; outer.style.height = height + 'px'; host.appendChild(outer);
@@ -1361,7 +1389,7 @@ install('chine-etats-unis', 'PIB total, 2025 · WDI, données collectées le 22 
       const note = document.createElement('p'); note.className = 'macro-unit'; note.textContent = unit; panel.appendChild(note);
     });
   });
-install('redistribution-elargie', 'France · 2023 · moyennes par dixième de niveau de vie usuel · Insee, IA118, figure 1c, avril 2026', (host, ctx) => {
+install('comptes-distribues', 'France · 2023 · moyennes par dixième de niveau de vie usuel · Insee, IA118, figure 1c, avril 2026', (host, ctx) => {
     const rows = D.insee.rows;
     const fields = [{key:'before',name:'Avant transferts publics',color:navy},{key:'after',name:'Après transferts publics',color:orange}];
     const box = chartBox(host, 430);
@@ -1370,9 +1398,9 @@ install('redistribution-elargie', 'France · 2023 · moyennes par dixième de ni
       series:fields.map(f=>({name:f.name,color:f.color,values:rows.map(r=>r[f.key]/1000)}))});
     reveal(chart, ctx);
     inspectGroups(box, chart, rows, fields, r=>r.decile+' · France, 2023', v=>num(v,0)+' € par UC', ctx);
-    legend(host, fields);
+    incomeLegend(chart, fields);
     const note = document.createElement('p'); note.className = 'macro-axis-note'; note.textContent = 'Dixièmes de niveau de vie usuel, du plus modeste au plus aisé · avant imputation du déficit public'; host.appendChild(note);
-  });
+  }, {targetId:'comptes-distribues',revealStep:3});
 install('transferts-nature', 'France · 2023 · mêmes dixièmes de niveau de vie usuel · Insee, IA118, figure 1c', (host, ctx) => {
     const rows = D.insee.rows;
     const fields = [{key:'taxes',name:'Prélèvements',color:navy},{key:'cash',name:'Prestations en espèces',color:orange},{key:'inKind',name:'Transferts non monétaires',color:grey,hatch:true}];
@@ -1401,7 +1429,7 @@ install('transferts-nature', 'France · 2023 · mêmes dixièmes de niveau de vi
     });
     const chart = {svg,S:{X,Y},m}; reveal(chart,ctx);
     inspectGroups(box, chart, rows, fields, r=>r.decile+' · France, 2023', v=>num(v,0)+' € par UC',ctx);
-    legend(host, fields);
+    incomeLegend(chart, fields, true);
     const note = document.createElement('p'); note.className = 'macro-axis-note'; note.textContent = 'Les retraites sont des prestations en espèces ; les services publics ne sont pas du cash.'; host.appendChild(note);
   });
 install('prix-americains', 'États-Unis · janvier 2002–septembre 2026 · CPI-U non désaisonnalisé · BLS, extraction du 22 octobre 2026', (host, ctx) => {
@@ -1995,7 +2023,12 @@ install('prix-americains', 'États-Unis · janvier 2002–septembre 2026 · CPI-
       const readout = figure.querySelector('.pib-schema-readout');
       const blocks = [...figure.querySelectorAll('.pib-schema-block')];
       const show = block => {
-        readout.textContent = block.dataset.detail;
+        const label = document.createElement('div');
+        label.className = 'def-label';
+        label.textContent = 'Définition';
+        const detail = document.createElement('div');
+        detail.textContent = block.dataset.detail;
+        readout.replaceChildren(label, detail);
         readout.classList.add('on');
         block.classList.add('pib-schema-selected');
       };
@@ -2053,56 +2086,815 @@ install('prix-americains', 'États-Unis · janvier 2002–septembre 2026 · CPI-
         path.setAttribute('clip-path', `url(#master-cpi-reveal-${i})`);
       });
     }});})();
-(function(){
-'use strict';
-const body = (...paras) => `<div class="rev-body">${paras.map(p=>`<p>${p}</p>`).join('')}</div>`;
-const decouplingExamples = [
-    {code:'DEU', name:'Allemagne'}, {code:'USA', name:'États-Unis'},
-    {code:'SWE', name:'Suède'}, {code:'FIN', name:'Finlande'},
-    {code:'DNK', name:'Danemark'}, {code:'JPN', name:'Japon'}
+
+(function () {
+  'use strict';
+  const data = window.LONG_TERME_DATA, Charts = window.Charts;
+  const slide = window.SLIDES.find(s => s.id === 'long-terme');
+  if (!data || !slide) throw new Error('Données ou diapositive du long terme absentes.');
+  const panels = [
+    {key:'p', ratio:'Y/H', title:'Productivité horaire', unit:'Dollars internationaux de 2021<br>Échelle logarithmique', y:{log:true,min:5,max:100,ticks:[5,10,20,50,100]}, digits:1, suffix:' dollars par heure'},
+    {key:'h', ratio:'H/L', title:'Heures par personne en emploi', unit:'Heures travaillées par an', y:{min:0,max:3000,ticks:[0,1000,2000,3000]}, digits:0, suffix:' heures par an'},
+    {key:'e', ratio:'L/N', title:'Part de la population en emploi', unit:'% de la population totale<br>Enfants et retraités compris', y:{min:0,max:60,ticks:[0,20,40,60]}, digits:1, suffix:' %'}
   ];
-function installDecoupling(id,key){
-    let current='DEU',initialized=false;
-    const groups=decouplingExamples.map(country=>{
-      const rows=window.REVISION_DATA[key].rows.filter(r=>r.code===country.code&&r.year>=2005&&r.year<=2020).sort((a,b)=>a.year-b.year);
-      const base=rows.find(r=>r.year===2005);
-      if(!base)throw new Error(`Base 2005 absente : ${country.code}`);
-      return {...country,values:rows.map(r=>({year:r.year,...Object.fromEntries(['gdp','production','consumption'].map(k=>[k,base[k]>0&&Number.isFinite(r[k])?100*r[k]/base[k]:null]))}))};
-    });
-    function draw(ctx={}){
-      const root=Deck.slideEl(id);
-      const selected=groups.find(g=>g.code===(ctx.print?'DEU':current));
-      root.querySelector('.rev-decoupling-country').textContent=`${selected.name} · ${key==='decouplingPerCapita'?'par habitant':'grandeurs totales'}`;
-      const box=window.PJ.zoom(root.querySelector('.rev-interactive'),1.2);
-      const animate=!(ctx.print||ctx.reading||window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-      const max=Math.max(120,...selected.values.flatMap(r=>[r.gdp,r.production,r.consumption].filter(Number.isFinite)));
-      const labels=[['gdp','PIB réel','blue',false],['production','CO₂ territorial','red',false],['consumption','CO₂ ajusté des échanges','red','9 6']];
-      const chart=window.Charts.line(box,{
-        height:box.clientHeight,animate,duration:2,stagger:0.2,ends:true,legend:false,hover:!ctx.print,
-        aria:`${selected.name}, PIB réel et émissions de CO₂ ${key==='decouplingPerCapita'?'par habitant':'totales'}, de 2005 à 2020`,
-        x:{min:2005,max:2020,ticks:[2005,2010,2015,2020]},
-        y:{min:0,max:Math.ceil(max/20)*20},yTitle:'Indice, 2005 = 100',
-        refLines:[{y:100,color:'grey',dash:'3 6'}],
-        series:labels.map(([column,name,color,dash])=>({name,endLabel:name,color,dash,gaps:1.5,data:selected.values.map(r=>[r.year,r[column]]),format:v=>window.Charts.fmt(v,1)}))
+  const countries = data.countries.map((country,i) => ({...country,color:i===0?'#001F5F':'#738095',dash:i===0?false:'8 6'}));
+  
+  
+  
+  
+  
+  function draw(element, ctx = {}) {
+    const animate = !(ctx.reading || ctx.print || window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    panels.forEach(panel => {
+      const host = element.querySelector(`[data-factor="${panel.key}"]`);
+      const box = window.PJ.zoom(host,1.1);
+      const format = value => Charts.fmt(value,panel.digits) + panel.suffix;
+      Charts.line(box,{
+        height:box.clientHeight,animate,duration:1.6,stagger:.2,hover:!ctx.print,legend:false,ends:false,
+        aria:`${panel.ratio}, ${panel.title}, France et États-Unis, 1950–2023. ${panel.unit.replace(/<br>/g,', ')}.`,
+        x:{min:data.start,max:data.end,ticks:[1950,1975,2000,2023]},y:{...panel.y},
+        margin:{l:panel.key==='h'?66:48,r:28,t:18,b:48},
+        series:countries.map(country=>({name:country.name,color:country.color,dash:country.dash,gaps:1.5,data:country.rows.map(row=>[row.year,row[panel.key]]),format}))
       });
-      if(animate)chart.svg.querySelectorAll('.ch-line').forEach((path,i)=>{
-        path.classList.remove('ch-anim');
-        const clip=window.Charts.el('clipPath',{id:`${id}-reveal-${i}`,clipPathUnits:'userSpaceOnUse'},chart.svg.querySelector('defs'));
-        window.Charts.el('rect',{x:0,y:0,width:chart.svg.getAttribute('width'),height:chart.svg.getAttribute('height'),class:'rev-decoupling-reveal',style:`animation-delay:${i*0.2}s`},clip);
-        path.setAttribute('clip-path',`url(#${id}-reveal-${i})`);
+      box.setAttribute('aria-label',`${panel.title}. Flèches gauche et droite pour consulter les valeurs annuelles.`);
+    });
+  }
+  
+  window.Deck.on('long-terme',{enter:draw,step(){}});
+  window.addEventListener('beforeprint',()=>{
+    const el=window.Deck.slideEl('long-terme'); if(el) draw(el,{print:true});
+  });
+  window.addEventListener('afterprint',()=>{
+    const el=window.Deck.slideEl('long-terme'); if(el) draw(el,{reading:document.body.classList.contains('reading')});
+  });
+})();
+
+
+(function () {
+  'use strict';
+  const Charts=window.Charts, data=window.PSID_CROISSANCE_DATA;
+  if(!data) throw new Error('Donnees PSID de croissance absentes.');
+  const NAVY='#001F5F',ORANGE='#B45309';
+  const fmt=(x,n=1)=>Charts.fmt(x,n);
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const part='Partie 4 · Pour qui ?';
+  const legend=''; 
+  const people=[
+    {id:'A',start:10000,end:24000},
+    {id:'B',start:20000,end:18000},
+    {id:'C',start:30000,end:36000},
+    {id:'D',start:40000,end:42000}
+  ];
+  const ranked=people.slice().sort((a,b)=>a.end-b.end);
+  const exampleValues=unit=>({
+    anonymous:people.map((person,i)=>unit==='percent'?100*(ranked[i].end/person.start-1):ranked[i].end-person.start),
+    nonAnonymous:people.map(person=>unit==='percent'?100*(person.end/person.start-1):person.end-person.start)
+  });
+  const personColumn=(atEnd)=>`<div class="psid-example-column"><h3>${atEnd?'<span data-example-arrival-title>Arrivée : mêmes personnes</span>':'Départ : ordre des revenus'}</h3><div class="psid-example-people${atEnd?' psid-example-arrival':''}">${people.map((person,i)=>`<div class="psid-example-person" data-person="${person.id}" style="--psid-row:${i}"><span>${person.id}</span><strong>${fmt(atEnd?person.end:person.start,0)} €</strong></div>`).join('')}</div></div>`;
+  
+  
+
+  const periodKey=p=>`${p.start}-${p.end}`;
+  const options=`<option value="summary">Moyenne des 12 intervalles</option>${data.periods.map(p=>`<option value="${periodKey(p)}">${p.start}–${p.end}</option>`).join('')}`;
+  const baseYear=data.meta.realIncomeBaseYear;
+  const unitLabel=baseYear?`Dollars constants de ${esc(baseYear)}`:'Revenus corrigés de l’inflation';
+  
+  
+
+  
+
+  function activeAnimation(ctx){return !(ctx.print||ctx.reading||window.matchMedia('(prefers-reduced-motion: reduce)').matches);}
+  function rangeFor(values){
+    const finite=values.filter(Number.isFinite),low=Math.min(0,...finite),high=Math.max(0,...finite);
+    const span=high-low||1,raw=span/5,power=10**Math.floor(Math.log10(raw));
+    const unit=[1,2,2.5,5,10].find(v=>v*power>=raw)*power;
+    const min=low<0?-Math.ceil(Math.abs(low)*1.15/(unit/5))*(unit/5):0,max=Math.ceil((high+.04*span)/unit)*unit;
+    const ticks=[];if(min<0&&Math.abs(min/unit-Math.round(min/unit))>1e-8)ticks.push(Number(min.toPrecision(12)));
+    for(let t=Math.ceil(min/unit)*unit;t<=max+unit/10;t+=unit)ticks.push(Number(t.toPrecision(12)));
+    return {min,max,ticks};
+  }
+  function drawLines(host,ctx,values,config){
+    const box=window.PJ.zoom(host,1.12),xs=config.xs;
+    const bands=config.ci;
+    const all=[...values.anonymous,...values.nonAnonymous];
+    if(bands) ['anonymous','nonAnonymous'].forEach(key=>all.push(...bands[key].lower,...bands[key].upper));
+    const yrange=config.range||rangeFor(all);
+    const series=[['anonymous',config.fullNames?'Courbe de croissance anonyme':'Anonyme',NAVY,false],['nonAnonymous',config.fullNames?'Courbe de croissance non anonyme':'Non anonyme',ORANGE,'8 6']];
+    const chartSeries=series.map(([key,name,color,dash])=>({name,color,dash,points:true,data:xs.map((x,i)=>[x,values[key][i]]),format:config.valueFormat}));
+    const chart=Charts.line(box,{
+      height:box.clientHeight,animate:config.animate??activeAnimation(ctx),duration:1.4,stagger:.15,legend:false,ends:false,hover:!ctx.print,
+      aria:config.aria,
+      x:{min:xs[0],max:xs[xs.length-1],ticks:xs,format:x=>config.labels[xs.indexOf(x)],hoverFormat:x=>config.hoverLabel(xs.indexOf(x))},
+      xTitle:config.xTitle,
+      y:{...yrange,format:config.tickFormat||((v)=>fmt(v,Math.abs(v)<1&&v!==0?1:0))},
+      margin:{l:config.amount?76:58,r:22,t:24,b:77},
+      refLines:yrange.min<0?[{y:0,color:'slate',dash:'4 4'}]:[],
+      series:chartSeries
+    });
+    if(bands){
+      const firstLine=chart.svg.querySelector('.ch-line');
+      series.forEach(([key,,color])=>{
+        const points=xs.map((x,i)=>[chart.S.X(x),chart.S.Y(bands[key].upper[i])]).concat(xs.map((x,i)=>[chart.S.X(x),chart.S.Y(bands[key].lower[i])]).reverse());
+        const polygon=Charts.el('polygon',{points:points.map(p=>p.join(',')).join(' '),fill:color,'fill-opacity':.12,class:'psid-ci-band','pointer-events':'none'});
+        firstLine.parentNode.insertBefore(polygon,firstLine);
+      });
+      
+      
+      
+      const guide=chart.svg.querySelector('.ch-guide'),hit=chart.svg.querySelector('.ch-hit'),readout=box.querySelector('.ch-readout');
+      if(guide&&hit&&readout){
+        const updateReadout=()=>{
+          const pixel=Number(guide.getAttribute('x1'));
+          let index=0;xs.forEach((x,i)=>{if(Math.abs(chart.S.X(x)-pixel)<Math.abs(chart.S.X(xs[index])-pixel))index=i;});
+          readout.innerHTML=`<div style="font-weight:700;margin-bottom:2px">${esc(config.hoverLabel(index))}</div>`+series.map(([key,name,color])=>
+            `<div><b style="color:${color}">${esc(name)}</b> ${esc(config.valueFormat(values[key][index]))} (IC 95 % : ${esc(fmt(bands[key].lower[index],1))} à ${esc(fmt(bands[key].upper[index],1))} %)</div>`
+          ).join('');
+        };
+        hit.addEventListener('pointermove',updateReadout);
+        box.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight')updateReadout();});
+      }
+    }
+    
+    
+    const width=config.fullNames?300:210, rowHeight=config.fullNames?62:38;
+    const legendX=Number(chart.svg.getAttribute('width'))-chart.m.r-width-6, legendY=chart.m.t+9;
+    const labels=Charts.el('g',{class:'psid-embedded-legend','pointer-events':'none','aria-label':series.map(s=>s[1]).join(' ; ')},chart.svg);
+    Charts.el('rect',{x:legendX,y:legendY,width,height:rowHeight*2+10,rx:6,fill:'#FFFFFF','fill-opacity':.96},labels);
+    series.forEach(([,name,color,dash],i)=>{
+      const top=legendY+10+i*rowHeight;
+      Charts.el('line',{x1:legendX+10,x2:legendX+36,y1:top+14,y2:top+14,stroke:color,'stroke-width':3,'stroke-dasharray':dash||null},labels);
+      if(config.fullNames){
+        Charts.txt(labels,legendX+46,top+20,'Courbe de croissance','psid-legend-title',{fill:color});
+        Charts.txt(labels,legendX+46,top+47,i?'non anonyme':'anonyme','psid-legend-title',{fill:color});
+      }else Charts.txt(labels,legendX+46,top+22,name,'psid-legend-title',{fill:color});
+    });
+    box.setAttribute('aria-label',config.aria+'. Flèches gauche et droite : consulter les valeurs.');
+    if(config.mutable){
+      
+      
+      const paths=[...chart.svg.querySelectorAll('.ch-line')];
+      const dots=paths.map(path=>{const nodes=[];let node=path.nextElementSibling;while(node&&node.tagName.toLowerCase()==='circle'){nodes.push(node);node=node.nextElementSibling;}return nodes;});
+      const polygons=[...chart.svg.querySelectorAll('.psid-ci-band')];
+      chart.update=(next)=>{
+        series.forEach(([key],k)=>{
+          values[key].splice(0,values[key].length,...next[key]);
+          chartSeries[k].data.forEach((point,i)=>{point[1]=values[key][i];});
+          paths[k].setAttribute('d',xs.map((x,i)=>(i?'L':'M')+chart.S.X(x).toFixed(1)+','+chart.S.Y(values[key][i]).toFixed(1)).join(' '));
+          dots[k].forEach((dot,i)=>dot.setAttribute('cy',chart.S.Y(values[key][i])));
+          ['lower','upper'].forEach(edge=>bands[key][edge].splice(0,bands[key][edge].length,...next.ci[key][edge]));
+          const points=xs.map((x,i)=>[chart.S.X(x),chart.S.Y(bands[key].upper[i])]).concat(xs.map((x,i)=>[chart.S.X(x),chart.S.Y(bands[key].lower[i])]).reverse());
+          polygons[k].setAttribute('points',points.map(point=>point.join(',')).join(' '));
+        });
+      };
+      chart.hideReadout=()=>chart.svg.querySelector('.ch-hit')?.dispatchEvent(new Event('pointerleave'));
+    }
+    return chart;
+  }
+
+  
+
+  let exampleUnit='percent',exampleSorted=false;
+  function drawExample(el,ctx={}){
+    const sorted=ctx.print||ctx.reading||exampleSorted;
+    el.querySelectorAll('.psid-example-arrival .psid-example-person').forEach(node=>{
+      const index=(sorted?ranked:people).findIndex(p=>p.id===node.dataset.person);
+      node.style.setProperty('--psid-row',index);
+    });
+    el.querySelector('[data-example-arrival-title]').textContent=sorted?'Arrivée : ordre des revenus':'Arrivée : mêmes personnes';
+    const button=el.querySelector('[data-example-sort]');button.textContent=sorted?'Retrouver les mêmes personnes':'Reclasser à l’arrivée';button.setAttribute('aria-pressed',String(sorted));
+    el.querySelector('[data-example-unit]').value=exampleUnit;
+    el.querySelector('[data-example-ytitle]').textContent=exampleUnit==='percent'?'Croissance du revenu sur un an (%)':'Gain de revenu sur un an (euros)';
+    el.querySelector('[data-example-caption]').textContent=exampleUnit==='percent'?'Au premier rang : +80 % ; pour la personne A : +140 %.':'Au premier rang : +8 000 € ; pour la personne A : +14 000 €.';
+    drawLines(el.querySelector('[data-example-chart]'),ctx,exampleValues(exampleUnit),{
+      fullNames:true,xs:[1,2,3,4],labels:['1','2','3','4'],xTitle:'Rang de revenu',hoverLabel:i=>`Rang ${i+1} · personne ${people[i].id} au départ`,amount:exampleUnit==='amount',
+      valueFormat:v=>fmt(v,0)+(exampleUnit==='percent'?' %':' €'),tickFormat:v=>exampleUnit==='amount'?fmt(v/1000,0)+' k':fmt(v,0),
+      aria:'Exemple fictif, croissance des revenus par rang, courbe anonyme et suivi des mêmes personnes.'
+    });
+  }
+  const psidKeys=['anonymous','nonAnonymous'];
+  const sequence=[...data.periods.map(periodKey),'summary'];
+  const psidRange={min:-15,max:35,ticks:[-10,0,10,20,30]};
+  const PLAYBACK_SPEED=1.5;
+  const HOLD_MS=1300/PLAYBACK_SPEED,MORPH_MS=850/PLAYBACK_SPEED;
+  let selectedPeriod='summary',psidChart=null,currentView=null;
+  let playing=false,revealed=false,frameId=0,holdId=0,printing=false,periodBeforePrint='summary';
+  const getPeriod=key=>key==='summary'?data.summary:data.periods.find(p=>periodKey(p)===key);
+  const viewFor=key=>{
+    const period=getPeriod(key);
+    if(!period)throw new Error('Intervalle PSID absent : '+key);
+    return Object.fromEntries([
+      ...psidKeys.map(name=>[name,period[name].slice(1)]),
+      ['ci',Object.fromEntries(psidKeys.map(name=>[name,{lower:period.ci[name].lower.slice(1),upper:period.ci[name].upper.slice(1)}]))]
+    ]);
+  };
+  function periodLabel(key){return key==='summary'?'moyenne des douze intervalles 1998–2022':key.replace('-', '–');}
+  function updatePeriod(el,key){
+    const period=getPeriod(key);
+    el.querySelector('[data-psid-period]').value=key;
+    el.querySelector('[data-psid-chart]').dataset.period=key;
+    el.querySelector('[data-psid-context]').textContent=(key==='summary'
+      ?'Moyenne simple des 12 intervalles de deux ans. La population suivie est renouvelée entre les intervalles.'
+      :`${period.start}–${period.end} : ${fmt(period.n,0)} personnes observées aux deux dates.`)+' Zoom d’affichage sur D2–D10, sans recalcul des déciles.';
+    const label=`Croissance annualisée réelle des revenus du travail, États-Unis, ${periodLabel(key)}, courbes anonyme et non anonyme, déciles D2 à D10. Flèches gauche et droite : consulter les valeurs.`;
+    el.querySelector('[data-psid-chart] .p-zin')?.setAttribute('aria-label',label);
+    el.querySelector('[data-psid-chart] svg')?.setAttribute('aria-label',label);
+  }
+  function updatePlayButton(el){
+    const button=el.querySelector('[data-psid-play]');
+    button.textContent=playing?'Pause':'Rejouer';
+    button.setAttribute('aria-label',playing?'Mettre le défilement en pause':'Rejouer les douze intervalles puis leur moyenne');
+    el.dataset.psidPlaying=String(playing);
+  }
+  function drawPSID(el,ctx={}){
+    currentView=viewFor(selectedPeriod);
+    psidChart=drawLines(el.querySelector('[data-psid-chart]'),ctx,currentView,{
+      animate:false,mutable:!ctx.print,range:psidRange,
+      xs:data.deciles.centers.slice(1),labels:data.deciles.labels.slice(1),xTitle:'Décile de revenu · D2–D10',
+      hoverLabel:i=>`${periodLabel(selectedPeriod)} · ${data.deciles.labels[i+1]} · ${(i+1)*10}–${(i+2)*10} %`,
+      ci:currentView.ci,valueFormat:v=>fmt(v,1)+' % par an',
+      aria:`Croissance annualisée réelle des revenus du travail, États-Unis, ${periodLabel(selectedPeriod)}, courbes anonyme et non anonyme, déciles D2 à D10.`
+    });
+    updatePeriod(el,selectedPeriod);updatePlayButton(el);
+    el.querySelector('[data-psid-chart]').dataset.transitioning='false';
+  }
+  function applyView(view){psidChart.update(view);currentView=view;}
+  function stopPlayback(el,settle=true){
+    cancelAnimationFrame(frameId);clearTimeout(holdId);frameId=holdId=0;playing=false;
+    if(settle&&psidChart?.update)applyView(viewFor(selectedPeriod));
+    el.querySelector('[data-psid-chart]').dataset.transitioning='false';
+    updatePlayButton(el);
+  }
+  function isLive(el){return el.classList.contains('is-active')&&window.Deck.step>=1&&!printing&&!document.body.classList.contains('reading');}
+  function transitionTo(el,key,done=()=>{}){
+    const from=structuredClone(currentView),to=viewFor(key);
+    selectedPeriod=key;updatePeriod(el,key);psidChart?.hideReadout?.();
+    if(!activeAnimation({reading:document.body.classList.contains('reading')})||!psidChart?.update){
+      drawPSID(el,{reading:document.body.classList.contains('reading')});done();return;
+    }
+    const host=el.querySelector('[data-psid-chart]');host.dataset.transitioning='true';
+    const started=performance.now();
+    function frame(now){
+      if(!isLive(el)){stopPlayback(el);return;}
+      const progress=Math.min(1,(now-started)/MORPH_MS),t=progress*progress*(3-2*progress);
+      const mix=(a,b)=>a.map((value,i)=>value+(b[i]-value)*t);
+      const view=Object.fromEntries([
+        ...psidKeys.map(name=>[name,mix(from[name],to[name])]),
+        ['ci',Object.fromEntries(psidKeys.map(name=>[name,{lower:mix(from.ci[name].lower,to.ci[name].lower),upper:mix(from.ci[name].upper,to.ci[name].upper)}]))]
+      ]);
+      applyView(view);
+      if(progress<1)frameId=requestAnimationFrame(frame);
+      else{frameId=0;applyView(to);host.dataset.transitioning='false';done();}
+    }
+    frameId=requestAnimationFrame(frame);
+  }
+  function startPlayback(el){
+    stopPlayback(el,false);
+    if(!activeAnimation({})){selectedPeriod='summary';drawPSID(el);return;}
+    selectedPeriod=sequence[0];playing=true;drawPSID(el);
+    let index=0;
+    function advance(){
+      if(!isLive(el)){stopPlayback(el);return;}
+      transitionTo(el,sequence[++index],()=>{
+        if(index===sequence.length-1)stopPlayback(el,false);
+        else holdId=setTimeout(advance,HOLD_MS);
       });
     }
-    Deck.on(id,{enter(el,ctx){
-      if(!initialized){
-        initialized=true;
-        el.querySelector('select').addEventListener('change',e=>{current=e.target.value;draw();});
+    holdId=setTimeout(advance,HOLD_MS);
+  }
+  function closePSIDNotes(el){
+    el.querySelector('#psid-population-notes').hidden=true;
+    el.querySelector('.psid-notes-toggle').setAttribute('aria-expanded','false');
+  }
+  function revealPSID(el,step){
+    const reading=document.body.classList.contains('reading');
+    el.querySelector('[data-psid-figure]').inert=!reading&&step<1;
+    if(reading||printing)return;
+    if(step<1){stopPlayback(el);closePSIDNotes(el);revealed=false;return;}
+    if(!revealed){revealed=true;startPlayback(el);}
+  }
+  window.Deck.on('croissance-rangs-exemple',{enter(el,ctx){
+    el.querySelector('[data-example-sort]').onclick=()=>{exampleSorted=!exampleSorted;drawExample(el,{});};
+    el.querySelector('[data-example-unit]').onchange=e=>{exampleUnit=e.target.value;drawExample(el,{});};
+    drawExample(el,ctx);
+  }});
+  window.Deck.on('croissance-psid',{
+    enter(el,ctx){
+      stopPlayback(el,false);revealed=false;
+      const reading=ctx.reading||document.body.classList.contains('reading');
+      const print=ctx.print||printing;
+      if(!print)closePSIDNotes(el);
+      el.querySelector('.psid-notes-toggle').onkeydown=event=>{
+        if(event.key==='Escape'){event.preventDefault();event.stopPropagation();closePSIDNotes(el);}
+      };
+      selectedPeriod=reading||print?'summary':sequence[0];
+      el.querySelector('[data-psid-period]').onchange=e=>{
+        stopPlayback(el,false);transitionTo(el,e.target.value);
+      };
+      el.querySelector('[data-psid-play]').onclick=()=>{
+        if(playing)stopPlayback(el);else startPlayback(el);
+      };
+      const host=el.querySelector('[data-psid-chart]');
+      
+      
+      if(!host.dataset.inspectionBound){
+        host.dataset.inspectionBound='true';
+        const inspect=()=>{if(playing||frameId)stopPlayback(el);};
+        host.addEventListener('pointermove',inspect,true);
+        host.addEventListener('focusin',inspect);
       }
+      drawPSID(el,{reading,print});
+    },
+    step:revealPSID,
+    leave(el){stopPlayback(el);closePSIDNotes(el);revealed=false;}
+  });
+  document.addEventListener('deck:change',event=>{
+    if(event.detail.id!=='croissance-psid'&&(playing||frameId))stopPlayback(window.Deck.slideEl('croissance-psid'));
+  });
+  
+  new MutationObserver(()=>{
+    if(!document.body.classList.contains('reading')||printing)return;
+    const el=window.Deck.slideEl('croissance-psid');if(!el)return;
+    stopPlayback(el,false);selectedPeriod='summary';drawPSID(el,{reading:true});
+    el.querySelector('[data-psid-figure]').inert=false;
+  }).observe(document.body,{attributes:true,attributeFilter:['class']});
+  window.addEventListener('beforeprint',()=>{
+    const example=window.Deck.slideEl('croissance-rangs-exemple'),observed=window.Deck.slideEl('croissance-psid');
+    printing=true;periodBeforePrint=selectedPeriod;
+    if(example)drawExample(example,{print:true});
+    if(observed){stopPlayback(observed,false);selectedPeriod='summary';drawPSID(observed,{print:true});}
+  });
+  window.addEventListener('afterprint',()=>{
+    printing=false;selectedPeriod=periodBeforePrint;
+    const ctx={reading:document.body.classList.contains('reading')},example=window.Deck.slideEl('croissance-rangs-exemple'),observed=window.Deck.slideEl('croissance-psid');
+    if(example&&example.getBoundingClientRect().width>0)drawExample(example,ctx);
+    if(observed&&observed.getBoundingClientRect().width>0){
+      if(ctx.reading)selectedPeriod='summary';
+      drawPSID(observed,ctx);
+    }
+  });
+})();
+
+
+(function () {
+  'use strict';
+  const CH = window.Charts, D = window.REVENU_MENAGES_DATA, ID = 'pib-revenu';
+  if (!CH || !D || !window.Deck) throw new Error('Sources du graphique des revenus des ménages absentes.');
+  const fmt = (value, digits = 0) => CH.fmt(value, digits);
+  const gap = D.rnb - D.rdbAdjusted;
+  const otherSectors = D.administrations + D.npish;
+  const afterTransfers = D.rnb - D.netCurrentTransfersAbroad;
+  const afterCorporations = afterTransfers - D.corporations;
+  const rows = [
+    {key:'pib',label:'PIB',value:D.pib,start:0,end:D.pib,
+      detail:'Produit intérieur brut : valeur ajoutée créée par la production intérieure.'},
+    {key:'rnb',label:'RNB',value:D.rnb,start:0,end:D.rnb,
+      detail:'Revenu national brut : revenus primaires des résidents, y compris le solde des revenus primaires avec l’étranger.'},
+    {key:'transfers',label:'Transferts courants nets à l’étranger',value:D.netCurrentTransfersAbroad,start:afterTransfers,end:D.rnb,deduction:true,
+      detail:`Transferts courants versés au reste du monde, nets de ceux reçus. Après ce solde, le revenu national disponible brut est de ${fmt(D.rndb,3)} milliards d’euros.`},
+    {key:'corporations',label:'Revenu disponible des sociétés',value:D.corporations,start:afterCorporations,end:afterTransfers,deduction:true,
+      detail:'Revenu disponible des sociétés financières et non financières, après rémunérations, revenus de propriété et redistribution. Il contribue notamment au financement de leur investissement. Les entrepreneurs individuels sont inclus dans le secteur des ménages.'},
+    {key:'other-sectors',label:'Administrations publiques et associations',value:otherSectors,start:afterCorporations-otherSectors,end:afterCorporations,deduction:true,
+      detail:`Revenu disponible ajusté des administrations (${fmt(D.administrations,3)}) et des associations au service des ménages (${fmt(D.npish,3)} milliards d’euros), après attribution aux ménages des services reçus en nature. Ces ressources financent notamment des services collectifs et l’épargne de ces secteurs.`},
+    {key:'adjusted',label:'RDB ajusté des ménages',value:D.rdbAdjusted,start:0,end:D.rdbAdjusted,
+      detail:`Revenu disponible brut (${fmt(D.rdb,3)}) augmenté des services reçus en nature (${fmt(D.transfersInKind,3)} milliards d’euros), notamment en santé et en éducation. L’écart avec le RNB est de ${fmt(gap,3)} milliards d’euros ; la décomposition comporte un écart d’arrondi de 0,001 milliard.`},
+    {key:'rdb',label:'RDB des ménages',value:D.rdb,start:0,end:D.rdb,
+      detail:'Revenu disponible brut dont disposent les ménages pour consommer ou épargner, après impôts directs, cotisations et prestations sociales en espèces, avant ajout des services reçus en nature.'}
+  ];
+  let current = null;
+
+  function draw(element, ctx = {}) {
+    const host = element.querySelector('#pj-rev');
+    if (!host) return;
+    const box = window.PJ.zoom(host,1.08);
+    const animate = !(ctx.print || ctx.reading || window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const {svg,Wd,Ht} = CH.frame(box,{
+      height:box.clientHeight,
+      aria:`France, ${D.year}, milliards d’euros. Du RNB (${fmt(D.rnb)}) au revenu disponible ajusté des ménages (${fmt(D.rdbAdjusted)}) : ${fmt(gap)} d’écart. Sept barres consultables au clavier.`
+    });
+    svg.setAttribute('role','group');
+    svg.classList.add('rm-svg');
+    const top = 67, bottom = Ht-35, stride = (bottom-top-17)/6, barH = 22;
+    const labelY = index => top + stride*index + (index === 6 ? 17 : 0);
+    const barY = index => labelY(index)+10;
+    const left = 9, right = Wd-76;
+    const X = value => left + value / D.rnb * (right-left);
+    const heading = CH.txt(svg,left,21,`Du RNB au RDB ajusté : −${fmt(gap)} Md€`,'rm-heading');
+    heading.setAttribute('aria-hidden','true');
+    CH.txt(svg,left,44,`France, ${D.year} · milliards d’euros`,'rm-meta',{'aria-hidden':'true'});
+    CH.el('line',{x1:left,x2:left,y1:barY(0)-3,y2:barY(6)+barH+3,class:'rm-origin','aria-hidden':'true'},svg);
+
+    
+    
+    const links = CH.el('g',{class:'rm-connectors','aria-hidden':'true'},svg);
+    for (let i = 1; i < 5; i++) {
+      const endpoint = i === 1 ? D.rnb : rows[i].start;
+      CH.el('line',{x1:X(endpoint),x2:X(endpoint),y1:barY(i)+barH,y2:barY(i+1),class:'rm-connector'},links);
+    }
+    CH.el('line',{x1:X(D.rdbAdjusted),x2:X(D.rdbAdjusted),y1:barY(4)+barH,y2:barY(5),class:'rm-connector'},links);
+
+    const tip = document.createElement('div');
+    tip.className = 'ch-readout rm-readout';
+    tip.id = 'rm-revenue-tooltip';
+    tip.setAttribute('role','tooltip');
+    tip.hidden = true;
+    box.appendChild(tip);
+    const groups = [];
+    function hide() {
+      tip.hidden = true;
+      tip.classList.remove('on');
+      groups.forEach(group => group.classList.remove('rm-focused'));
+    }
+    function show(row, index) {
+      groups.forEach(group => group.classList.remove('rm-focused'));
+      groups[index].classList.add('rm-focused');
+      tip.replaceChildren();
+      const title = document.createElement('strong');
+      title.textContent = `${row.label} : ${row.deduction ? '−' : ''}${fmt(row.value,3)} Md€`;
+      const detail = document.createElement('span');
+      detail.textContent = row.detail;
+      tip.append(title,detail);
+      tip.hidden = false;
+      tip.classList.add('on');
+      const lower = barY(index)+barH+10;
+      const y = lower+tip.offsetHeight < Ht ? lower : Math.max(3,labelY(index)-tip.offsetHeight-13);
+      tip.style.top = `${y}px`;
+    }
+
+    rows.forEach((row,index) => {
+      const y = barY(index), group = CH.el('g',{
+        class:`rm-row${row.deduction ? ' rm-deduction' : ''}`,
+        tabindex:ctx.print ? null : 0,'data-keys':'','data-row':row.key,
+        'data-start':row.start,'data-end':row.end,'data-value':row.value,
+        role:'img','aria-label':`${row.label} : ${row.deduction ? 'moins ' : ''}${fmt(row.value,3)} milliards d’euros. ${row.detail}`,
+        'aria-describedby':tip.id
+      },svg);
+      groups.push(group);
+      CH.el('rect',{x:0,y:labelY(index)-24,width:Wd,height:51,rx:4,class:'rm-hit'},group);
+      CH.txt(group,left,labelY(index),row.label,'rm-label',{'aria-hidden':'true'});
+      const totalColor = row.key === 'pib' ? '#65768C' : '#001F5F';
+      function bar(start,end,color,extraClass = '') {
+        return CH.el('rect',{
+          x:X(start),y,width:Math.max(.1,X(end)-X(start)),height:barH,fill:color,
+          class:`rm-bar ${extraClass}${animate ? ' ch-bar anim-x' : ''}`,
+          style:animate ? `animation-delay:${index*.12}s` : null,'aria-hidden':'true'
+        },group);
+      }
+      if (row.key === 'adjusted') {
+        bar(0,D.rdb,'#001F5F');
+        bar(D.rdb,D.rdbAdjusted,'#BFCDE0','rm-in-kind');
+        const center = (X(D.rdb)+X(D.rdbAdjusted))/2;
+        CH.txt(group,center,y+17,`+${fmt(D.transfersInKind)}`,'rm-in-kind-value',{'text-anchor':'middle','aria-hidden':'true'});
+        CH.txt(group,center,y+barH+20,'en nature','rm-in-kind-label',{'text-anchor':'middle','aria-hidden':'true'});
+        CH.el('line',{x1:center,x2:center,y1:y+barH+1,y2:y+barH+6,stroke:'#65768C','stroke-width':1.2,'aria-hidden':'true'},group);
+      } else bar(row.start,row.end,row.deduction ? '#B45309' : totalColor,row.deduction ? 'rm-subtract' : '');
+      CH.txt(group,X(row.end)+9,y+18,`${row.deduction ? '−' : ''}${fmt(row.value)}`,'rm-value ch-num',{'aria-hidden':'true'});
+      group.addEventListener('pointerenter',() => show(row,index));
+      group.addEventListener('pointerleave',() => {
+        const focusedIndex = groups.indexOf(document.activeElement);
+        if (focusedIndex >= 0) show(rows[focusedIndex],focusedIndex); else hide();
+      });
+      group.addEventListener('focus',() => show(row,index));
+      group.addEventListener('blur',hide);
+      group.addEventListener('keydown',event => {
+        if (['ArrowDown','ArrowRight','ArrowUp','ArrowLeft','Home','End'].includes(event.key)) {
+          event.preventDefault();event.stopPropagation();
+          let next = index + (['ArrowDown','ArrowRight'].includes(event.key) ? 1 : -1);
+          if (event.key === 'Home') next = 0;
+          if (event.key === 'End') next = rows.length-1;
+          groups[Math.max(0,Math.min(rows.length-1,next))].focus();
+        } else if (event.key === 'Escape') {
+          event.preventDefault();event.stopPropagation();hide();group.blur();
+        }
+      });
+    });
+    current = {element,hide};
+  }
+
+  
+  
+  window.Deck.on(ID,{enter:draw,leave(){if(current)current.hide();}});
+  window.addEventListener('beforeprint',() => {
+    const element = window.Deck.slideEl(ID);if(element)draw(element,{print:true});
+  });
+  window.addEventListener('afterprint',() => {
+    const element = window.Deck.slideEl(ID);
+    if(element)draw(element,{reading:true});
+  });
+  window.REVENU_MENAGES_CHART = {id:ID,rows,draw};
+})();
+
+(function(){
+'use strict';
+const CH = window.Charts, Deck = window.Deck;
+const START = 2005, END = 2023;
+const measures = ['gdp', 'production', 'consumption'];
+const developed = [['DEU', 'Allemagne'], ['USA', 'États-Unis'], ['SWE', 'Suède'], ['FIN', 'Finlande'], ['DNK', 'Danemark'], ['JPN', 'Japon']];
+const emerging = [
+    {code:'CHN', name:'Chine', color:'#001F5F', dash:null},
+    {code:'IND', name:'Inde', color:'#B45309', dash:'9 5'},
+    {code:'BRA', name:'Brésil', color:'#526780', dash:'2 5'}
+  ];
+const byId = id => window.SLIDES.find(s => s.id === id);
+const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pct = (value, digits=1) => (value > 0 ? '+' : '') + CH.fmt(value, digits) + '\u202f%';
+const link = (url, label) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+const source = perCapita => `${link('https://ourworldindata.org/grapher/co2-emissions-and-gdp'+(perCapita?'-per-capita':''), 'OWID')} · PIB réel : WDI 2026, PPA constantes de 2021. CO₂ : Global Carbon Budget 2025, fossile et industriel, hors changement d’usage des terres. 2005–2023.`;
+const canAnimate = ctx => !(ctx.print || ctx.reading || window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+function rowsFor(key, code) {
+    const rows = window.REVISION_DATA[key].rows.filter(r => r.code === code && r.year >= START && r.year <= END).sort((a,b) => a.year-b.year);
+    if (rows.length !== END-START+1 || rows.some((r,i) => r.year !== START+i || measures.some(k => !Number.isFinite(r[k]) || r[k] <= 0))) throw new Error(`Série climatique incomplète : ${key}/${code}`);
+    return rows;
+  }
+function indexed(key, code) {
+    const rows = rowsFor(key, code), base = rows[0];
+    return rows.map(r => ({year:r.year, ...Object.fromEntries(measures.map(k => [k, 100*r[k]/base[k]]))}));
+  }
+const developedData = Object.fromEntries(['decouplingTotal','decouplingPerCapita'].map(key => [key,
+    Object.fromEntries(developed.map(([code]) => [code, indexed(key, code)]))]));
+const emergingData = Object.fromEntries(emerging.map(c => [c.code, indexed('decouplingTotal', c.code)]));
+const nordhausWiki='https://en.wikipedia.org/wiki/William_Nordhaus';
+const nordhausYale='https://news.yale.edu/2026/10/31/william-nordhaus-nobel-laureate-who-integrated-economics-and-climate-change-devoted-yale';
+const nordhausCepr='https://cepr.org/voxeu/columns/william-nordhaus-and-costs-climate-change';
+const nordhausPhoto='https://commons.wikimedia.org/wiki/File:William_Nordhaus_EM1B6043_%2846234132921%29.jpg';
+
+
+const world = byId('emissions-monde');
+const france = byId('fr-decouplage');
+const footprint = byId('empreinte');
+function addLineLegend(chart) {
+    
+    
+    const x = chart.m.l + 17, bottom = +chart.svg.getAttribute('height') - chart.m.b - 13;
+    const group = CH.el('g', {class:'fin-climat-inplot-legend','aria-label':'Légende des trois séries'}, chart.svg);
+    [['PIB réel','#001F5F',null],['CO₂ territorial','#B45309',null],['CO₂ de consommation','#B45309','9 6']].forEach(([name,color,dash],i)=>{
+      const y = bottom - 54 + i*27;
+      CH.el('line',{x1:x,y1:y-7,x2:x+32,y2:y-7,stroke:color,'stroke-width':3,'stroke-dasharray':dash},group);
+      const label = CH.el('text',{x:x+44,y,fill:color},group);label.textContent=name;
+    });
+  }
+const developedDrawers = [];
+function installDeveloped(id, key) {
+    const s = byId(id), perCapita = key === 'decouplingPerCapita';
+    if (!s) throw new Error(`Diapositive absente : ${id}`);
+     
+    
+    
+     
+    
+    let current = 'DEU';
+    function draw(ctx={}) {
+      const root = Deck.slideEl(id); if (!root) return;
+      if (!ctx.print && ((!root.classList.contains('is-active') && !document.body.classList.contains('reading')) || root.clientWidth === 0)) return;
+      const code = ctx.print ? 'DEU' : current, rows = developedData[key][code], last = rows[rows.length-1];
+      root.querySelector('[data-climate-country]').value = code;
+      root.querySelector('.rev-decoupling-country').textContent = developed.find(c=>c[0]===code)[1];
+      measures.forEach(k => { root.querySelector(`[data-climate-${k}]`).textContent = pct(last[k]-100); });
+      const host = root.querySelector('.rev-interactive'), box = window.PJ.zoom(host,1.12);
+      const maximum = Math.ceil(Math.max(120,...rows.flatMap(r=>measures.map(k=>r[k])))/20)*20;
+      const chart = CH.line(box, {height:box.clientHeight, animate:canAnimate(ctx), duration:1.6, stagger:.15, ends:true, labelGap:29, legend:false, hover:!ctx.print,
+        aria:`${developed.find(c=>c[0]===code)[1]}, PIB et CO₂ ${perCapita?'par habitant':'totaux'}, 2005 à 2023, base 100 en 2005`,
+        x:{min:START,max:END,ticks:[2005,2010,2015,2020,2023]},y:{min:0,max:maximum}, yTitle:'Indice, 2005 = 100',margin:{l:59,r:81,t:62,b:54},
+        refLines:[{y:100,color:'#A6ACB5',dash:'3 6'}],
+        series:[['gdp','PIB réel','#001F5F',false],['production','CO₂ territorial','#B45309',false],['consumption','CO₂ de consommation','#B45309','9 6']].map(([k,name,color,dash])=>({name,color,dash,data:rows.map(r=>[r.year,r[k]]),format:v=>CH.fmt(v,1)}))
+      });
+      addLineLegend(chart);
+      host.dataset.lastYear = String(END); host.dataset.country = code;
+    }
+    Deck.on(id,{enter(el,ctx){
+      const select = el.querySelector('[data-climate-country]');
+      if (!select.dataset.bound) { select.dataset.bound='true'; select.addEventListener('change',e=>{current=e.target.value;draw({reading:document.body.classList.contains('reading')});}); }
       draw(ctx);
     }});
-    
-    window.addEventListener('beforeprint',()=>draw({print:true}));
-    window.addEventListener('afterprint',()=>draw({reading:document.body.classList.contains('reading')}));
+    developedDrawers.push(draw);
   }
-installDecoupling('decouplage-monde','decouplingTotal');
-installDecoupling('decouplage-habitant','decouplingPerCapita');
+installDeveloped('decouplage-monde','decouplingTotal');
+installDeveloped('decouplage-habitant','decouplingPerCapita');
+const id = 'decouplage-emergents';
+
+
+let metric = 'production', year = END, raf = 0, view = null, printSaved = null;
+function stop() {
+    if (raf) cancelAnimationFrame(raf); raf=0;
+    const button = Deck.slideEl(id)?.querySelector('[data-climate-play]');
+    if (button) {button.textContent='Rejouer 2005–2023';button.setAttribute('aria-pressed','false');}
+  }
+function point(country, at) {
+    const r = emergingData[country.code][at-START];
+    const early = at < 2010;
+    return {...country,key:country.code,x:r.gdp-100,y:r[metric]-100,year:at,hl:true,label:country.name,
+      dx:early?15:country.code==='CHN'?-12:14,dy:early?{CHN:-73,IND:-40,BRA:-7}[country.code]:-16,anchor:!early&&country.code==='CHN'?'end':'start'};
+  }
+function tip(point) {
+    const ratio = (1+point.y/100)/(1+point.x/100)-1;
+    return `<b>${esc(point.name)} · ${point.year}</b><br>PIB réel : ${pct(point.x)}<br>CO₂ ${metric==='production'?'territorial':'de consommation'} : ${pct(point.y)}<br>Intensité : ${pct(100*ratio)}`;
+  }
+function showTip(p, circle) {
+    if (!view) return;
+    const box = view.box, t = box.querySelector('.ch-tip'), scale = view.chart.svg.getBoundingClientRect().width / Number(view.chart.svg.getAttribute('width'));
+    t.innerHTML = tip(p); t.style.left = `${view.chart.S.X(p.x)*scale}px`; t.style.top = `${(view.chart.S.Y(p.y)-10)*scale}px`; t.classList.add('on');
+    if (circle) circle.classList.add('fin-climat-focused');
+  }
+function hideTip(circle) {
+    view?.box.querySelector('.ch-tip')?.classList.remove('on');
+    circle?.classList.remove('fin-climat-focused');
+  }
+function spaceCountryLabels(svg) {
+    const labels=[...svg.querySelectorAll('text[data-k]')];
+    
+    
+    for(let pass=0;pass<12;pass++){
+      let moved=false;
+      for(let i=0;i<labels.length;i++)for(let j=i+1;j<labels.length;j++){
+        const a=labels[i].getBBox(),b=labels[j].getBBox();
+        if(a.x>b.x+b.width+5||b.x>a.x+a.width+5||a.y>b.y+b.height+5||b.y>a.y+a.height+5)continue;
+        const upper=a.y<=b.y?labels[i]:labels[j],u=a.y<=b.y?a:b,l=a.y<=b.y?b:a;
+        upper.setAttribute('y',+upper.getAttribute('y')-(u.y+u.height+6-l.y));moved=true;
+      }
+      if(!moved)break;
+    }
+  }
+function setYear(at) {
+    year = Math.max(START,Math.min(END,Math.round(at)));
+    if (!view) return;
+    const {root,chart,trails,dots} = view;
+    root.querySelector('[data-climate-year]').value = String(year);
+    root.querySelector('[data-climate-year-label]').textContent = String(year);
+    root.querySelector('[data-climate-scatter]').dataset.year = String(year);
+    chart.update(emerging.map(c=>point(c,year)));
+    spaceCountryLabels(chart.svg);
+    dots.replaceChildren();
+    emerging.forEach((c,i)=>{
+      const points = emergingData[c.code].filter(r=>r.year<=year).map(r=>point(c,r.year));
+      trails[i].setAttribute('d',points.map((p,j)=>`${j?'L':'M'}${chart.S.X(p.x)},${chart.S.Y(p.y)}`).join(' '));
+      const p=points[points.length-1],label=chart.svg.querySelector(`text[data-k="${c.code}"]`),labelY=+label.getAttribute('y');
+      if(Math.abs(labelY-chart.S.Y(p.y))>28){
+        const x=chart.S.X(p.x),y=chart.S.Y(p.y),side=p.anchor==='end'?-1:1;
+        CH.el('line',{x1:x+4*side,y1:y-5,x2:+label.getAttribute('x')-3*side,y2:labelY+4,stroke:c.color,'stroke-width':1.2,opacity:.65,'pointer-events':'none'},dots);
+      }
+      points.slice(1,-1).forEach(p=>{
+        const dot = CH.el('circle',{cx:chart.S.X(p.x),cy:chart.S.Y(p.y),r:7,fill:'transparent','pointer-events':'all','aria-hidden':'true'},dots);
+        dot.addEventListener('pointerenter',()=>showTip(p));dot.addEventListener('pointerleave',()=>hideTip());
+      });
+      const endpoint = chart.svg.querySelector(`circle[data-k="${c.code}"]`);
+      endpoint.setAttribute('tabindex','0'); endpoint.setAttribute('data-keys','');
+      endpoint.setAttribute('role','img'); endpoint.setAttribute('aria-label',`${c.name}, ${year}. PIB ${pct(points[points.length-1].x)}. CO₂ ${pct(points[points.length-1].y)}.`);
+    });
+  }
+function drawEmerging(ctx={}) {
+    const root=Deck.slideEl(id); if (!root) return;
+    if (!ctx.print && ((!root.classList.contains('is-active') && !document.body.classList.contains('reading')) || root.clientWidth === 0)) return;
+    const box=window.PJ.zoom(root.querySelector('[data-climate-scatter]'),1.08);
+    root.querySelector('[data-climate-measure]').value=metric;
+    root.querySelector('[data-climate-intensities]').textContent=emerging.map(c=>{
+      const r=emergingData[c.code][END-START];return `${c.name} ${pct((r[metric]/r.gdp-1)*100,0)}`;
+    }).join(', ');
+    const chart=CH.scatter(box,{height:box.clientHeight,animate:false,
+      aria:'Chine, Inde et Brésil : trajectoires de croissance du PIB réel et du CO₂ depuis 2005.',
+      x:{min:0,max:320,ticks:[0,100,200,300]},y:{min:-60,max:320,ticks:[-50,0,100,200,300]},
+      margin:{l:61,r:24,t:51,b:70},yTitle:'CO₂ : variation depuis 2005 (%)',xTitle:'PIB réel : variation depuis 2005 (%)',
+      radius:()=>7,tip,points:emerging.map(c=>point(c,ctx.print?END:year))});
+    const firstGroup=chart.svg.querySelector('g'), zones=CH.el('g',{'pointer-events':'none','aria-hidden':'true'});
+    chart.svg.insertBefore(zones,firstGroup);
+    const {X,Y}=chart.S;
+    CH.el('rect',{x:X(0),y:Y(0),width:X(320)-X(0),height:Y(-60)-Y(0),fill:'#EAF0F6'},zones);
+    CH.el('path',{d:`M${X(0)},${Y(0)}L${X(320)},${Y(0)}L${X(320)},${Y(320)}Z`,fill:'#F5F6F8'},zones);
+    CH.el('line',{x1:X(0),y1:Y(0),x2:X(320),y2:Y(320),stroke:'#8A9BA8','stroke-width':1.8,'stroke-dasharray':'5 5'},zones);
+    CH.el('line',{x1:X(0),y1:Y(0),x2:X(320),y2:Y(0),stroke:'#000','stroke-width':1.5,class:'fin-climat-zero'},zones);
+    [['Découplage relatif',46],['Découplage absolu',-37]].forEach(([label,y])=>{
+      const text=CH.el('text',{x:X(311),y:Y(y),'text-anchor':'end',class:'fin-climat-zone-label'},zones);text.textContent=label;
+    });
+    const trajectoryLayer=CH.el('g',{'aria-hidden':'true'}), pointLayer=chart.svg.querySelector('circle[data-k]').parentNode;
+    chart.svg.insertBefore(trajectoryLayer,pointLayer);
+    const trails=emerging.map(c=>CH.el('path',{fill:'none',stroke:c.color,'stroke-width':2.5,'stroke-dasharray':c.dash,class:'fin-climat-trajectory'},trajectoryLayer));
+    const dots=CH.el('g',{},trajectoryLayer);
+    view={root,box,chart,trails,dots};
+    emerging.forEach(c=>{
+      const endpoint=chart.svg.querySelector(`circle[data-k="${c.code}"]`);
+      endpoint.addEventListener('focus',()=>showTip(point(c,year),endpoint));
+      endpoint.addEventListener('blur',()=>hideTip(endpoint));
+      endpoint.addEventListener('keydown',e=>{
+        if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();e.stopPropagation();stop();setYear(year+(e.key==='ArrowRight'?1:-1));showTip(point(c,year),endpoint);}
+        if(e.key==='Escape'){e.stopPropagation();hideTip(endpoint);endpoint.blur();}
+      });
+    });
+    setYear(ctx.print?END:year);
+  }
+function play() {
+    if(raf){stop();return;}
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){setYear(END);return;}
+    setYear(START);
+    const button=Deck.slideEl(id).querySelector('[data-climate-play]');button.textContent='Pause';button.setAttribute('aria-pressed','true');
+    const beginning=performance.now();
+    function frame(now){
+      const next=START+Math.min(END-START,Math.floor((now-beginning)/250));
+      if(next!==year)setYear(next);
+      if(next<END)raf=requestAnimationFrame(frame);else stop();
+    }
+    raf=requestAnimationFrame(frame);
+  }
+Deck.on(id,{enter(el,ctx){
+    stop();
+    if(!el.dataset.climateBound){
+      el.dataset.climateBound='true';
+      el.querySelector('[data-climate-measure]').addEventListener('change',e=>{stop();metric=e.target.value;drawEmerging();});
+      el.querySelector('[data-climate-year]').addEventListener('input',e=>{stop();setYear(+e.target.value);});
+      el.querySelector('[data-climate-play]').addEventListener('click',play);
+    }
+    if(ctx.print||ctx.reading)year=END;
+    drawEmerging(ctx);
+  },leave(){stop();}});
+window.addEventListener('beforeprint',()=>{
+    printSaved={year,metric};stop();developedDrawers.forEach(draw=>draw({print:true}));drawEmerging({print:true});
+  });
+window.addEventListener('afterprint',()=>{
+    developedDrawers.forEach(draw=>draw({reading:document.body.classList.contains('reading')}));
+    if(printSaved){year=printSaved.year;metric=printSaved.metric;printSaved=null;}
+    drawEmerging({reading:document.body.classList.contains('reading')});
+  });
+window.FIN_CLIMAT={start:START,end:END,ids:['emissions-monde','fr-decouplage','empreinte','decouplage-monde','decouplage-habitant',id],developedData,emergingData};
+})();
+
+(function () {
+  'use strict';
+  const Charts = window.Charts;
+  const maddison = window.DATA && window.DATA.maddison;
+  const us = window.MADDISON_US_DATA && window.MADDISON_US_DATA.rows;
+  if (!maddison || !us || !Charts) throw new Error('Données Maddison absentes pour la transition croissance.');
+  const ID = 'transition-croissance';
+  const pair = column => maddison.filter(row => row[column] != null).map(row => [row[0], row[column]]);
+  const series = [
+    {name:'France',color:'blue',dash:false,data:pair(1)},
+    {name:'Monde',color:'slate',dash:true,data:pair(2)},
+    {name:'États-Unis',color:'#B45309',dash:false,data:us.map(row => [row[0],row[1]])}
+  ];
+  const stats = series.map(item => {
+    const rows = item.data.filter(([year,value]) => year >= 1820 && year <= 2022 && Number.isFinite(value) && value > 0);
+    const n = rows.length;
+    const meanX = rows.reduce((sum,[year]) => sum + year - 1820,0) / n;
+    const meanY = rows.reduce((sum,[,value]) => sum + Math.log(value),0) / n;
+    const b = rows.reduce((sum,[year,value]) => sum + (year-1820-meanX)*(Math.log(value)-meanY),0)
+      / rows.reduce((sum,[year]) => sum + (year-1820-meanX)**2,0);
+    const a = meanY - b * meanX;
+    const cagr = 100 * (Math.pow(rows.at(-1)[1]/rows[0][1],1/(rows.at(-1)[0]-rows[0][0]))-1);
+    return {name:item.name,color:Charts.PAL[item.color] || item.color,a,b,n,cagr};
+  });
+  const statFor = name => stats.find(item => item.name === name);
+
+  
+  
+
+  let serial = 0;
+  function positionPointer(element) {
+    const symbol = element.querySelector('.tc-numerator');
+    const bubble = element.querySelector('.tc-bubble');
+    if (!symbol || !bubble) return;
+    const symbolBox = symbol.getBoundingClientRect(), bubbleBox = bubble.getBoundingClientRect();
+    const scale = bubble.offsetWidth ? bubbleBox.width / bubble.offsetWidth : 1;
+    if (!(scale > 0)) return;
+    bubble.style.setProperty('--tc-pointer-x',`${(symbolBox.left+symbolBox.width/2-bubbleBox.left)/scale}px`);
+  }
+
+  function draw(element, ctx = {}) {
+    const host = element.querySelector('[data-tc-chart]');
+    const box = window.PJ.zoom(host,1.12);
+    const animate = !(ctx.reading || ctx.print || window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const chart = Charts.line(box,{
+      height:box.clientHeight,animate,duration:2,ends:true,starts:false,legend:false,hover:!ctx.print,
+      aria:'PIB réel par habitant en dollars internationaux de 2011, France, États-Unis et monde, 1820–2022 ; échelle logarithmique.',
+      x:{min:1820,max:2022,ticks:[1820,1870,1920,1970,2022]},
+      y:{log:true,min:500,max:100000,ticks:[500,1000,2000,5000,10000,20000,50000,100000]},
+      
+      margin:{l:82,r:188,t:28,b:49},labelGap:30,
+      series:series.map(item => ({...item,endLabel:item.name,format:value => Charts.fmt(value,0)}))
+    });
+    const firstLine = chart.svg.querySelector('.ch-line');
+    const trends = Charts.el('g',{class:'tc-trends','aria-label':'Tendances ajustées en logarithmes'},firstLine.parentNode);
+    firstLine.parentNode.insertBefore(trends,firstLine);
+    if (animate) {
+      const clipId = 'tc-trend-reveal-' + (++serial);
+      const clip = Charts.el('clipPath',{id:clipId,clipPathUnits:'userSpaceOnUse'},chart.svg.querySelector('defs'));
+      Charts.el('rect',{x:0,y:0,width:chart.svg.getAttribute('width'),height:chart.svg.getAttribute('height'),class:'ch-dash-reveal',style:'animation-duration:2s'},clip);
+      trends.setAttribute('clip-path',`url(#${clipId})`);
+    }
+    stats.forEach(item => Charts.el('path',{
+      d:`M${chart.S.X(1820)},${chart.S.Y(Math.exp(item.a))} L${chart.S.X(2022)},${chart.S.Y(Math.exp(item.a+item.b*202))}`,
+      class:'tc-trend',stroke:item.color,'stroke-dasharray':'8 6','stroke-width':2.5,opacity:.48,fill:'none',
+      'aria-label':`Tendance de ${item.name}`,'data-series':item.name,'data-slope':item.b
+    },trends));
+    box.dataset.growthRates = JSON.stringify(stats);
+    box.setAttribute('aria-label','France, États-Unis et monde, 1820–2022. Flèches gauche et droite : consulter les observations.');
+    positionPointer(element);
+  }
+
+  window.Deck.on(ID,{enter:draw,step:positionPointer});
+  window.addEventListener('resize',()=>{
+    const element = window.Deck.slideEl(ID); if (element) positionPointer(element);
+  });
+  window.addEventListener('beforeprint',()=>{
+    const element = window.Deck.slideEl(ID); if (element) draw(element,{print:true});
+  });
+  window.addEventListener('afterprint',()=>{
+    const element = window.Deck.slideEl(ID);
+    if (element && element.getBoundingClientRect().width > 0) draw(element,{reading:document.body.classList.contains('reading')});
+  });
 })();

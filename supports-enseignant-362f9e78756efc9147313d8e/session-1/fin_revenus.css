@@ -1,0 +1,50 @@
+/* Styles limités aux diapositives éditoriales de la partie 4. */
+.fin-revenus .fr-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:54px;height:100%;align-items:center}
+.fin-revenus .fr-copy,.fin-revenus .fr-visual{min-width:0}
+.fin-revenus .fr-bullets{margin:0;padding-left:30px;display:flex;flex-direction:column;gap:28px;font:400 31px/1.32 var(--serif)}
+.fin-revenus .fr-bullets li{padding-left:5px}
+.fin-revenus .fr-bullets li::marker,.fin-revenus .fr-bullets strong{color:#001F5F}
+.fin-revenus .fr-small{font:400 23px/1.28 var(--serif);color:#536078;margin:18px 0 0}
+.fin-revenus .fr-formula{display:flex;flex-direction:column;gap:30px;padding:38px 28px;background:#F3F6FA;border-left:4px solid #001F5F;font:400 30px/1.28 var(--serif)}
+.fin-revenus .fr-formula strong{font-size:44px;color:#001F5F}
+.fin-revenus .fr-formula b{color:#B45309;font-size:36px}
+.fin-revenus .fr-revenue-chart{width:100%;height:480px}
+.fin-revenus .fr-distribution{display:flex;flex-direction:column;align-items:stretch;gap:8px;text-align:center}
+.fin-revenus .fr-schema-head{background:#001F5F;color:white;padding:20px;font:700 29px/1.25 var(--serif)}
+.fin-revenus .fr-schema-box{border:1px solid #BAC4D3;padding:18px 20px;display:flex;flex-direction:column;gap:8px;font:400 29px/1.25 var(--serif)}
+.fin-revenus .fr-schema-box strong{color:#001F5F}
+.fin-revenus .fr-schema-arrow{color:#B45309;font-size:30px;line-height:1}
+.fin-revenus .fr-schema-question{color:#B45309;font:700 30px/1.25 var(--serif);margin:20px 0 0}
+.fin-revenus .macro-figure{height:auto;gap:10px;margin:0}
+.fin-revenus .macro-metadata{font-size:21px;line-height:1.25}
+.fin-revenus .macro-figure figcaption,.fin-revenus .macro-axis-note{font-size:21px;line-height:1.25}
+.fin-revenus .macro-legend{font-size:19px;gap:8px 20px}
+.fin-revenus .macro-chart-area .ch-ytitle{font-size:19px}
+.fin-revenus .macro-chart-area .ch-tick{font-size:22px}
+/* Les montants exacts restent dans les infobulles ; éviter vingt étiquettes serrées. */
+#comptes-distribues.fin-revenus .ch-val{display:none}
+#comptes-distribues .fr-bullets{font-size:30px;line-height:1.27;gap:22px}
+#comptes-distribues .fr-dina{font-size:27px}
+@media screen{#comptes-distribues:not(.show-all) .fr-distribution-figure:not(.on){visibility:hidden}}
+@media print{#comptes-distribues [data-step]{transition:none!important}}
+@media print{.fin-revenus [data-step]{opacity:1!important;visibility:visible!important;transform:none!important}}
+
+.fin-revenus .income-legend-text{font:400 21px var(--serif)}
+
+/* PIB–RNB : identité entière dès l’entrée, explication de périmètre au dernier clic. */
+#master-rnb .fr-rnb-layout{height:100%;display:flex;flex-direction:column;justify-content:center;gap:36px}
+#master-rnb .fr-rnb-top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:center}
+#master-rnb .fr-bullets{gap:23px;font-size:30px;line-height:1.27}
+#master-rnb .fr-formula{padding:25px 26px;gap:17px;font-size:30px;line-height:1.25}
+#master-rnb .fr-rnb-term{white-space:nowrap}
+#master-rnb sup{font-size:.65em;line-height:0;vertical-align:super}
+#master-rnb .fr-primary-note{font-size:22px;line-height:1.25;color:#697386;margin-top:15px}
+#master-rnb .fr-rnb-bubble{position:relative;background:#F0F3F8;border:1px solid #CCD4E0;border-radius:14px;padding:21px 28px 24px}
+#master-rnb .fr-rnb-bubble::before{content:"";position:absolute;bottom:100%;left:75%;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:23px solid #CCD4E0}
+#master-rnb .fr-rnb-bubble::after{content:"";position:absolute;bottom:100%;left:calc(75% + 1px);margin-bottom:-1px;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:22px solid #F0F3F8}
+#master-rnb .fr-rnb-bubble h3{color:#001F5F;font:700 30px/1.2 var(--serif);margin:0 0 17px}
+#master-rnb .fr-rnb-bubble ul{display:grid;grid-template-columns:1fr 1fr;gap:45px;margin:0;padding-left:27px;font:400 28px/1.28 var(--serif)}
+#master-rnb .fr-rnb-bubble li{padding-left:4px}
+#master-rnb .fr-rnb-bubble strong,#master-rnb .fr-rnb-bubble li::marker{color:#001F5F}
+body.reading #master-rnb .fr-rnb-bubble{opacity:1!important;transform:none!important;transition:none!important}
+@media print{#master-rnb .fr-rnb-bubble{opacity:1!important;transform:none!important;transition:none!important}}

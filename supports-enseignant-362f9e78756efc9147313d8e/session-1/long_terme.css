@@ -1,0 +1,19 @@
+/* Trois panneaux natifs Charts, charte du chapitre conservée. */
+.lt-figure{height:100%;margin:0;display:flex;flex-direction:column;gap:14px;min-height:0}
+.lt-meta{display:flex;justify-content:space-between;align-items:center;font-size:22px;color:var(--muted)}
+.lt-legend{display:flex;gap:28px;color:#000}
+.lt-legend span{display:inline-flex;align-items:center;gap:10px}
+.lt-legend i{display:inline-block;width:34px;border-top:4px solid #001F5F}
+.lt-legend .lt-usa{border-color:#738095;border-top-style:dashed}
+.lt-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;flex:1;min-height:0}
+.lt-panel{display:flex;flex-direction:column;min-height:0}
+.lt-panel h3{font:700 28px/1.15 var(--serif);color:var(--blue);margin:0 0 8px;min-height:65px}
+.lt-ratio{display:block;font-style:italic;margin-bottom:4px}
+.lt-unit{font-size:21px;line-height:1.2;min-height:51px;margin:0 0 8px;color:#000}
+.lt-chart{width:100%;flex:1;min-height:280px}
+.lt-chart .p-zin{position:relative}
+.lt-chart .ch-readout{max-width:100%;box-sizing:border-box;white-space:normal;z-index:3;font-family:var(--serif)}
+.lt-chart .p-zin:focus-visible{outline:2px solid #B45309;outline-offset:2px}
+.lt-figure figcaption{font-size:30px;line-height:1.2;text-align:center;color:var(--blue);margin:0}
+@media print{.lt-chart .ch-readout{display:none!important}.lt-chart .p-zin{outline:none!important}}
+@media(max-width:900px){body.reading .lt-panels{grid-template-columns:1fr}body.reading .lt-chart{min-height:360px}}

@@ -1,0 +1,45 @@
+/* Notes et commentaires : même famille de bulles que les définitions,
+ * avec titre orange foncé et fond orange clair pour garder le contraste. */
+:root {
+  --note-title:#B45309;
+  --note-background:#FFF3E6;
+  --note-border:#E6D2BF;
+}
+body:is(.proj,.reading) .slide :is(.callout,.warn,.retenir,.master-chain-note,.nv-log-reminder,.master-stocks-conclusion,.fin-climat-context,.tc-bubble),
+#master-rnb .fr-rnb-bubble,
+#heures-choix .pj-card {
+  background:var(--note-background);
+  border:1px solid var(--note-border);
+  border-radius:12px;
+  padding:20px 28px 22px;
+  box-shadow:none;
+  color:#000;
+  font:400 30px/1.34 var(--serif);
+}
+body:is(.proj,.reading) .slide :is(.callout,.warn,.retenir) .lbl {
+  color:var(--note-title);
+  font:600 22px/1 var(--serif);
+  margin-bottom:12px;
+}
+#master-rnb .fr-rnb-bubble h3,
+#heures-choix .pj-card .h {
+  color:var(--note-title);
+  font:620 36px/1.15 var(--serif);
+  margin:0 0 8px;
+}
+#heures-choix .pj-card .h > span {color:inherit}
+#heures-choix .pj-card p {font:400 30px/1.34 var(--serif)}
+#master-rnb .fr-rnb-bubble ul {font:400 30px/1.34 var(--serif)}
+#master-rnb .fr-rnb-bubble strong,
+#master-rnb .fr-rnb-bubble li::marker {color:var(--note-title)}
+#master-rnb .fr-rnb-bubble::before {border-bottom-color:var(--note-border)}
+#master-rnb .fr-rnb-bubble::after {border-bottom-color:var(--note-background)}
+.tc-bubble::before {border-bottom-color:var(--note-border)}
+.tc-bubble::after {border-bottom-color:var(--note-background)}
+body .slide .tc-bubble .tc-next {color:var(--note-title)}
+
+/* Conserver les tailles adaptées des rappels intégrés à des pages denses. */
+body:is(.proj,.reading) .slide .master-chain-note {font-size:26px}
+#master-ipc-poids .master-chain-note h2 {color:var(--note-title)}
+body:is(.proj,.reading) .slide .nv-log-reminder {padding:9px 18px;font-size:25px;line-height:1.25}
+.nv-log-reminder > strong {color:var(--note-title)}

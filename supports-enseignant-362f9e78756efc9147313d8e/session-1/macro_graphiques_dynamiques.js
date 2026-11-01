@@ -37,6 +37,21 @@
     host.appendChild(node);
   }
 
+  // Légendes internes aux deux graphiques de répartition (1er novembre 2026).
+  function incomeLegend(chart, fields, bottom=false) {
+    const svg=chart.svg, H=Number(svg.getAttribute('height'));
+    const x=chart.m.l+12, row=31, width=322, height=fields.length*row+18;
+    const y=bottom?H-chart.m.b-height-7:chart.m.t+10;
+    const g=C.el('g',{class:'income-inset-legend','pointer-events':'none'},svg);
+    C.el('rect',{x,y,width,height,rx:6,fill:'#FFFFFF','fill-opacity':.96},g);
+    fields.forEach((f,i)=>{
+      const yy=y+12+i*row;
+      const pattern=svg.querySelector('pattern[id^="macro-hatch-"]');
+      C.el('rect',{x:x+12,y:yy+1,width:23,height:15,fill:f.hatch&&pattern?`url(#${pattern.id})`:f.color},g);
+      C.txt(g,x+45,yy+17,f.name,'income-legend-text',{fill:'#000000'});
+    });
+  }
+
   // Barres et groupes : mêmes infobulles et touches que Charts.line.
   function inspectGroups(host, chart, rows, fields, title, format, ctx) {
     if (ctx.print) return;
@@ -75,6 +90,9 @@
   function install(id, metadata, render, options = {}) {
     const slide = window.SLIDES.find(s => s.id === id);
     if (!slide) throw new Error('Diapositive absente : ' + id);
+    // Certaines figures sont ensuite déplacées par fin_revenus.js. Leur HTML
+    // reste créé ici ; les interactions suivent la diapositive de destination.
+    const targetId = options.targetId || id;
     const caption = (slide.html.match(/<figcaption>([\s\S]*?)<\/figcaption>/) || [,''])[1];
     slide.cls = [slide.cls, 'macro-dynamic-slide', options.cls || ''].filter(Boolean).join(' ');
     slide.html = `<figure class="macro-figure"><p class="macro-metadata">${metadata}</p><div class="macro-chart-area"></div><figcaption>${caption}</figcaption></figure>`;
@@ -84,9 +102,28 @@
       target.innerHTML = '';
       render(target, ctx);
     };
-    window.Deck.on(id, {enter(el, ctx) { draw(el, ctx || {}); }});
-    window.addEventListener('beforeprint', () => { const el = window.Deck.slideEl(id); if (el) draw(el, {print:true}); });
-    window.addEventListener('afterprint', () => { const el = window.Deck.slideEl(id); if (el) draw(el, {reading:document.body.classList.contains('reading')}); });
+    const deferred = Number.isFinite(options.revealStep);
+    if (deferred) {
+      let visible = false;
+      const visibleAt = (el,step,ctx = {}) => ctx.reading || ctx.print || document.body.classList.contains('reading') || el.classList.contains('show-all') || step >= options.revealStep;
+      window.Deck.on(targetId, {
+        enter(el,ctx = {}) {
+          visible = visibleAt(el,ctx.step || 0,ctx);
+          // Préparer un tracé complet derrière le data-step : le mode lecture
+          // ne rappelle pas enter pour les diapositives déjà consultées.
+          draw(el,visible ? ctx : {...ctx,reading:true});
+        },
+        step(el,n,ctx = {}) {
+          const nextVisible = visibleAt(el,n);
+          if (nextVisible && !visible) {
+            draw(el,{reading:!!ctx.jump || document.body.classList.contains('reading') || el.classList.contains('show-all')});
+          }
+          visible = nextVisible;
+        }
+      });
+    } else window.Deck.on(targetId, {enter(el,ctx) { draw(el,ctx || {}); }});
+    window.addEventListener('beforeprint', () => { const el = window.Deck.slideEl(targetId); if (el) draw(el, {print:true}); });
+    window.addEventListener('afterprint', () => { const el = window.Deck.slideEl(targetId); if (el) draw(el, {reading:deferred || document.body.classList.contains('reading')}); });
   }
 
   function chartBox(host, height = 442, zoom = 1.2) {
@@ -151,9 +188,9 @@
       series:fields.map(f=>({name:f.name,color:f.color,values:rows.map(r=>r[f.key]/1000)}))});
     reveal(chart, ctx);
     inspectGroups(box, chart, rows, fields, r=>r.decile+' · France, 2023', v=>num(v,0)+' € par UC', ctx);
-    legend(host, fields);
+    incomeLegend(chart, fields);
     const note = document.createElement('p'); note.className = 'macro-axis-note'; note.textContent = 'Dixièmes de niveau de vie usuel, du plus modeste au plus aisé · avant imputation du déficit public'; host.appendChild(note);
-  });
+  }, {targetId:'comptes-distribues',revealStep:3});
 
   install('ai-croissance', 'États-Unis · 2022 T1–2026 T1 · Federal Reserve, figure 7, juillet 2026', (host, ctx) => {
     const rows = D.fed.rows;
@@ -202,7 +239,7 @@
     });
     const chart = {svg,S:{X,Y},m}; reveal(chart,ctx);
     inspectGroups(box, chart, rows, fields, r=>r.decile+' · France, 2023', v=>num(v,0)+' € par UC',ctx);
-    legend(host, fields);
+    incomeLegend(chart, fields, true);
     const note = document.createElement('p'); note.className = 'macro-axis-note'; note.textContent = 'Les retraites sont des prestations en espèces ; les services publics ne sont pas du cash.'; host.appendChild(note);
   });
 

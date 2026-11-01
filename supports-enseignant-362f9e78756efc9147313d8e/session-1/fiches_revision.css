@@ -1,0 +1,20 @@
+/* Fiches de référence : styles limités aux neuf écrans de l’annexe. */
+.slide.fiche-revision .slide-head h1{font-size:48px;line-height:1.08}
+.fiche-revision .fiche-layout{height:100%;display:flex;flex-direction:column;gap:18px;min-height:0}
+.fiche-revision .fiche-heading{display:flex;flex-direction:column;gap:5px}
+.fiche-revision .fiche-theme{margin:0;color:#001F5F;font:650 27px/1.15 var(--serif)}
+.fiche-revision .fiche-hint{margin:0;color:#536078;font:400 21px/1.2 var(--serif)}
+.fiche-revision .fiche-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:18px;flex:1;min-height:0}
+body:is(.proj,.reading) .slide.fiche-revision .definition-bubble,
+.slide.fiche-revision .fiche-benchmark{--definition-title-size:27px;--definition-text-size:25px;box-sizing:border-box;padding:18px 22px;min-width:0;background:#F0F3F8;border:1px solid #D9DDE3;border-radius:12px;box-shadow:none;color:#000;font-family:var(--serif)}
+body:is(.proj,.reading) .slide.fiche-revision .definition-bubble > .def-label,
+.slide.fiche-revision .fiche-card-label{margin:0 0 12px;color:#001F5F;font:600 22px/1 var(--serif)}
+body:is(.proj,.reading) .slide.fiche-revision .definition-bubble .def-term{font-size:27px;line-height:1.13;margin-bottom:10px}
+body:is(.proj,.reading) .slide.fiche-revision .definition-bubble .def-text{font-size:25px;line-height:1.22}
+.slide.fiche-revision .fiche-equation{font:500 27px/1.28 var(--serif);color:#001F5F;margin:10px 0;overflow-wrap:normal}
+.slide.fiche-revision .fiche-equation sub,.slide.fiche-revision .fiche-equation sup{font-size:.7em}
+.slide.fiche-revision .fiche-equation-line{display:block}
+.slide.fiche-revision .fiche-detail{margin:12px 0 0;color:#536078;font:400 21px/1.22 var(--serif)}
+.slide.fiche-revision .fiche-benchmark-title{font:650 26px/1.15 var(--serif);margin:0 0 15px;color:#000}
+.slide.fiche-revision .fiche-value{font:650 34px/1.1 var(--serif);font-variant-numeric:tabular-nums;color:#001F5F;margin:0 0 14px}
+.slide.fiche-revision .fiche-benchmark-text{font:400 25px/1.2 var(--serif);margin:0}

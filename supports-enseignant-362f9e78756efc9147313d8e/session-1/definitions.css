@@ -1,0 +1,99 @@
+/* Charte commune : fond, bordure et Palatino de la référence identite-defs.
+ * Les tailles denses restent réservées aux fiches et aux compositions déjà denses. */
+body:is(.proj,.reading) .slide .definition-bubble {
+  --definition-title-size:36px;
+  --definition-text-size:30px;
+  background:#F0F3F8;
+  border:1px solid #D9DDE3;
+  border-radius:12px;
+  padding:20px 28px 22px;
+  box-shadow:none;
+  color:#000;
+  font-family:var(--serif);
+}
+body:is(.proj,.reading) .slide :is(.definition-bubble,.pib-schema-readout) > .def-label {
+  color:#001F5F;
+  font:600 22px/1 var(--serif);
+  margin-bottom:12px;
+  text-align:left;
+  list-style:none;
+}
+/* Ajouter le label sans redistribuer les colonnes des cartes ou les termes
+ * des formules. Le texte garde son corps ; un espace est réservé au-dessus. */
+body:is(.proj,.reading) .slide .definition-label-added {
+  --definition-label-top:20px;
+  --definition-label-left:28px;
+  position:relative;
+  padding-top:calc(var(--definition-label-top) + 34px);
+}
+body:is(.proj,.reading) .slide .definition-label-added > .def-label {
+  position:absolute;
+  top:var(--definition-label-top);
+  left:var(--definition-label-left);
+  margin:0;
+  padding:0;
+}
+body:is(.proj,.reading) .slide .definition-bubble :is(.def-term,.definition-title) {
+  color:#000;
+  font:620 var(--definition-title-size)/1.15 var(--serif);
+  margin:0 0 8px;
+}
+body:is(.proj,.reading) .slide .definition-bubble :is(.def-term,.definition-title) > span {color:inherit}
+body:is(.proj,.reading) .slide .definition-bubble :is(.def-text,.definition-text),
+body:is(.proj,.reading) .slide .definition-bubble.definition-text {
+  color:#000;
+  font:400 var(--definition-text-size)/1.34 var(--serif);
+}
+body:is(.proj,.reading) .slide .definition-bubble .def-text {margin:0}
+body:is(.proj,.reading) .slide .definition-bubble .def-note {font-family:var(--serif)}
+body:is(.proj,.reading) .slide .definition-list {padding-left:0;gap:20px}
+body:is(.proj,.reading) .slide .definition-list > .definition-bubble {list-style:none}
+body:is(.proj,.reading) .slide .definition-list > .definition-bubble > .definition-title {display:block}
+body:is(.proj,.reading) .slide .definition-list > li:not(.definition-bubble) {margin-left:30px}
+
+/* Définitions alignées avec une formule : conserver les colonnes et indices. */
+#pib-def .definition-bubble {--definition-title-size:33px;--definition-text-size:28px}
+/* Le label tient dans la colonne du terme, sans ajouter une ligne au texte. */
+#pib-def .definition-label-added {padding-top:20px}
+#pib-def .bp-definition-formula {font-size:26px;line-height:1.3}
+#pib-def .bp-income-gloss {font-family:var(--serif);color:#536078}
+#pib-depenses .definition-bubble {--definition-title-size:29px;--definition-text-size:25px;padding:16px 15px}
+#pib-depenses .bp-trade-boxes .definition-bubble {--definition-text-size:23px;padding:16px 10px}
+#pib-depenses .definition-bubble .bp-small-note {font-size:23px;color:#536078}
+#pib-depenses .definition-bubble p {margin-bottom:8px}
+#pib-depenses .definition-bubble p:last-child {margin-bottom:0}
+#pib-depenses .bp-spending-col {gap:10px}
+#pib-depenses .bp-eq-term {height:84px}
+#pib-depenses .definition-label-added {--definition-label-top:10px;--definition-label-left:15px;padding-top:40px;padding-bottom:10px}
+#pib-depenses .bp-trade-boxes .definition-label-added {--definition-label-left:10px;padding-top:40px;padding-bottom:10px}
+#master-ipc-formule .definition-bubble .definition-text {font-size:36px}
+#master-ipc-poids .definition-bubble {--definition-title-size:30px;--definition-text-size:26px}
+#master-ipc-poids .definition-bubble .master-chain-example {font-size:25px}
+#master-ipc-poids .definition-bubble .master-chain-limit {font-size:24px}
+
+/* La formule RNB entière garde ses termes internationaux sur une seule ligne. */
+#master-rnb .fr-formula.definition-bubble {gap:17px}
+#master-rnb .fr-formula.definition-label-added {--definition-label-left:26px;padding-top:54px}
+#master-rnb .fr-formula .definition-title {margin:0}
+#master-rnb .fr-rnb-term {margin:0}
+#master-rnb .fr-rnb-term b {font:inherit;color:#000}
+#master-rnb .fr-rnb-top > .definition-bubble {--definition-title-size:30px;--definition-text-size:30px;list-style:none;gap:23px}
+#master-rnb .fr-rnb-top > .definition-bubble li {padding:0}
+#master-rnb .fr-rnb-top > .definition-bubble .definition-title {margin:0}
+
+/* Les fiches révisées ont leurs tailles locales dans fiches_revision.css. */
+
+/* Rappels à côté des graphiques : les commandes et courbes restent accessibles. */
+#decouplage-emergents .definition-bubble {--definition-title-size:30px;--definition-text-size:28px;padding:16px 22px}
+#decouplage-emergents .definition-label-added {--definition-label-top:16px;--definition-label-left:22px;padding-top:50px}
+
+/* Définitions consultables dans les schémas : mêmes codes, sans changer le SVG. */
+body .slide .pib-schema-readout {
+  background:#F0F3F8;
+  border:1px solid #D9DDE3;
+  border-radius:12px;
+  box-shadow:none;
+  padding:16px 22px;
+  color:#000;
+  font:400 23px/1.34 var(--serif);
+}
