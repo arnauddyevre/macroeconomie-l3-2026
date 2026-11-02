@@ -19,6 +19,9 @@
 #pib-revenu #pj-rev .rm-readout{left:7px;right:auto;max-width:calc(100% - 14px);width:490px;box-sizing:border-box;font:400 20px/1.26 var(--serif);white-space:normal;z-index:5;padding:13px 16px;background:rgba(255,255,255,.98);border-color:#BAC4D3;box-shadow:0 3px 14px rgba(0,31,95,.13)}
 #pib-revenu .rm-readout strong,#pib-revenu .rm-readout span{display:block}
 #pib-revenu .rm-readout strong{color:#001F5F;margin-bottom:7px}
+#pib-revenu .rm-readout .rm-examples{margin:8px 0;padding-left:22px}
+#pib-revenu .rm-readout .rm-examples li{margin:4px 0;padding:0}
+#pib-revenu .rm-readout .rm-result{margin-top:8px}
 body.reading #pib-revenu .rm-bar{animation:none!important;transform:none!important}
 @media(prefers-reduced-motion:reduce){#pib-revenu .rm-bar{animation:none!important;transform:none!important}}
 @media print{

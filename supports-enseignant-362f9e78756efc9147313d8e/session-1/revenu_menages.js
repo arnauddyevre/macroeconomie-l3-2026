@@ -17,7 +17,14 @@
     {key:'rnb',label:'RNB',value:D.rnb,start:0,end:D.rnb,
       detail:'Revenu national brut : revenus primaires des résidents, y compris le solde des revenus primaires avec l’étranger.'},
     {key:'transfers',label:'Transferts courants nets à l’étranger',value:D.netCurrentTransfersAbroad,start:afterTransfers,end:D.rnb,deduction:true,
-      detail:`Transferts courants versés au reste du monde, nets de ceux reçus. Après ce solde, le revenu national disponible brut est de ${fmt(D.rndb,3)} milliards d’euros.`},
+      detail:'Transferts courants versés au reste du monde moins ceux reçus. Exemples :',
+      examples:[
+        'Rémittances : argent envoyé à la famille résidant à l’étranger.',
+        'Impôts courants, cotisations et prestations sociales, dont les pensions.',
+        'Aides et contributions courantes de coopération internationale.',
+        'Primes nettes et indemnités d’assurance dommages.'
+      ],
+      result:`Après ce solde, le revenu national disponible brut est de ${fmt(D.rndb,3)} milliards d’euros.`},
     {key:'corporations',label:'Revenu disponible des sociétés',value:D.corporations,start:afterCorporations,end:afterTransfers,deduction:true,
       detail:'Revenu disponible des sociétés financières et non financières, après rémunérations, revenus de propriété et redistribution. Il contribue notamment au financement de leur investissement. Les entrepreneurs individuels sont inclus dans le secteur des ménages.'},
     {key:'other-sectors',label:'Administrations publiques et associations',value:otherSectors,start:afterCorporations-otherSectors,end:afterCorporations,deduction:true,
@@ -80,6 +87,22 @@
       const detail = document.createElement('span');
       detail.textContent = row.detail;
       tip.append(title,detail);
+      if (row.examples) {
+        const examples = document.createElement('ul');
+        examples.className = 'rm-examples';
+        row.examples.forEach(example => {
+          const item = document.createElement('li');
+          item.textContent = example;
+          examples.appendChild(item);
+        });
+        tip.appendChild(examples);
+      }
+      if (row.result) {
+        const result = document.createElement('span');
+        result.className = 'rm-result';
+        result.textContent = row.result;
+        tip.appendChild(result);
+      }
       tip.hidden = false;
       tip.classList.add('on');
       const lower = barY(index)+barH+10;
@@ -92,7 +115,7 @@
         class:`rm-row${row.deduction ? ' rm-deduction' : ''}`,
         tabindex:ctx.print ? null : 0,'data-keys':'','data-row':row.key,
         'data-start':row.start,'data-end':row.end,'data-value':row.value,
-        role:'img','aria-label':`${row.label} : ${row.deduction ? 'moins ' : ''}${fmt(row.value,3)} milliards d’euros. ${row.detail}`,
+        role:'img','aria-label':`${row.label} : ${row.deduction ? 'moins ' : ''}${fmt(row.value,3)} milliards d’euros. ${[row.detail,...(row.examples || []),row.result].filter(Boolean).join(' ')}`,
         'aria-describedby':tip.id
       },svg);
       groups.push(group);

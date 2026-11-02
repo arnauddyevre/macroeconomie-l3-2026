@@ -11,7 +11,7 @@ Arnaud Dyèvre
 | 1. Mesurer la richesse nationale | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/cours.pdf) |
 | Exercice : D’où vient la croissance du niveau de vie ? | — | [Télécharger l’exercice sans corrigé](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/exercices/niveau_vie_exercice_etudiant.pdf) |
 
-Version du 1er novembre 2026, destinée à la préparation du cours : les exercices sont proposés sans corrigé. Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe.
+Version du 2 novembre 2026, destinée à la préparation du cours : les exercices sont proposés sans corrigé. Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur.
 
 Les ordinateurs ne sont pas autorisés en classe. Les PDF peuvent être imprimés et annotés ; les calculs au tableau sont à prendre en note.
 

@@ -61,6 +61,15 @@
 .master-wealth-sided .master-wealth-legend i{flex-shrink:0}
 .master-wealth-legend i.master-wealth-swatch{width:23px;height:12px;border-radius:0;border:1px solid rgba(0,0,0,.12)}
 .master-wealth-legend i.master-wealth-total{width:26px;height:0;border-top:3px dashed #111;border-radius:0}
+.master-wealth-legend .master-wealth-info{font:inherit;line-height:inherit;color:inherit;text-align:left;border:0;padding:0;background:none;cursor:help;text-decoration:underline dotted;text-underline-offset:4px}
+.master-wealth-legend .master-wealth-info:focus-visible{outline:2px solid #001F5F;outline-offset:4px;border-radius:3px}
+.master-wealth-native .master-wealth-definition{position:absolute;z-index:6;width:520px;max-width:calc(100% - 24px);box-sizing:border-box;padding:18px 22px;background:#F0F3F8;border:1px solid #D9DDE3;border-radius:12px;color:#000;font:400 20px/1.25 var(--serif);white-space:normal}
+.master-wealth-definition::after{content:"";position:absolute;right:-7px;top:calc(var(--wealth-tip-anchor,50%) - 7px);width:12px;height:12px;transform:rotate(45deg);background:#F0F3F8;border-top:1px solid #D9DDE3;border-right:1px solid #D9DDE3}
+.master-wealth-definition .master-wealth-definition-label{font-size:18px;font-weight:600;color:#001F5F;margin-bottom:8px}
+.master-wealth-definition h3{font:600 23px/1.2 var(--serif);color:#000;margin:0 0 9px}
+.master-wealth-definition p{font:inherit;margin:0}
+.master-wealth-definition ul{padding-left:22px;margin:10px 0;display:flex;flex-direction:column;gap:7px}
+.master-wealth-definition .master-wealth-definition-note{font-size:17px;color:#536078}
 .master-wealth-native .ch-readout{font-size:16px;z-index:2}
 .master-wealth-readout-year{font-weight:700;margin-bottom:4px}
 .master-wealth-readout-total{border-top:1px solid var(--line);margin-top:5px;padding-top:4px}
@@ -69,3 +78,4 @@
 .master-wealth-reveal{transform-origin:0 0;animation:master-wealth-draw 2s ease-out both}
 @media (prefers-reduced-motion:reduce){.master-wealth-reveal{animation:none!important;transform:none!important}}
 @media print{.master-wealth-reveal{animation:none!important;transform:none!important}.master-wealth-native{outline:none!important}}
+@media print{.master-wealth-definition{display:none!important}.master-wealth-legend .master-wealth-info{text-decoration:none;outline:none}}

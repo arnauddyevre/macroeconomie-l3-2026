@@ -102,9 +102,53 @@
     reveal(chart, [...areas.querySelectorAll('path'), ...chart.svg.querySelectorAll('.ch-line')], animate(ctx));
     const legend = document.createElement('div');
     legend.className = 'ch-legend master-wealth-legend';
-    legend.innerHTML = data.components.map(s => `<span><i class="master-wealth-swatch" style="background:${fills[s.key]}"></i><span>${esc(s.name)}</span></span>`).join('') + `<span><i class="master-wealth-total"></i><span>${totalName}</span></span>`;
+    legend.innerHTML = data.components.map(s => `<span><i class="master-wealth-swatch" style="background:${fills[s.key]}"></i>${s.key === 'other_domestic' ? `<button type="button" class="master-wealth-info" data-keys>${esc(s.name)}</button>` : `<span>${esc(s.name)}</span>`}</span>`).join('') + `<span><i class="master-wealth-total"></i><span>${totalName}</span></span>`;
     box.appendChild(legend);
+    domesticCapitalDefinition(box, legend, key, ctx);
     areaReadout(box, chart, data, height, totalName);
+  }
+
+  function domesticCapitalDefinition(box, legend, key, ctx) {
+    const trigger = legend.querySelector('.master-wealth-info');
+    const tip = document.createElement('aside');
+    tip.className = 'master-wealth-definition';
+    tip.id = `master-wealth-${key}-definition`;
+    tip.setAttribute('role','tooltip');
+    tip.hidden = true;
+    tip.innerHTML = '<div class="master-wealth-definition-label">Définition</div><h3>Autre capital intérieur</h3><p>Valeur des entreprises et autres actifs privés et publics, nets des dettes.</p><ul><li>Bâtiments professionnels, machines, équipements et stocks.</li><li>Bâtiments et équipements publics : écoles, hôpitaux, infrastructures.</li><li>Brevets et autres actifs incorporels valorisés dans les entreprises.</li></ul><p class="master-wealth-definition-note">Terres agricoles et logements sont isolés à part, avec une ventilation historique parfois approximative.</p>';
+    box.appendChild(tip);
+    trigger.setAttribute('aria-describedby',tip.id);
+    if (ctx.print) trigger.tabIndex = -1;
+    let pending;
+    function show() {
+      clearTimeout(pending);
+      if (ctx.print) return;
+      tip.hidden = false;
+      const bounds = box.getBoundingClientRect(), anchor = trigger.getBoundingClientRect();
+      const scale = bounds.width / box.clientWidth;
+      const center = (anchor.top + anchor.height / 2 - bounds.top) / scale;
+      const top = Math.max(8, Math.min(center - tip.offsetHeight / 2, box.clientHeight - tip.offsetHeight - 8));
+      tip.style.left = `${Math.max(8, (anchor.left - bounds.left) / scale - tip.offsetWidth - 18)}px`;
+      tip.style.top = `${top}px`;
+      tip.style.setProperty('--wealth-tip-anchor',`${Math.max(16, Math.min(tip.offsetHeight - 16, center - top))}px`);
+    }
+    function hide() { clearTimeout(pending); tip.hidden = true; }
+    function deferHide() {
+      clearTimeout(pending);
+      pending = setTimeout(() => {
+        if (!trigger.matches(':hover,:focus') && !tip.matches(':hover')) hide();
+      }, 140);
+    }
+    trigger.addEventListener('pointerenter',show);
+    trigger.addEventListener('pointerleave',deferHide);
+    trigger.addEventListener('focus',show);
+    trigger.addEventListener('blur',deferHide);
+    trigger.addEventListener('click',show);
+    trigger.addEventListener('keydown',event => {
+      if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); hide(); trigger.blur(); }
+    });
+    tip.addEventListener('pointerenter',() => clearTimeout(pending));
+    tip.addEventListener('pointerleave',deferHide);
   }
 
   function areaReadout(box, chart, data, height, totalName) {
@@ -134,6 +178,7 @@
     box.setAttribute('aria-label','Composition du patrimoine. Survolez les aires ou utilisez les flèches gauche et droite pour lire les dates.');
     box.addEventListener('focus',() => show(current));
     box.addEventListener('keydown',event => {
+      if (event.target !== box) return;
       if (['ArrowLeft','ArrowRight','Home','End','Escape'].includes(event.key)) {event.preventDefault();event.stopPropagation();}
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') show(current + (event.key === 'ArrowRight' ? 1 : -1));
       if (event.key === 'Home') show(0);
