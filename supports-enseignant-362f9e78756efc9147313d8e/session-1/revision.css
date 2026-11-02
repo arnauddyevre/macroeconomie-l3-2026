@@ -1,10 +1,11 @@
 /* Charte Arnaud Dyèvre, 2026. Le moteur et la structure d’Antonin sont conservés. */
-/* Repères de progression demandés les 27 octobre et 1er novembre 2026, conservés dans les exports étudiants. */
-#four,#exercice-niveau-vie-1{overflow:hidden}
-#four .slide-head,#exercice-niveau-vie-1 .slide-head{max-width:1200px}
-#four::after,#exercice-niveau-vie-1::after{position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
+/* Repères de progression demandés les 27 octobre, 1er et 2 novembre 2026, conservés dans les exports étudiants. */
+#four,#exercice-niveau-vie-1,#transition-croissance{overflow:hidden}
+#four .slide-head,#exercice-niveau-vie-1 .slide-head,#transition-croissance .slide-head{max-width:1200px}
+#four::after,#exercice-niveau-vie-1::after,#transition-croissance::after{position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
 #four::after{content:"Fin du premier cours"}
 #exercice-niveau-vie-1::after{content:"Fin du deuxième cours"}
+#transition-croissance::after{content:"Fin du troisième cours"}
 :root{--paper:#fff;--paper-2:#f4f5f7;--stone:#f1f3f6;--ink:#000;--ink-2:#000;--muted:#536078;--rule:#cdd2da;--rule-2:#e8ebef;--blue:#001F5F;--blue-d:#001F5F;--blue-w:#f0f3f8;--red:#B45309;--red-d:#8a3e07;--red-w:#fbf4ee;--teal:#526780;--teal-d:#001F5F;--teal-w:#f0f3f8;--amber:#B45309;--amber-d:#8a3e07;--amber-w:#fbf4ee;--amber-f:#fbf4ee;--violet:#526780;--violet-d:#001F5F;--violet-w:#f0f3f8;--olive:#526780;--prune:#001F5F;--slate:#738095;--grey:#cdd2da;--sans:Palatino,"Palatino Linotype","Book Antiqua","TeX Gyre Pagella",serif;--serif:var(--sans);--line:#d9dde3;--line-stone:#d9dde3;--line-blue:#d9dde3;--line-teal:#d9dde3;--line-red:#e6d2bf;--line-amber:#e6d2bf;--line-violet:#d9dde3;--line-paper:#d9dde3}
 body.proj .slide h1,.cover-title,.sec-q,.sec-num,.def-term,.pj-card .h,.kicker,.cover-chap{color:var(--blue)}
 .k-vol,.k-h,.k-pop,.k-nom,.k-rev,.k-med,.k-em,.k-int,.k-res{color:#000}
