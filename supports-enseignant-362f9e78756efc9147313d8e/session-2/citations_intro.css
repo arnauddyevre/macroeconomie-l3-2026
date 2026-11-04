@@ -1,0 +1,69 @@
+/* Écran d'ouverture demandé le 3 novembre 2026. Styles limités à cet écran. */
+#croissance-monde-fini {
+  --sans: Palatino, "Palatino Linotype", "Book Antiqua", serif;
+  --serif: Palatino, "Palatino Linotype", "Book Antiqua", serif;
+  font-family: var(--serif);
+  color: #000;
+  background: #fff;
+}
+#croissance-monde-fini .kicker { display: none; }
+#croissance-monde-fini h1 { color: #001F5F; }
+#croissance-monde-fini .citations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px;
+  height: 100%;
+  padding-top: 4px;
+}
+#croissance-monde-fini .citation-col {
+  display: grid;
+  grid-template-rows: 392px 204px 100px;
+  min-width: 0;
+}
+#croissance-monde-fini figure { margin: 0; text-align: center; }
+#croissance-monde-fini img {
+  display: block;
+  height: 360px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
+}
+#croissance-monde-fini figcaption {
+  margin-top: 8px;
+  color: #536078;
+  font: 400 15px/1.25 var(--serif);
+}
+#croissance-monde-fini figcaption a { color: inherit; text-decoration: none; }
+#croissance-monde-fini figcaption a:hover,
+#croissance-monde-fini figcaption a:focus-visible { text-decoration: underline; }
+#croissance-monde-fini blockquote {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: italic 400 24px/1.32 var(--serif);
+  color: #000;
+}
+#croissance-monde-fini .citation-attribution { margin: 0; }
+#croissance-monde-fini .citation-attribution strong {
+  display: block;
+  font: 700 24px/1.2 var(--serif);
+  color: #001F5F;
+}
+#croissance-monde-fini .citation-attribution span {
+  display: block;
+  margin-top: 6px;
+  font: 400 20px/1.25 var(--serif);
+  color: #536078;
+}
+
+#croissance-monde-fini .citation-attribution .citation-context { font-size: 17px; }
+
+#croissance-monde-fini .rapport-these {
+  align-self: center;
+  margin: 0;
+  font: 400 24px/1.32 var(--serif);
+}
+#croissance-monde-fini .rapport-these b { color: #001F5F; }
