@@ -16,16 +16,16 @@ Supports de cours mis à jour le 4 novembre 2026 : les exercices intégrés aux 
 
 ## Annales
 
-Sujets et corrigés ajoutés le 8 novembre 2026. Ils correspondent aux programmes des années indiquées. Le programme et les modalités de 2026 figurent dans le [syllabus](https://arnauddyevre.github.io/macroeconomie-l3-2026/syllabus.html).
+Sujets et corrigés ajoutés le 8 novembre 2026, errata le 9 novembre 2026. Les sujets et corrigés correspondent aux programmes des années indiquées. Pour chaque année, l’errata corrige les erreurs relevées dans le sujet ou le corrigé. Le programme et les modalités de 2026 figurent dans le [syllabus](https://arnauddyevre.github.io/macroeconomie-l3-2026/syllabus.html).
 
-| Année | Sujet (PDF) | Corrigé (PDF) |
-|---|---|---|
-| 2025 | [Français](annales/examen-2025-sujet.pdf) | [Français](annales/examen-2025-corrige.pdf) |
-| 2024 | [Français](annales/examen-2024-sujet.pdf) | [Français](annales/examen-2024-corrige.pdf) |
-| 2023 | [Français](annales/examen-2023-sujet.pdf) | [Français](annales/examen-2023-corrige.pdf) |
-| 2022 | [Français](annales/examen-2022-sujet.pdf) | [Français](annales/examen-2022-corrige.pdf) |
-| 2019 | [Français](annales/examen-2019-sujet.pdf) | [Anglais](annales/examen-2019-corrige.pdf) |
-| 2018 | [Français](annales/examen-2018-sujet.pdf) | [Anglais](annales/examen-2018-corrige.pdf) |
+| Année | Sujet (PDF) | Corrigé (PDF) | Errata (PDF) |
+|---|---|---|---|
+| 2025 | [Français](annales/examen-2025-sujet.pdf) | [Français](annales/examen-2025-corrige.pdf) | [Français](annales/errata-2025.pdf) |
+| 2024 | [Français](annales/examen-2024-sujet.pdf) | [Français](annales/examen-2024-corrige.pdf) | [Français](annales/errata-2024.pdf) |
+| 2023 | [Français](annales/examen-2023-sujet.pdf) | [Français](annales/examen-2023-corrige.pdf) | [Français](annales/errata-2023.pdf) |
+| 2022 | [Français](annales/examen-2022-sujet.pdf) | [Français](annales/examen-2022-corrige.pdf) | [Français](annales/errata-2022.pdf) |
+| 2019 | [Français](annales/examen-2019-sujet.pdf) | [Anglais](annales/examen-2019-corrige.pdf) | [Français](annales/errata-2019.pdf) |
+| 2018 | [Français](annales/examen-2018-sujet.pdf) | [Anglais](annales/examen-2018-corrige.pdf) | [Français](annales/errata-2018.pdf) |
 
 Les ordinateurs ne sont pas autorisés en classe. Les PDF peuvent être imprimés et annotés ; les calculs au tableau sont à prendre en note.
 
