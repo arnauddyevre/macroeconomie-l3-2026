@@ -1,6 +1,32 @@
 
 :root{--sans:Palatino,"Palatino Linotype","Book Antiqua",serif;--serif:var(--sans);--blue:#001F5F;--amber:#B45309;--ink:#000;--paper:#fff}
 
+#s1-entreprise{overflow:hidden}
+#s1-entreprise .slide-head{max-width:1200px}
+#s1-entreprise .sf-firm-assumptions>li:first-child{padding-right:140px}
+#s1-entreprise::after{content:"Fin du cours 4";position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
+
+#s1-annales .slide-body{gap:44px}
+#s1-annales .sf-annales-list{font-size:35px;line-height:1.4}
+#s1-annales .sf-annales-list strong{color:#001F5F}
+.sf-annales-access{margin-top:18px;font-size:30px;line-height:1.45}
+.sf-annales-access p{margin:0 0 14px}
+.sf-annales-access a{font-size:36px;color:#001F5F;text-underline-offset:7px;overflow-wrap:anywhere}
+
+#s1-prix .sf-prices-layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:36px;align-items:center}
+#s1-prix .sf-price-calculations{min-width:0}
+#s1-prix .sf-optimization-reminder{background:#FFF1F2;border:1px solid #E6BFC4;border-radius:12px;padding:24px 26px;color:#991B1B}
+#s1-prix .sf-optimization-reminder h2{font-size:32px;line-height:1.2;color:#991B1B;margin:0 0 18px}
+#s1-prix .sf-optimization-reminder p{font-size:28px;line-height:1.35;margin:0}
+#s1-prix.sf-prices-static .sf-optimization-reminder{padding:20px 24px}
+#s1-prix.sf-prices-static .sf-optimization-reminder h2{font-size:29px;margin-bottom:14px}
+#s1-prix.sf-prices-static .sf-optimization-reminder p{font-size:26px;line-height:1.3}
+.slide#s1-prix.sf-prices-static .sf-optimization-method{font-size:22px;line-height:1.25;padding:14px 22px}
+.slide#s1-prix.sf-prices-static .sf-convex-definition{padding:12px 22px}
+.slide#s1-prix.sf-prices-static .sf-convex-definition ul,.slide#s1-prix.sf-prices-static .sf-convex-definition p{font-size:20px;line-height:1.18}
+.slide#s1-prix.sf-prices-static .sf-prices .g-eq{font-size:29px;line-height:1.1;margin:2px 0}
+.slide#s1-prix.sf-prices-static .sf-share{font-size:30px;padding:4px 22px}
+
 @media screen{.slide:not(.show-all) [data-step]:not(.on){visibility:hidden;opacity:0;pointer-events:none}}
 .slide.show-all [data-step]{visibility:visible;opacity:1}
 @media print{.slide [data-step]{visibility:visible!important;opacity:1!important}}

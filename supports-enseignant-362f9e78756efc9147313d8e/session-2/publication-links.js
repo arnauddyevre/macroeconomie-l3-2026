@@ -1,5 +1,5 @@
 (() => {
-  const allowed=new Set(["index.html","cours.pdf"].map(p=>new URL(p,location.href).pathname));
+  const allowed=new Set(["index.html","cours.pdf","sources/citations_monde_fini_2026-11-03/Kenneth_E._Boulding.jpg","sources/limits_to_growth_1972/couverture_capture.png","sources/citations_monde_fini_2026-11-03/camille_etienne.png","sources/corees_espace_2012/8249377151_692e248e6b_o.jpg","sources/portrait_solow_2026-11-03/Robert_Solow_by_Olaf_Storbeck.jpg","sources/pgf_2026-11-09/images/solow.jpg","sources/pgf_2026-11-09/images/romer.jpg","sources/pgf_2026-11-09/images/education.jpg","sources/pgf_2026-11-09/figures/education_niveau.png","sources/pgf_2026-11-09/images/recherche.jpg","sources/pgf_2026-11-09/images/automatisation.png","sources/pgf_2026-11-09/images/automatisation_travail.png","sources/pgf_2026-11-09/images/institutions.jpg","sources/pgf_2026-11-09/figures/institutions_propriete.png","sources/pgf_2026-11-09/figures/institutions_corruption.png","sources/pgf_2026-11-09/figures/management_liens.png","sources/pgf_2026-11-09/images/pesticides.jpg"].map(p=>new URL(p,location.href).pathname));
   const published=new Map([].map(([local,url])=>[new URL(local,location.href).pathname,url]));
   const publicSource=url => {
   if(url.includes('19340104_nationalinc.pdf'))return 'https://fraser.stlouisfed.org/title/national-income-1929-1932-971';
