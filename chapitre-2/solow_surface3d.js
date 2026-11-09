@@ -190,7 +190,7 @@
         show(current());
       });
     }
-    
+
     if(animate && !state.static && !matchMedia('(prefers-reduced-motion: reduce)').matches){
       state.progress=0;labels.setAttribute('opacity','0');state.sliceLayer.setAttribute('opacity','0');cells.forEach(cell=>cell.node.style.display='none');
       let start=null;
@@ -204,8 +204,8 @@
       state.frame=requestAnimationFrame(tick);
     }
   }
-  
-  
+
+
   function updateSlice(state) {
     const {slice, gradient, sliceLayer: layer, project, alpha, width: W} = state;
     if(!layer||!project)return;
@@ -232,7 +232,7 @@
       const start=project(lo,L,Y+slope*(lo-K)),end=project(hi,L,Y+slope*(hi-K));
       element('line',{x1:start.x,y1:start.y,x2:end.x,y2:end.y,stroke:'#fff','stroke-width':6},layer);
       element('line',{x1:start.x,y1:start.y,x2:end.x,y2:end.y,stroke:ORANGE,'stroke-width':3,'stroke-dasharray':'8 5','class':'sf-surface-tangent','data-slope':slope},layer);
-      
+
       const anchorK=Math.max(0.5,K-1.2),anchor=project(anchorK,L,Y+slope*(anchorK-K));
       text(layer,clamp(anchor.x-8,75,W-95),anchor.y-22,'Tangente',{'font-size':19,'font-weight':600,fill:ORANGE,stroke:'#fff','stroke-width':4,'paint-order':'stroke fill','text-anchor':'end'});
     }
@@ -241,8 +241,8 @@
     text(layer,clamp(labelPoint.x+10,30,W-82),labelPoint.y-12,'L = '+fmt(L),{'font-size':21,'font-weight':700,'font-style':'italic',fill:BLUE,stroke:'#fff','stroke-width':4,'paint-order':'stroke fill'});
     layer.setAttribute('opacity',state.progress<1?'0':'1');
   }
-  
-  
+
+
   function updateGradient(state) {
     const {gradient, sliceLayer:layer, project, alpha, width:W, height:H}=state;
     const {K,L,tangent}=gradient,Y=production(K,L,1,alpha);
@@ -274,7 +274,7 @@
       element('path',{d,fill:'none',stroke:'#fff','stroke-width':7,'stroke-linejoin':'round'},layer);
       element('path',{d,fill:'none',stroke:section.ink,'stroke-width':3.4,'stroke-linejoin':'round',
         'class':'sf-surface-gradient-curve','data-axis':section.axis,'data-fixed':section.fixed},layer);
-      
+
       const p=points[points.length-1];
       placeLabel({x:p.x+(section.axis==='K'?28:-28),y:p.y},section.caption,section.ink,20,25);
     });
@@ -289,7 +289,7 @@
         element('line',{x1:start.x,y1:start.y,x2:end.x,y2:end.y,stroke:direction.ink,'stroke-width':3,
           'stroke-dasharray':direction.dash,'class':'sf-surface-tangent sf-surface-gradient-tangent',
           'data-axis':direction.axis,'data-slope':direction.slope},layer);
-        
+
         const t=Math.min(hi,direction.value<=4?6.8:1.2),anchor=project(...direction.point(t));
         const derivative=direction.slope.toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3});
         const label=placeLabel(anchor,'∂Y/∂'+direction.axis+' = '+derivative,direction.ink,19,-24);

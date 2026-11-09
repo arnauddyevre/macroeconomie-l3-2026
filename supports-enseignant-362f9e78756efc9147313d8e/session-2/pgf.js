@@ -19,7 +19,7 @@
   const add=(n,obj,detail='')=>G.add({part,cls:'pgf-slide',source:'',prov:[77,78,82,83].includes(n)?'obs':null,planPosition:n-16,sourceSlide2025:n,...obj,
     notes:`<p>Reprise de la diapositive ${n} de Chp_2_partie_2_croissance.pptx, archive HEC 2025 en lecture seule. Demande d’Arnaud du 9 novembre 2026 : conserver la succession des diapositives, appliquer la charte et illustrer les pages de contenu. Texte original et provenance : sources/pgf_2026-11-09/extraction_pptx.json.</p>${detail}`});
 
-  add(73,{id:'s3',layout:'section',title:part,html:G.plan(2)},'<p>La séparation reprend le plan commun, sur fond marine, avec la troisième section active. Elle remplace la couverture illustrée du support historique. La section 2 reste à construire ; aucun écran de remplacement n’est ajouté.</p>');
+  add(73,{id:'s3',layout:'section',title:part,html:G.plan(2)},'<p>La séparation reprend le plan commun, sur fond marine, avec la troisième section active. Elle remplace la couverture illustrée du support historique. La section 2 commence désormais par cinq écrans sur la décomposition des écarts de niveaux ; sa suite reste à discuter.</p>');
 
   add(74,{id:'s3-solow-exogene',title:'Manna from heaven ?',html:split(bullets([
     'Robert Solow présente son modèle de croissance en <strong>1956</strong>, dans le contexte de la reconstruction et de la généralisation des comptes nationaux.',

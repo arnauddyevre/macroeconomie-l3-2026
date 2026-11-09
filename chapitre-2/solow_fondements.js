@@ -12,7 +12,7 @@
   const show = (step, html) => `<div data-step="${step}">${html}</div>`;
   const text = html => `<p class="g-note">${html}</p>`;
   const add = (position, obj) => G.add(Object.assign({part, source:''}, obj));
-  
+
   const buttons = (id, values) => `<div class="g-controls sf-controls" id="${id}" role="group">${values.map(([value,label])=>`<button type="button" data-value="${value}" aria-pressed="false">${label}</button>`).join('')}</div>`;
   function control(el, id, fallback, onChange, stat) {
     const box = el.querySelector('#'+id);
@@ -57,10 +57,10 @@
   `;
   document.head.appendChild(style);
 
-  
+
   add(8,{id:'s1',layout:'section',title:part,source:'',html:G.plan(0)});
 
-  
+
   add(9,{id:'s1-definition-modele',title:'Qu’est-ce qu’un modèle économique ?',html:`<div class="sf-definition-layout"><ol class="sf-definition">
     <li><strong>Équations</strong> : relations économiques d’intérêt
       <ul><li>Par exemple : Cobb–Douglas : ${m('Y<sub>t</sub> = A<sub>t</sub> K<sub>t</sub><sup>α</sup> L<sub>t</sub><sup>1−α</sup>')}</li></ul>
@@ -81,7 +81,7 @@
     <p><strong>Idéalement :</strong> un modèle = un mécanisme d’intérêt principal</p>
   </aside></div>`});
 
-  
+
   add(10,{id:'s1-economie',title:'Notre économie : variables et hypothèses',html:`<div class="sf-economy">
     <section class="g-panel"><h2>Quantités</h2><table class="sf-vars">
       <tr><td>${m('Y, C, I')}</td><td>Production, consommation, investissement</td></tr>
@@ -109,7 +109,7 @@
     </ul></section>
   </div>`});
 
-  
+
   add(11,{id:'s1-modele',title:'Le modèle de Solow : les relations entre les variables',html:`<div class="sf-model"><div class="sf-core">
     <section class="g-panel sf-model-panel" id="sf-core-production"><h2>Production et allocation</h2>
       <div class="sf-core-equation g-math">Y = A K<sup>α</sup> L<sup>1−α</sup></div>
@@ -133,7 +133,7 @@
     </div>
   </figure></div>`});
 
-  
+
   add('11 bis',{id:'s1-systeme-ferme',title:'Le modèle de Solow : Huit équations, huit variables à trouver',html:`<div class="sf-closure">
     <div class="g-panel sf-closure-equations">
       <section><h2>Production et allocation</h2><ol class="sf-closure-eqs">
@@ -162,7 +162,7 @@
     <aside class="g-panel sf-closure-takeaway" data-step="3"><p>Si vous ne retenez qu’une slide du modèle de Solow : <strong>retenez celle-ci</strong></p></aside>
   </div>`});
 
-  
+
   add(12,{id:'s1-production',title:'Une fonction de production : Cobb–Douglas',prov:'sim',html:`
     <aside class="g-panel orange sf-production-property"><p><strong>Propriété 1 :</strong> À capital et travail donnés, une PGF plus élevée augmente la production.</p></aside>
     <div class="sf-production-layout">
@@ -195,7 +195,7 @@
     draw();
   });
 
-  
+
   add(13,{id:'s1-echelle',title:'Doubler tous les facteurs',html:`
     <aside class="g-panel orange sf-scale-property"><p><strong>Propriété 2 :</strong> La fonction de production de Cobb-Douglas est homogène de degré ${m('1')}. Les rendements d’échelle de <em>l’ensemble des facteurs</em> sont constants.</p></aside>
     <p class="sf-scale-explanation">En d’autres termes : doubler tous les facteurs double la production.</p>
@@ -207,7 +207,7 @@
     ${eq(`${v('A')}(2${v('K')})<sup>α</sup>(2${v('L')})<sup>1−α</sup> = 2<sup>α+1−α</sup>${v('AK')}<sup>α</sup>${v('L')}<sup>1−α</sup> = 2${v('Y')}`,2)}
     ${show(2,'<p class="sf-scale-result">Un argument de réplication simple : doubler le nombre d’usines et de travailleurs double la production</p>')}`});
 
-  
+
   add(14,{id:'s1-marginal',title:'Ajouter des machines à travail donné',prov:'sim',html:`
     <aside class="g-panel orange sf-marginal-property"><p><strong>Propriété 3 :</strong> Le produit marginal de chaque facteur pris isolément est décroissant. Les rendements marginaux de chaque facteur sont décroissants, à technologie et autre facteur donnés.</p></aside>
     ${G.cols(`<p class="sf-key">Doubler le capital à travail donné</p>
@@ -245,13 +245,13 @@
     input.oninput=draw;labor.oninput=draw;draw();
   });
 
-  
+
   add(15,{id:'s1-alpha',title:`Que change l’exposant ${m('α')} ?`,prov:'sim',html:G.cols(`<div class="g-col">${eq(`${v('Y')} = ${v('K')}<sup>α</sup>`)}<p class="sf-key">Doubler le capital : production ${m('× 2<sup>α</sup>')}</p><table class="sf-small-table"><tr><th>${m('α')}</th><th>Multiplicateur</th></tr><tr><td>${m('1')}</td><td>${m('2')}</td></tr><tr data-step="1"><td>${m('0,1')}</td><td>${m('1,072')}</td></tr><tr data-step="2"><td>${m('1/3')}</td><td>${m('1,260')}</td></tr></table><p class="sf-sub">${m('α = 1')} : comparaison linéaire.<br>Le modèle de Solow étudié retient ${m('0 &lt; α &lt; 1')}.</p></div>`,`${G.chart('sf-alpha-chart',450)}${buttons('sf-alpha-choice',[['1',m('α = 1')],['.1',m('α = 0,1')],['third',m('α = 1/3')],['all','Comparer']])}<p class="sf-sub">${m('A = L = 1')}. Repères : ${m('K = 1, 2, 4')}</p>`)});
   G.on('s1-alpha',(el,ctx)=>{
     const draw=()=>{const mode=control(el,'sf-alpha-choice',ctx.static?'all':(ctx.step>=2?'third':ctx.step>=1?'.1':'1'),draw,ctx.static);const all=[{a:1,name:'α = 1',color:grey,dash:'7 5'},{a:.1,name:'α = 0,1',color:orange,dash:'3 4'},{a:1/3,name:'α = 1/3',color:blue}];const series=(mode==='all'?all:all.filter(s=>s.a===(mode==='third'?1/3:+mode))).map(s=>({...s,endLabel:s.name,data:samples(x=>x**s.a,4),format:y=>fmt(y,2)}));line('sf-alpha-chart',{x:{min:0,max:4,ticks:[0,1,2,3,4]},y:{min:0,max:4.2,ticks:[0,1,2,3,4]},xTitle:'Capital K',yTitle:'Production Y',series},ctx);};draw();
   });
 
-  
+
   add(16,{id:'s1-entreprise',title:'Que choisit une entreprise ?',html:`<ul class="sf-firm-assumptions">
     <li>Entreprises concurrentielles et identiques → simplification : une entreprise représentative qui n’affecte pas les prix<ul>
       <li>Salaire ${m('w')}, location du capital ${m('r')} : pris comme donnés</li>
@@ -265,23 +265,23 @@
   </div><div class="sf-steps" aria-hidden="true"><span data-step="1"></span><span data-step="2"></span></div>`});
   G.on('s1-entreprise',(el,ctx)=>el.querySelectorAll('[data-profit]').forEach(node=>node.classList.toggle('sf-focus',!ctx.static && node.dataset.profit===(ctx.step===1?'recettes':ctx.step===2?'couts':''))));
 
-  
+
   add('16 bis',{id:'s1-annales',title:'Aparté: Corrigés des examens des années précédentes',html:`<ul class="g-bullets sf-annales-list">
     <li>Six examens : <strong>2018, 2019, 2022, 2023, 2024 et 2025</strong>.</li>
     <li>Pour chaque année : <strong>le sujet et son corrigé en PDF</strong>.</li>
     <li>QCM, exercices de calcul et questions de raisonnement économique.</li>
   </ul><div class="sf-annales-access"><p>Sur le site du cours, rubrique « Annales » :</p><a href="https://arnauddyevre.github.io/macroeconomie-l3-2026/#annales" target="_blank" rel="noopener">https://arnauddyevre.github.io/macroeconomie-l3-2026/</a></div>`});
 
-  
+
   add(17,{id:'s1-prix',title:'Résoudre le problème d’optimisation de l’entreprise',html:`<div class="sf-optimization-area">
-    <div class="g-panel orange sf-optimization-method"><p>Le problème de maximisation de l’entreprise est un <button type="button" class="sf-convex-trigger" aria-expanded="false" aria-controls="sf-convex-definition">problème <em>convexe</em></button> : la fonction de profit est concave. Pour un choix intérieur, nous pouvons le résoudre en annulant la dérivée de la fonction objective par rapport à la quantité de chaque facteur.</p></div>
+    <div class="g-panel orange sf-optimization-method"><p>Le problème de maximisation de l’entreprise est un <button type="button" class="sf-convex-trigger" aria-expanded="false" aria-controls="sf-convex-definition">problème <em>convexe</em></button> : la fonction de profit est concave, avec un maximum unique. Pour un choix intérieur, nous pouvons le résoudre en annulant la dérivée de la fonction objective par rapport à la quantité de chaque facteur.</p></div>
     <aside id="sf-convex-definition" class="def sf-convex-definition" aria-labelledby="sf-convex-title" hidden>
       <button type="button" class="sf-convex-close" aria-label="Fermer la définition">×</button>
       <div class="def-label">Définition</div><div id="sf-convex-title" class="def-term">Problème convexe</div>
       <ul><li><strong>Ensemble des choix convexe :</strong> tout le segment reliant deux choix possibles reste admissible.</li><li><strong>Objectif :</strong> minimiser une fonction convexe ou maximiser une fonction concave.</li></ul>
       <p>Dans notre cas, le profit est concave en ${m('K')} et ${m('L')}. Un point intérieur où les deux dérivées partielles sont nulles est un maximum global.</p>
     </aside>
-  </div><div class="sf-prices-layout"><div class="sf-price-calculations"><div class="sf-prices"><div><h2>Capital</h2>${eq(`${f('∂π','∂K')} = 0`)}${eq(`${v('r')} = α${v('AK')}<sup>α−1</sup>${v('L')}<sup>1−α</sup>`,1)}${eq(`${v('r')} = α ${f(v('Y'),v('K'))}`,1)}<div class="sf-share" data-step="3">${f(v('rK'),v('Y'))} = α</div></div><div data-step="2"><h2>Travail</h2>${eq(`${f('∂π','∂L')} = 0`)}${eq(`${v('w')} = (1−α)${v('AK')}<sup>α</sup>${v('L')}<sup>−α</sup>`)}${eq(`${v('w')} = (1−α) ${f(v('Y'),v('L'))}`)}<div class="sf-share" data-step="3">${f(v('wL'),v('Y'))} = 1−α</div></div></div><div class="sf-price-notes" data-step="4"><div><p>Rémunérations = produits marginaux</p><p>Parts du revenu constantes</p></div><div><p>${v('r')} : location avant dépréciation</p><p>${m('r − δ')} : rendement net</p></div></div></div><aside class="sf-optimization-reminder" aria-labelledby="sf-optimization-reminder-title"><h2 id="sf-optimization-reminder-title"><strong>Maximiser = dérivée égale à zéro</strong></h2><p>Dans ce cours, dès qu’on demande de résoudre un problème d’optimisation, vous pouvez simplement prendre la dérivée de la fonction à optimiser. Cette dérivée, quand elle est égale à zéro, vous donnera les valeurs <em>choisies</em> qui maximisent cette fonction.</p></aside></div>`});
+  </div><div class="sf-prices-layout"><div class="sf-price-calculations"><div class="sf-prices"><div><h2>Capital</h2>${eq(`${f('∂π','∂K')} = 0`)}${eq(`${v('r')} = α${v('AK')}<sup>α−1</sup>${v('L')}<sup>1−α</sup>`,1)}${eq(`${v('r')} = α ${f(v('Y'),v('K'))}`,1)}<div class="sf-share" data-step="3">${f(v('rK'),v('Y'))} = α</div></div><div data-step="2"><h2>Travail</h2>${eq(`${f('∂π','∂L')} = 0`)}${eq(`${v('w')} = (1−α)${v('AK')}<sup>α</sup>${v('L')}<sup>−α</sup>`)}${eq(`${v('w')} = (1−α) ${f(v('Y'),v('L'))}`)}<div class="sf-share" data-step="3">${f(v('wL'),v('Y'))} = 1−α</div></div></div><div class="sf-price-notes" data-step="4"><div><p>Rémunérations = produits marginaux</p></div><div><p>${v('r')} : location avant dépréciation</p><p>${m('r − δ')} : rendement net</p></div></div></div><aside class="sf-optimization-reminder" aria-labelledby="sf-optimization-reminder-title"><h2 id="sf-optimization-reminder-title"><strong>Maximiser = dérivée égale à zéro</strong></h2><p>Dans ce cours, dès qu’on demande de résoudre un problème d’optimisation, vous pouvez simplement prendre la dérivée de la fonction à optimiser. Cette dérivée, quand elle est égale à zéro, vous donnera les valeurs <em>choisies</em> qui maximisent cette fonction.</p></aside></div><p class="sf-equilibrium-shares" data-step="4">À l’équilibre (c’est-à-dire quand les quantités demandées sont optimales), la rémunération du travail est ${m('1−α')} du PIB et la rémunération du capital est ${m('α')}.</p>`});
   G.on('s1-prix',(el,ctx)=>{
     const trigger=el.querySelector('.sf-convex-trigger'), bubble=el.querySelector('.sf-convex-definition');
     el.classList.toggle('sf-prices-static',ctx.static);
@@ -292,7 +292,7 @@
     el.onkeydown=e=>{if(e.key==='Escape'&&!ctx.static&&!bubble.hidden){e.preventDefault();e.stopPropagation();setOpen(false);trigger.focus();}};
   });
 
-  
+
   add(18,{id:'s1-parts',title:'Une stabilité relative des parts factorielles',prov:'obs',source:`${pwt}. France et États-Unis, 1950 à 2023. Travail : labsh. Capital : ${m('1 − labsh')}.`,html:`<p class="sf-parts-intro"><strong>Une régularité empirique à connaître :</strong> les parts du capital et du travail dans la production ont très peu varié au cours du temps → Justification pour un ${m('α')} constant.</p><div class="sf-two"><div><h2 class="sf-part-head">Part du capital</h2>${G.chart('sf-capital-chart',400)}</div><div><h2 class="sf-part-head">Part du travail</h2>${G.chart('sf-labor-chart',400)}</div></div><p class="sf-parts-note">1950 → 2023 : part du travail <strong>−6,48 points en France</strong> et <strong>−6,01 aux États-Unis</strong>.<br>Moyennes de la part du capital : 33,15 % en France. 38,33 % aux États-Unis. Repères théoriques : ${m('2/3')} et ${m('1/3')}.</p>`});
   G.on('s1-parts',(el,ctx)=>{
     const rows=G.DATA.parts;
@@ -303,7 +303,7 @@
     });
   });
 
-  
+
   add(19,{id:'s1-accumulation',title:'Comment le capital s’accumule',html:`<div class="sf-acc-law" aria-label="Loi d’accumulation du capital">
     <span class="sf-acc-term"><span class="sf-acc-symbol g-math">${dot('K')}</span><span class="sf-acc-explanation">Variation instantanée<br>du capital</span></span><span class="sf-acc-sign g-math">=</span>
     <span class="sf-acc-term"><span class="sf-acc-symbol g-math">I</span><span class="sf-acc-explanation">Investissement<br>brut</span></span><span class="sf-acc-sign g-math">−</span>
@@ -312,7 +312,7 @@
     <span class="sf-acc-term"><span class="sf-acc-symbol g-math">δK</span><span class="sf-acc-explanation">Dépréciation<br>du capital</span></span>
   </div><div class="sf-two sf-stock-defs"><div><h2 class="sf-head">Un stock à un instant donné</h2><p>${m('K')} : capital disponible</p><p class="sf-sub">Machines, bâtiments, logiciels</p></div><div><h2 class="sf-head">Des flux par unité de temps</h2><p data-step="1">${m('I = sY')} : investissement</p><p data-step="2">${m('δK')} : dépréciation</p><p data-step="3">${m(dot('K'))} : variation nette du capital</p></div></div>${show(4,`<div class="sf-two"><div>${eq(`${v('sY')} &gt; δ${v('K')} ⇒ ${dot('K')} &gt; 0`)}</div><div>${eq(`${v('sY')} &lt; δ${v('K')} ⇒ ${dot('K')} &lt; 0`)}</div></div>`)}<p class="sf-flow-example">Un investissement positif ne suffit pas : il doit dépasser la dépréciation.</p>`});
 
-  
+
   add(20,{id:'s1-ordres-grandeur',title:'Épargne et dépréciation : quels ordres de grandeur ?',prov:'obs',source:`${pwt}. Année : 2022. Investissement : csh_i, prix PPA courants. Dépréciation : delta.`,html:`<div class="sf-data-grid"><div><h2 class="sf-head">Investissement / PIB</h2><p class="sf-sub">Un ordre de grandeur pour ${v('s')}</p><div class="sf-invest-values">${[['CHN','Chine'],['FRA','France'],['USA','États-Unis'],['NER','Niger']].map(([iso,label])=>`<div><span>${label}, 2022</span><strong id="sf-si-${iso}"></strong></div>`).join('')}</div></div><div data-step="1"><h2 class="sf-head">Taux de dépréciation du capital</h2><p class="sf-sub">Un ordre de grandeur pour ${m('δ')}</p><div class="sf-median" id="sf-delta-median"></div><p class="sf-median-caption">Médiane internationale en 2022<br><span id="sf-delta-count"></span></p><p class="sf-sub">Une moyenne d’actifs aux durées de vie différentes.</p></div></div>${show(2,'<p class="sf-key">Une mesure statistique ne coïncide pas automatiquement avec le paramètre du modèle.</p>')}`});
   G.on('s1-ordres-grandeur',(el)=>{
     const D=G.DATA;
@@ -321,14 +321,109 @@
     el.querySelector('#sf-delta-count').textContent=D.depreciation2022.count+' pays disposant d’une observation';
   });
 
-  
-  add(21,{id:'s1-exogenes',title:'La population active et la PGF progressent',prov:'sim',html:G.cols(`<div class="g-col">${eq(`${dot('L')} = ${v('nL')} &nbsp; ⇒ &nbsp; ${f(dot('L'),v('L'))} = ${v('n')}`)}${eq(`${dot('A')} = γ${v('A')} &nbsp; ⇒ &nbsp; ${f(dot('A'),v('A'))} = γ`,1)}${show(2,'<p class="sf-key">Exogène : donné au modèle</p><p class="sf-sub">Un taux constant n’implique pas un niveau constant.</p>')}<p class="sf-sub">Dans le modèle, le travail offert est employé.<br>${m('L/N')} constant ⇒ croissance de ${m('N')} égale à ${m('n')}.</p></div>`,`${G.chart('sf-exogenous-chart',460)}<p class="sf-sub">Indices initiaux ${m('= 1')}. Paramètres : ${m('n = 0,5 %')}, ${m('γ = 1 %')} par an</p>`)});
-  G.on('s1-exogenes',(el,ctx)=>{
-    const series=[{name:'Travail L',color:blue,endLabel:'L',data:samples(t=>Math.exp(.005*t),100),format:y=>fmt(y,2)}];
-    if(ctx.static||ctx.step>=1)series.push({name:'PGF A',color:orange,dash:'7 5',endLabel:'A',data:samples(t=>Math.exp(.01*t),100),format:y=>fmt(y,2)});
-    line('sf-exogenous-chart',{x:{min:0,max:100,ticks:[0,25,50,75,100]},y:{min:1,max:3,ticks:[1,1.5,2,2.5,3],format:y=>fmt(y,1)},xTitle:'Années écoulées',yTitle:'Indice initial = 1',series},ctx);
+
+  add(21,{id:'s1-exogenes',title:'Population et PGF : croissance exogène',html:G.cols(
+    `${eq(`${dot('L')} = ${v('nL')} &nbsp; ⇒ &nbsp; ${f(dot('L'),v('L'))} = ${v('n')}`)}${eq(`${dot('A')} = γ${v('A')} &nbsp; ⇒ &nbsp; ${f(dot('A'),v('A'))} = γ`,1)}<p class="sf-sub">Dans le modèle, le travail offert est employé.<br>${m('L/N')} constant ⇒ croissance de ${m('N')} égale à ${m('n')}.</p>${show(2,`<p class="sf-exogenous-statement">${m('A')} et ${m('L')} sont des variables <strong>exogènes</strong>.</p>`)}`,
+    `<div class="sf-variable-definitions">
+      ${show(2,`<div class="def" data-term="Variables endogènes"><div class="def-label">Définition</div><div class="def-term">Variables endogènes</div><p class="def-text">Leurs valeurs sont déterminées à l’intérieur du modèle, par ses équations.</p></div><p class="sf-definition-example">Dans Solow : le capital ${m('K')} et la production ${m('Y')}.</p>`)}
+      ${show(3,`<div class="def" data-term="Variables exogènes"><div class="def-label">Définition</div><div class="def-term">Variables exogènes</div><p class="def-text">Leurs valeurs ou trajectoires sont données au modèle, qui n’en explique pas l’origine.</p></div><p class="sf-definition-example">Dans Solow : la PGF ${m('A')} et le travail ${m('L')}, dont les taux de croissance ${m('γ')} et ${m('n')} sont imposés.</p>`)}
+    </div>`)});
+
+
+
+
+  add(21.1,{id:'s1-simple-stationnaire',title:'Résoudre le modèle de Solow : Calculer le capital à l’état stationnaire',cls:'sf-simple',html:`
+    <div class="def ss-stationary-definition" data-term="État stationnaire"><div class="def-label">Définition</div><div class="def-term">État stationnaire</div><p class="def-text">Situation où les variables étudiées restent constantes au cours du temps.</p></div>
+    <p class="ss-premise">Pour commencer, supposons la population et la PGF constantes : ${m('n = γ = 0')}.</p>
+    <div class="ss-stationary-layout"><div class="ss-stationary-column">
+      <div><p class="ss-explanation">Définissons les variables importantes par personne :</p>${eq(`${v('k')} = ${f('K','L')} &emsp; ${v('y')} = ${f('Y','L')} = A k<sup>α</sup>`,0,'ss-notation')}<p class="ss-worker-note">Ici, ${m('L')} désigne les personnes en emploi.</p></div>
+      ${show(1,`<p class="ss-caption">Rappel : l’accumulation globale</p>${eq(`${dot('K')} = I − δK = sY − δK`,0,'ss-global-accumulation')}<p class="ss-caption ss-per-worker-intro">Puisque ${m('L')} est constant (par hypothèse), l’accumulation par travailleur s’écrit :</p>${eq(`${dot('k')} = sA k<sup>α</sup> − δk`)}`)}
+    </div><div class="ss-stationary-column">
+      ${show(2,`<p class="ss-explanation">À l’état stationnaire, le capital par travailleur ne varie plus.<br>L’investissement remplace exactement le capital déprécié.</p>${eq(`${dot('k')} = 0 &nbsp; ⇒ &nbsp; sA(k*)<sup>α</sup> = δk*`,0,'ss-chain')}${eq(`(k*)<sup>1−α</sup> = ${f('sA','δ')}`,0,'ss-power')}`)}
+      ${show(3,`<div class="ss-labelled-answer"><p class="ss-answer-label">Capital par travailleur à l’état stationnaire</p><div class="ss-answer">${eq(`k* = <span class="ss-ratio-power"><span class="ss-paren">(</span>${f('sA','δ')}<span class="ss-paren">)</span><sup class="ss-ratio-exponent">1/(1−α)</sup></span>`)}</div></div>`)}
+    </div></div>
+  ` });
+
+  add(21.2,{id:'s1-simple-diagramme',title:'Résoudre le modèle de Solow : le diagramme de Solow',cls:'sf-simple',prov:'sim',html:`
+    <p class="ss-caption">Population et PGF constantes : ${m('n = γ = 0')}.</p>
+    <div class="ss-diagram-layout"><div class="ss-diagram-text">
+      ${eq(`${dot('k')} = sA k<sup>α</sup> − δk`,0,'ss-diagram-equation')}
+      <div><p>Investissement</p>${eq('sA k<sup>α</sup>')}</div>
+      ${show(1,`<div class="ss-depreciation"><p>Dépréciation</p>${eq('δk')}</div>`)}
+      ${show(2,`<div><p>À l’intersection positive</p>${eq(`${dot('k')} = 0 &emsp; k* ≈ 14,7`)}</div>`)}
+      ${show(3,`<div class="ss-directions">${eq(`0 &lt; k &lt; k* ⇒ ${dot('k')} &gt; 0`)}${eq(`k &gt; k* ⇒ ${dot('k')} &lt; 0`)}</div>`)}
+    </div>${G.chart('ss-solow-chart',510)}</div>
+    <p class="ss-calibration">Illustration : ${m('α = 1/3, A = 1, s = 24 %, δ = 4 %')}. Flux annuels, unités par travailleur.</p>
+    ${show(3,'<p class="ss-diagram-takeaway">Avec une PGF constante, l’accumulation conduit vers un niveau de capital stationnaire.</p>')}
+  ` });
+  G.on('s1-simple-diagramme',(el,ctx)=>{
+    const alpha=1/3, s=.24, delta=.04, a=1, ks=(s*a/delta)**(1/(1-alpha));
+    const xs=[...Array.from({length:121},(_,i)=>i/4),ks].sort((x,y)=>x-y);
+    const series=[{name:'Investissement',color:blue,endLabel:true,data:xs.map(k=>[k,s*a*k**alpha]),format:x=>G.fmt(x,3)}];
+    if(ctx.static||ctx.step>=1)series.push({name:'Dépréciation',color:orange,endLabel:true,data:xs.map(k=>[k,delta*k]),format:x=>G.fmt(x,3)});
+    const stationary=ctx.static||ctx.step>=2, directions=ctx.static||ctx.step>=3;
+    const chart=G.line('ss-solow-chart',{
+      animate:ctx.animate&&(ctx.entry||ctx.step<=1),legend:false,
+      x:{min:0,max:30,ticks:[0,5,10,15,20,25,30],hoverFormat:x=>'k = '+G.fmt(x,2)},
+      y:{min:0,max:1.2,ticks:[0,.3,.6,.9,1.2],format:x=>G.fmt(x,1)},
+      xTitle:'Capital par travailleur, k',yTitle:'Investissement et dépréciation par travailleur',
+      series,markers:stationary?[{x:ks,y:delta*ks,color:blue,label:'k* ≈ 14,7',dx:-16,dy:-26,anchor:'end'}]:[]
+    });
+    if(!chart)return;
+    chart.svg.querySelectorAll('.ch-xtitle,.ch-val').forEach(label=>{
+      if(label.querySelector('.ss-math-symbol')||!label.textContent.includes('k'))return;
+      const parts=label.textContent.split(/(k\*?)/);label.replaceChildren();
+      parts.forEach(part=>{if(/^k\*?$/.test(part))Charts.el('tspan',{class:'ss-math-symbol','font-style':'italic'},label).textContent=part;else label.append(document.createTextNode(part));});
+    });
+    chart.svg.querySelector('[data-simple-overlays]')?.remove();
+    const g=Charts.el('g',{'data-simple-overlays':'','pointer-events':'none'},chart.svg),{X,Y}=chart.S;
+    if(stationary)Charts.el('line',{x1:X(ks),x2:X(ks),y1:Y(0),y2:Y(delta*ks),stroke:grey,'stroke-width':1.8,'stroke-dasharray':'6 6'},g);
+    if(directions){
+      [[4,11],[26,19]].forEach(([from,to])=>{
+        const x1=X(from),x2=X(to),y=Y(.11),back=x2-Math.sign(to-from)*12;
+        Charts.el('path',{d:`M${x1},${y} L${x2},${y} M${back},${y-7} L${x2},${y} L${back},${y+7}`,fill:'none',stroke:grey,'stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round','data-direction':to>from?'increase':'decrease'},g);
+      });
+    }
   });
 
-  
+  add(21.3,{id:'s1-simple-croissance',title:'Résoudre le modèle de Solow : PIB par habitant',cls:'sf-simple',html:`
+    <p class="ss-growth-intro">La variable endogène qui nous intéresse est le PIB par habitant, maintenant que nous avons la valeur d’équilibre du capital par habitant, nous pouvons trouver le PIB par habitant facilement !</p>
+    <p class="ss-substitution-note">On obtient la valeur d’équilibre en remplaçant ${m('k')} par ${m('k*')} dans ${m('y = Ak<sup>α</sup>')}.</p>
+    <div class="ss-growth-layout">
+      <section><h2>Avec une PGF constante</h2><p class="ss-caption">Cas stationnaire : ${m('n = γ = 0')}.</p>
+        <div class="ss-answer">${eq(`${f('Y*','L')} = y* = A(k*)<sup>α</sup> = A(${f('sA','δ')})<sup>α/(1−α)</sup>`)}</div>
+        ${show(1,`<p class="ss-explanation">Davantage d’épargne, une PGF plus élevée ou une dépréciation plus faible augmentent le <strong>niveau stationnaire</strong>.</p><p class="ss-explanation">Mais avec ${m('A')} constant, la croissance par travailleur finit par s’éteindre.</p>`)}
+      </section>
+      <section data-step="2"><h2>Avec une PGF qui progresse</h2><p class="ss-caption">Retour au modèle général : ${m(`${f(dot('A'),'A')} = γ`)}.</p>
+        <div class="ss-answer">${eq(`${f(dot('y'),'y')} = ${f('γ','1−α')}`)}</div>
+        <p class="ss-balanced">Sur le sentier de croissance équilibrée</p>
+      </section>
+    </div>
+    ${show(3,'<div class="g-panel orange ss-growth-takeaway">La progression de la PGF soutient la croissance durable de la production par travailleur ; l’accumulation du capital ne fait que l’accompagner.</div>')}
+  ` });
+
+  add(21.4,{id:'s1-resumons',title:'Le modèle de Solow : résumons',html:`
+    <ul class="ss-summary-list">
+      <li><strong>Notre but :</strong> expliquer la croissance de long terme du niveau de vie (${m('Y/L')} ou ${m('Y/N')}).</li>
+      <li data-step="1">Pour ce faire, nous mettons sur pied un ensemble d’équations relativement simples :
+        <div class="ss-summary-equations">
+          ${eq('Y = AK<sup>α</sup>L<sup>1−α</sup>')}${eq('I = sY &nbsp;;&nbsp; C = (1−s)Y')}
+          ${eq(`${dot('K')} = I−δK`)}${eq(`${dot('A')} = γA &nbsp;;&nbsp; ${dot('L')} = nL`)}
+        </div>
+      </li>
+      <li data-step="2">Pour résoudre le modèle et trouver son équilibre, on maximise les profits des entreprises pour trouver les prix, puis on calcule le capital par travailleur à l’équilibre stationnaire. Nous trouvons les deux valeurs suivantes des variables endogènes à l’équilibre :
+        <p class="ss-summary-assumption">Avec une population et une PGF constantes (${m('n = γ = 0')}) :</p>
+        <div class="ss-summary-results">
+          ${eq(`k* = (${f('sA','δ')})<sup>1/(1−α)</sup>`)}
+          ${eq(`y* = A(k*)<sup>α</sup> = A(${f('sA','δ')})<sup>α/(1−α)</sup>`)}
+        </div>
+      </li>
+      <li data-step="3"><strong>Que pouvons-nous conclure ?</strong> Dans ce modèle très simplifié de l’économie, l’épargne et le capital par habitant n’expliquent pas la croissance de long terme ; seule la progression de la PGF (technologie ou « idées ») l’explique.
+        <ul><li data-step="4"><strong>Pourquoi ce modèle simple est-il utile ?</strong> Car il est validé par les données.</li></ul>
+      </li>
+    </ul>
+  `});
+
+
   add(22,{id:'s1-taux',title:'Des niveaux aux taux de croissance',html:`<div class="sf-rate-lines">${eq(`${f(dot('x'),v('x'))} = ${f('d ln '+v('x'),'dt')} &nbsp;&nbsp; (${v('x')} &gt; 0)`)}${eq(`ln ${v('Y')} = ln ${v('A')} + α ln ${v('K')} + (1−α) ln ${v('L')}`,1)}<div class="sf-growth-final" data-step="2">${eq(`${f(dot('Y'),v('Y'))} = ${f(dot('A'),v('A'))} + α ${f(dot('K'),v('K'))} + (1−α) ${f(dot('L'),v('L'))}`)}${eq(`${f(dot('Y'),v('Y'))} = γ + α ${f(dot('K'),v('K'))} + (1−α)${v('n')}`,3)}</div></div>`});
 })();

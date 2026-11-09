@@ -27,7 +27,7 @@
       labels.forEach(label=>label.style.opacity='0');
     };
     attach();
-    
+
     const frame=requestAnimationFrame(()=>{
       attach();
       animation=rect.animate([{width:'6px'},{width:width+'px'}],{duration:(options.duration||2.4)*1000,easing:'linear',fill:'forwards'});
@@ -36,8 +36,8 @@
     const finish=()=>{cancelAnimationFrame(frame);paths.forEach(path=>path.removeAttribute('clip-path'));labels.forEach(label=>label.style.removeProperty('opacity'));animation?.cancel();clip.remove();record.finish=null;};
     record.finish=finish;
   }
-  
-  
+
+
   const mathLabel=/(?<![\p{L}\p{N}])(?:(?:[AKLYNICHEswrbnxy]+[̃̇*]*|[αδγπ])(?:\s*[=×÷/+−<>→]\s*(?:[AKLYNICHEswrbnxy]+[̃̇*]*|[αδγπ]|\d+(?:[,.]\d+)?)(?:\s*%)?)*|\d+(?:[,.]\d+)?(?:\s*[×÷/+−→]\s*\d+(?:[,.]\d+)?)+(?:\s*%)?)(?![\p{L}\p{N}])/gu;
   function styleMathLabels(root) {
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];
@@ -67,9 +67,9 @@
     },
     line(id,options) {
       const box=typeof id==='string'?document.getElementById(id):id;if(!box)return null;
-      
-      
-      
+
+
+
       const {animate,duration,stagger,...content}=options;
       const key=JSON.stringify({width:box.clientWidth,height:box.clientHeight,content},
         (name,value)=>typeof value==='function'?value.toString():value);
@@ -104,8 +104,8 @@
     printing:false
   };
   window.C={frac,n:G.fmt,def:(term,text,o={})=>`<div class="def ${o.cls||''}" data-term="${esc(term)}"><div class="def-label">Définition</div><div class="def-term">${term}</div><p class="def-text">${text}</p></div>`,s:(n,html)=>`<div data-step="${n}">${html}</div>`,link:(url,text)=>`<a href="${url}" target="_blank" rel="noopener">${text}</a>`};
-  
-  
+
+
   let wasReading=false;
   new MutationObserver(()=>{const reading=document.body.classList.contains('reading');if(reading===wasReading)return;wasReading=reading;requestAnimationFrame(()=>reading?G.renderStatic():G.renderCurrent());}).observe(document.body,{attributes:true,attributeFilter:['class']});
   window.addEventListener('beforeprint',()=>{G.printing=true;G.renderStatic();});

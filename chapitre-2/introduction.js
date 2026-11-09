@@ -42,7 +42,7 @@
   function longRunChart(id,log,animate){
     const chart=G.line(id,{animate,duration:1.4,ends:false,labelGap:24,margin:{l:78,r:145,t:44,b:42},x:{min:1820,max:2022,ticks:[1820,1870,1920,1970,2022]},y:log?{log:true,min:500,max:100000,ticks:[1000,5000,20000,100000],format:v=>fmt(v,0)}:{min:0,max:65000,ticks:[0,20000,40000,60000],format:v=>fmt(v,0)},yTitle:'Dollars de 2011 par habitant',series:longRun.map(item=>({name:item.name,endLabel:item.name,color:item.color,data:item.data,format:v=>fmt(v,0)+' $'}))});
     if(!chart)return;
-    if(chart.svg.querySelector('.g-axis-help'))return; 
+    if(chart.svg.querySelector('.g-axis-help'))return;
     const axisTitle=chart.svg.querySelector('.ch-ytitle');
     const tip=document.createElement('div');
     tip.id=id+'-axis-tip';tip.className='g-intro-axis-tip';tip.setAttribute('role','tooltip');tip.hidden=true;
@@ -88,7 +88,7 @@
     xTitle:'Année',yTitle:'Niveau du PIB (base 100 : status quo en 2025)',
     series:CH02_ANTHROPIC.series.map(item=>({name:item.name,endLabel:`${item.name} : ${fmt(item.data.at(-1)[1],1)}`,color:item.color,dash:item.dash,data:item.data,format:v=>`${fmt(v/100*CH02_ANTHROPIC.monetary.billionsPer100,0)} (indice ${fmt(v,2)})`}))
     });
-    
+
     chart.svg.querySelectorAll('.ch-lab').forEach(label=>{
       if(label.querySelector('.g-ia-rate'))return;
       const item=CH02_ANTHROPIC.series.find(s=>label.textContent===`${s.name} : ${fmt(s.data.at(-1)[1],1)}`);

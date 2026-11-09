@@ -52,8 +52,8 @@
     for (let t = 0; t <= horizon + 1e-9; t += step) times.add(Math.min(t, horizon));
     const shock = scenario.shock ?? 20;
     if ((scenario.change || scenario.AFactor && scenario.AFactor !== 1) && shock <= horizon) {
-      
-      
+
+
       if (shock > 0) times.add(shock - 1e-7);
       times.add(shock);
       if (shock < horizon) times.add(shock + 1e-7);

@@ -13,7 +13,7 @@
     goTo, next, prev, openPanel, closePanel, pageLabel,
     get index() { return st.idx; }, get step() { return st.step; }, get mode() { return MODE; },
     slideEl(id) { return st.els[st.slides.findIndex(s => s.id === id)]; },
-    
+
     extHandlers: {}
   };
 
@@ -29,7 +29,7 @@
     read: '<svg viewBox="0 0 24 24"><path d="M4 5h7v14H4zM13 5h7v14h-7z"/></svg>'
   };
 
-  
+
   function pageLabel(index = st.idx) {
     return st.pages[index] ? `${st.pages[index]} / ${st.pageTotal}`
       : st.slides[index].appendix ? 'Annexe' : 'Couverture';
@@ -39,7 +39,7 @@
       : st.slides[index].appendix ? 'l’annexe' : 'la couverture';
   }
 
-  
+
   function slideHTML(s, i) {
     const ext = (s.extensions || []).map((e, j) => `<button class="ext-btn" data-ext="${i}:${j}">${esc(e.label)}</button>`).join('');
     const prov = s.prov ? `<span class="prov prov-${s.prov}">${{ obs: 'Données observées', fictif: 'Exemple fictif', sim: 'Simulation', illu: 'Illustration', mixte: 'Données et exemple' }[s.prov] || esc(s.prov)}</span>` : '';
@@ -52,12 +52,12 @@
 
   function build() {
     let slides = (window.SLIDES || []).slice();
-    
+
     ([]).forEach(x => {
       const k = slides.findIndex(s => s.id === x.insertAfter);
       slides.splice(k < 0 ? slides.length : k + 1, 0, Object.assign({ teacherOnly: true }, x));
     });
-    
+
     const N = {};
     slides = slides.map(s => Object.assign({}, s, { notes: N[s.id] || s.notes || null }));
     if (MODE === 'etudiant') slides = slides.filter(s => !s.teacherOnly).map(s => Object.assign({}, s, { notes: null }));
@@ -106,32 +106,32 @@
     goTo(start, stp ? +stp : 0, true);
   }
   const stripTags = s => String(s).replace(/<[^>]+>/g, '');
-  
+
   const plain = s => { const d = document.createElement('div'); d.innerHTML = String(s); return d.textContent; };
 
-  
-  
-  
+
+
+
   function frTypo(root) {
     const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement && n.parentElement.closest('script,style,code,kbd,pre') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
     for (let n = w.nextNode(); n; n = w.nextNode()) {
       const t = n.nodeValue.replace(/ ([;:?!»])/g, '\u202F$1').replace(/« /g, '«\u202F')
-        .replace(/(\d) (?=\d{3}(?!\d))/g, '$1\u202F')                                   
-        .replace(/(\d) (?=(%|€|k€|M€|Md€|Mt|Gt|°C|ans?\b|heures?\b|points?\b|h\b|t\b))/g, '$1\u00A0'); 
+        .replace(/(\d) (?=\d{3}(?!\d))/g, '$1\u202F')
+        .replace(/(\d) (?=(%|€|k€|M€|Md€|Mt|Gt|°C|ans?\b|heures?\b|points?\b|h\b|t\b))/g, '$1\u00A0');
       if (t !== n.nodeValue) n.nodeValue = t;
     }
   }
 
   function fit() {
     if (st.reading) return fitReading();
-    
+
     const vp = $('#viewport'), s = Math.min((vp.clientWidth || window.innerWidth) / W, (vp.clientHeight || window.innerHeight) / H);
     $('#stage').style.transform = `translate(${-W / 2 * s}px, ${-H / 2 * s}px) scale(${s})`;
     st.scale = s;
   }
   D.scale = () => st.scale || 1;
 
-  
+
   function goTo(target, step = 0, instant) {
     let i = typeof target === 'string' ? st.slides.findIndex(s => s.id === target) : target;
     if (i < 0 || i >= st.slides.length) return;
@@ -146,7 +146,7 @@
     st.step = step === 'end' ? steps.length : Math.max(0, Math.min(step, steps.length));
     applySteps(true);
     if (prevI !== i || instant || !st.entered.has(i)) enter(i);
-    else {   
+    else {
       const h = st.handlers[st.slides[i].id];
       if (h && h.step) try { h.step(st.els[i], st.step, { jump: true }); } catch (e) { console.error(e); }
     }
@@ -171,7 +171,7 @@
       if (on && !was) e.dispatchEvent(new CustomEvent('reveal', { bubbles: false }));
       if (on && e.dataset.revealChoices) revealChoices(e.dataset.revealChoices);
     });
-    
+
     $$('[data-until]', el).forEach(e => e.classList.toggle('gone', lim > +e.dataset.until));
     const h = st.handlers[st.slides[st.idx].id];
     if (!jump && h && h.step) try { h.step(el, st.step, { jump: false }); } catch (e) { console.error(e); }
@@ -197,7 +197,7 @@
     document.dispatchEvent(new CustomEvent('deck:change', { detail: { index: st.idx, step: st.step, id: s.id, steps: st.steps[st.idx].length, count: n } }));
   }
 
-  
+
   function openPanel(kind, title, html, opts = {}) {
     $('#panel-kind').textContent = kind || '';
     $('#panel-title').innerHTML = title || '';
@@ -271,8 +271,8 @@
       <p class="xsmall mt-m">Les graphiques sont tracés à partir des données embarquées dans le fichier ; il fonctionne sans connexion. Survolez une courbe (ou utilisez les flèches après l'avoir sélectionnée) pour lire les valeurs.</p>`);
   }
 
-  
-  
+
+
   function advanceAfterChoice(g) {
     if (st.reading || g.dataset.advanced) return;
     const el = g.closest('.slide'), i = st.els.indexOf(el);
@@ -281,22 +281,22 @@
     const lim = st.step > 0 ? vals[st.step - 1] : -Infinity;
     const rv = el.querySelector(`[data-reveal-choices="${g.id}"]`);
     let target;
-    if (rv) target = vals.indexOf(+rv.dataset.step) + 1;          
+    if (rv) target = vals.indexOf(+rv.dataset.step) + 1;
     else if (st.step < vals.length) target = st.step + 1;
     if (!target || target <= st.step) return;
     const own = g.closest('[data-step]');
-    if (own && +own.dataset.step > lim) return;                    
+    if (own && +own.dataset.step > lim) return;
     g.dataset.advanced = '1';
     setTimeout(() => { let guard = 20; while (st.idx === i && st.step < target && guard--) next(); }, 260);
   }
 
-  
+
   function revealChoices(gid) {
     const g = document.getElementById(gid);
     if (!g || g.classList.contains('revealed')) return;
     g.classList.add('revealed');
     const fb = document.getElementById(gid + '-fb');
-    if (fb && fb.dataset.text) { fb.innerHTML = fb.dataset.text; frTypo(fb); }   
+    if (fb && fb.dataset.text) { fb.innerHTML = fb.dataset.text; frTypo(fb); }
   }
   D.revealChoices = revealChoices;
   function initWidgets(root) {
@@ -316,7 +316,7 @@
     });
   }
 
-  
+
   function setReading(on) {
     st.reading = on;
     document.body.classList.toggle('reading', on);
@@ -342,7 +342,7 @@
     st.els.forEach(el => { el.style.transform = `scale(${s})`; });
   }
 
-  
+
   function bind() {
     $('#tb-prev').onclick = prev; $('#tb-next').onclick = next;
     $('#tb-toc').onclick = toc; $('#tb-rep').onclick = reperes; $('#tb-glo').onclick = glossary; $('#tb-help').onclick = help;
@@ -365,7 +365,7 @@
       if (ch) {
         const g = ch.closest('.choices');
         if (!g.classList.contains('revealed')) { $$('.choice', g).forEach(c => c.classList.toggle('picked', c === ch)); }
-        ch.blur();               
+        ch.blur();
         advanceAfterChoice(g);
         return;
       }
@@ -373,7 +373,7 @@
       if (rc) { revealChoices(rc.dataset.showAnswer); return; }
       const rb = e.target.closest('.reveal-btn[aria-expanded]');
       if (rb) { const body = document.getElementById(rb.getAttribute('aria-controls')); const open = rb.getAttribute('aria-expanded') !== 'true'; rb.setAttribute('aria-expanded', String(open)); if (body) body.hidden = !open; return; }
-      const ph = e.target.closest('.photo');   
+      const ph = e.target.closest('.photo');
       if (ph && !e.target.closest('a')) { ph.classList.toggle('cap-on'); ph.setAttribute('aria-expanded', ph.classList.contains('cap-on')); return; }
       const fl = e.target.closest('.flip');
       if (fl) { fl.classList.toggle('flipped'); fl.setAttribute('aria-pressed', fl.classList.contains('flipped')); }
@@ -406,9 +406,9 @@
     let sx = null;
     $('#viewport').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
     $('#viewport').addEventListener('touchend', e => { if (sx == null || st.reading) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 60 && !e.target.closest('input,.chart')) (dx < 0 ? next : prev)(); sx = null; });
-    
-    
-    
+
+
+
     const wake = () => { $('#toolbar').classList.remove('hide'); clearTimeout(st.idle); st.idle = setTimeout(() => { if (!$('#toolbar').matches(':hover') && !$('#toolbar').contains(document.activeElement)) $('#toolbar').classList.add('hide'); }, 2400); };
     document.addEventListener('mousemove', wake); document.addEventListener('fullscreenchange', wake);
     $('#toolbar').addEventListener('focusin', wake);
@@ -429,9 +429,9 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-  
+
   const PJ = window.PJ = {
-    
+
     zoom(id, z = 1.25) {
       const box = typeof id === 'string' ? document.getElementById(id) : id;
       if (!box) return null;
@@ -444,7 +444,7 @@
       box.appendChild(inner);
       return inner;
     },
-    
+
     scenes(id, draw, last = 99) {
       let cur = null;
       Deck.on(id, {
@@ -452,7 +452,7 @@
         step(el, n, o) { n = Math.min(n, last); if (o.jump && n === cur) return; cur = n; draw(n, !o.jump); }
       });
     },
-    
+
     atStep(id, n, box, draw) {
       Deck.on(id, {
         enter(el, ctx) { const b = document.getElementById(box); b.innerHTML = ''; if ((ctx.step || 0) >= n || ctx.reading || ctx.print) draw(!(ctx.reading || ctx.print)); },
@@ -461,9 +461,9 @@
     }
   };
 
-  
+
   const SIGN = /([−+×÷≈=]) (?=[\d(−+])/g;
-  
+
   function signs(root, full) {
     if (!root) return;
     const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement && n.parentElement.closest('script,style,code,kbd,pre') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });

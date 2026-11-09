@@ -15,6 +15,24 @@
 /* Rappel pédagogique demandé par Arnaud : calculs à gauche, encadré rouge à droite. */
 #s1-prix .sf-prices-layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:36px;align-items:center}
 #s1-prix .sf-price-calculations{min-width:0}
+#s1-prix .sf-equilibrium-shares{font-size:28px;line-height:1.3;margin:0}
+#s1-prix.sf-prices-static .sf-equilibrium-shares{font-size:25px;line-height:1.25}
+.slide#s1-prix.sf-prices-static .sf-price-notes{margin-top:14px}
+.slide#s1-prix.sf-prices-static .sf-price-notes p{margin:4px 0}
+.slide#s1-prix.sf-prices-static .sf-share{margin-top:8px}
+/* Lois à gauche, définitions successives à droite ; exemples hors des bulles. */
+#s1-exogenes .slide-body{gap:18px}
+#s1-exogenes .g-two{grid-template-columns:minmax(0,44fr) minmax(0,56fr);gap:48px}
+#s1-exogenes .g-col{gap:32px}
+#s1-exogenes .g-eq{margin:0;font-size:43px;line-height:1.3}
+#s1-exogenes .sf-sub{font-size:26px;line-height:1.35;margin:0}
+#s1-exogenes .sf-exogenous-statement{font-size:32px;line-height:1.35;margin:0}
+#s1-exogenes .sf-variable-definitions{display:flex;flex-direction:column;gap:32px}
+#s1-exogenes .sf-variable-definitions .def{padding:22px 26px}
+#s1-exogenes .sf-variable-definitions .def-label{font-size:21px;margin-bottom:7px}
+#s1-exogenes .sf-variable-definitions .def-term{font-size:32px;margin-bottom:12px}
+#s1-exogenes .sf-variable-definitions .def-text{font-size:28px;line-height:1.35;margin:0}
+#s1-exogenes .sf-definition-example{font-size:26px;line-height:1.35;margin:14px 0 0;color:#697386}
 #s1-prix .sf-optimization-reminder{background:#FFF1F2;border:1px solid #E6BFC4;border-radius:12px;padding:24px 26px;color:#991B1B}
 #s1-prix .sf-optimization-reminder h2{font-size:32px;line-height:1.2;color:#991B1B;margin:0 0 18px}
 #s1-prix .sf-optimization-reminder p{font-size:28px;line-height:1.35;margin:0}
@@ -84,3 +102,70 @@
 .g-ia-heading{font-size:27px;color:#536078}
 #intro-ia-croissance .ch-lab{font-size:23px}
 #intro-ia-croissance .g-ia-rate{font-size:20px;font-weight:normal}
+
+/* Résolution simplifiée de Solow : trois ajouts locaux, 9 novembre 2026. */
+.slide.sf-simple .slide-body{gap:22px}
+.sf-simple .ss-premise{font-size:31px;line-height:1.35;margin:0}
+.sf-simple .ss-caption{font-size:26px;line-height:1.35;color:#536078;margin:0}
+.sf-simple .ss-explanation{font-size:29px;line-height:1.35;margin:0}
+.sf-simple .ss-answer{display:inline-block;border:1px solid #D9DDE3;border-radius:12px;background:#F0F3F8;padding:16px 28px}
+.sf-simple .ss-answer .g-eq{font-size:47px;line-height:1.3;margin:0;white-space:nowrap}
+#s1-simple-stationnaire .slide-body{gap:18px}
+#s1-simple-stationnaire .slide-head h1{font-size:46px}
+#s1-simple-stationnaire .ss-stationary-definition{padding:15px 24px}
+#s1-simple-stationnaire .def-label{font-size:20px;margin-bottom:5px}
+#s1-simple-stationnaire .def-term{font-size:31px;margin-bottom:8px}
+#s1-simple-stationnaire .def-text{font-size:28px;line-height:1.3}
+#s1-simple-stationnaire .ss-premise{font-size:29px}
+#s1-simple-stationnaire .ss-stationary-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:60px;align-items:start}
+#s1-simple-stationnaire .ss-stationary-column{display:flex;flex-direction:column;gap:22px}
+#s1-simple-stationnaire .ss-explanation{font-size:28px;line-height:1.3}
+#s1-simple-stationnaire .g-eq{font-size:37px;line-height:1.3;margin:10px 0 0}
+#s1-simple-stationnaire .ss-notation{margin:10px 0}
+#s1-simple-stationnaire .ss-worker-note{font-size:23px;line-height:1.3;color:#536078;margin:0}
+#s1-simple-stationnaire .ss-caption{font-size:26px}
+#s1-simple-stationnaire .ss-per-worker-intro{margin-top:22px}
+#s1-simple-stationnaire .ss-chain{font-size:35px;margin-top:20px}
+#s1-simple-stationnaire .ss-power{font-size:39px;margin-top:20px}
+#s1-simple-stationnaire .ss-answer .g-eq{font-size:45px;margin:0}
+#s1-simple-stationnaire .ss-labelled-answer{display:flex;align-items:center;gap:22px}
+#s1-simple-stationnaire .ss-answer-label{font-size:29px;line-height:1.3;margin:0;flex:1;min-width:0}
+#s1-simple-stationnaire .ss-labelled-answer .ss-answer{flex:none;padding:12px 22px}
+#s1-simple-stationnaire .ss-ratio-power{display:inline-flex;align-items:center;vertical-align:middle}
+#s1-simple-stationnaire .ss-paren{font-size:1.05em;line-height:1;font-style:italic;transform:scaleY(2.4)}
+#s1-simple-stationnaire .ss-ratio-exponent{align-self:flex-start;position:static;line-height:1.2;margin-top:.1em}
+#s1-simple-diagramme .slide-body{gap:14px}
+.ss-diagram-layout{display:grid;grid-template-columns:minmax(0,31fr) minmax(0,69fr);gap:36px;align-items:center}
+.ss-diagram-text{display:flex;flex-direction:column;gap:28px}
+.ss-diagram-text p{font-size:27px;line-height:1.3;margin:0}
+.ss-diagram-text .g-eq{font-size:35px;line-height:1.35;margin-top:5px}
+.ss-diagram-text .ss-depreciation .g-eq{color:#B45309}
+.ss-diagram-text .ss-directions .g-eq{font-size:31px}
+.sf-simple .ss-calibration{font-size:23px;line-height:1.3;color:#536078;margin:0}
+.ss-diagram-takeaway{font-size:30px;line-height:1.3;margin:0}
+.ss-growth-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:62px;align-items:start}
+#s1-simple-croissance .slide-body{gap:14px}
+#s1-simple-croissance .ss-growth-intro{font-size:29px;line-height:1.3;margin:0}
+#s1-simple-croissance .ss-substitution-note{font-size:26px;line-height:1.3;margin:0}
+.ss-growth-layout h2{font-size:32px;line-height:1.25;margin:0 0 10px}
+.ss-growth-layout .ss-caption{font-size:24px;min-height:56px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ss-growth-layout .ss-answer{margin:10px 0 14px;min-height:106px;display:flex;align-items:center;justify-content:center;padding:12px 24px}
+.ss-growth-layout .ss-answer .g-eq{font-size:40px}
+.ss-growth-layout .ss-explanation{font-size:27px;line-height:1.3}
+.ss-growth-layout .ss-explanation+.ss-explanation{margin-top:12px}
+.ss-growth-layout .ss-balanced{font-size:27px;line-height:1.3;margin:0}
+.ss-growth-takeaway{font-size:29px;line-height:1.3;margin-top:0;padding:18px 24px}
+
+/* Séparation des annexes : déplacement du développement général de Solow, 9 novembre 2026. */
+#annexes .g-annexes-title{flex:1;display:flex;align-items:center;justify-content:center}
+#annexes .g-annexes-title h1{color:#fff;font-size:64px}
+
+/* Synthèse de Solow, après la résolution simplifiée. */
+#s1-resumons .ss-summary-list{font-size:28px;line-height:1.28;margin:0;padding-left:30px;display:flex;flex-direction:column;gap:18px}
+#s1-resumons .ss-summary-list>li{padding-left:3px}
+#s1-resumons .ss-summary-list ul{margin:12px 0 0;padding-left:32px;font-size:27px}
+#s1-resumons .ss-summary-equations{display:grid;grid-template-columns:1fr 1fr;gap:8px 42px;margin:12px 0 0}
+#s1-resumons .g-eq{font-size:32px;line-height:1.2;margin:0}
+#s1-resumons .ss-summary-assumption{font-size:23px;color:#536078;margin:10px 0}
+#s1-resumons .ss-summary-results{display:flex;justify-content:space-around;align-items:center;gap:32px;background:#F0F3F8;border:1px solid #D9DDE3;border-radius:12px;padding:14px 24px}
+#s1-resumons .ss-summary-results .g-eq{font-size:36px;white-space:nowrap}

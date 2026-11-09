@@ -4,7 +4,7 @@
   'use strict';
   const NS = 'http://www.w3.org/2000/svg';
   const PAL = { blue: '#001F5F', red: '#B45309', teal: '#526780', amber: '#B45309', violet: '#526780', slate: '#8A9BA8', grey: '#CFC7BA', ink: '#000000', nom: '#5F707D',
-    olive: '#526780', prune: '#001F5F' };   
+    olive: '#526780', prune: '#001F5F' };
   const col = c => PAL[c] || c || PAL.blue;
   function darken(c, f = 0.66) {
     c = col(c).replace('#', '');
@@ -43,7 +43,7 @@
   }
   function txt(parent, x, y, s, cls, attrs = {}) { const t = el('text', Object.assign({ x, y, class: cls }, attrs), parent); t.textContent = s; return t; }
 
-  
+
   function frame(container, o) {
     container.classList.add('chart');
     container.innerHTML = '';
@@ -91,7 +91,7 @@
     } catch (e) { }
   }
 
-  
+
   function spread(items, gap, lo, hi) {
     items.sort((a, b) => a.y0 - b.y0);
     items.forEach(it => { it.y = Math.max(lo, Math.min(hi, it.y0)); });
@@ -105,7 +105,7 @@
       if (!moved) break;
     }
   }
-  
+
   function leader(g, x1, y1, x2, y2, stop, color) {
     const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy);
     if (L < stop + 9) return;
@@ -113,7 +113,7 @@
     el('line', { x1, y1, x2: bx, y2: by, stroke: color, 'stroke-width': 1.6 }, g);
     el('path', { d: `M${tx.toFixed(1)},${ty.toFixed(1)}L${(bx - uy * 3.8).toFixed(1)},${(by + ux * 3.8).toFixed(1)}L${(bx + uy * 3.8).toFixed(1)},${(by - ux * 3.8).toFixed(1)}Z`, fill: color }, g);
   }
-  
+
   const tbox = (x, y, w, anchor) => { const x0 = anchor === 'end' ? x - w : anchor === 'middle' ? x - w / 2 : x; return { x0, x1: x0 + w, y0: y - 15, y1: y + 5 }; };
   function placeCost(b, polys, boxes, lim) {
     let c = 0;
@@ -134,7 +134,7 @@
     return { x: px + best.cd[0], y: py + best.cd[1], anchor: best.cd[2] };
   }
 
-  
+
   function line(container, o) {
     if (o.legend !== false && o.series.length > 1 && !o.series.some(s => s.endLabel)) o = Object.assign({}, o, { height: (o.height || container.clientHeight) - 40 });
     const { svg, Wd, Ht, arrow } = frame(container, o);
@@ -149,11 +149,11 @@
     const F = s => s.format || (v => fmt(v, s.digits || 0));
     const PTS = o.series.map(s => s.data.filter(d => d[1] != null && d[0] >= x.min && d[0] <= x.max));
     const anim = o.animate !== false, dur = o.duration || 1.6, stag = o.stagger || 0;
-    const mb0 = o.xTitle ? 74 : 48;    
+    const mb0 = o.xTitle ? 74 : 48;
     const mt = (o.margin && o.margin.t) ?? 62, mb = (o.margin && o.margin.b) ?? mb0;
     const Ypre = scales(o, Wd, Ht, { l: 0, r: 0, t: mt, b: mb }).Y;
-    
-    
+
+
     const lastX = Math.max(...PTS.filter(p => p.length).map(p => p[p.length - 1][0])), edge = (x.max - x.min) * 0.04, ends = [], inner = [];
     o.series.forEach((s, k) => {
       const pts = PTS[k]; if (!pts.length) return;
@@ -166,8 +166,8 @@
       (it.last[0] >= lastX - edge ? ends : inner).push(it);
     });
     spread(ends, o.labelGap || 25, mt - 26, Ht - mb + 6);
-    
-    
+
+
     const mL = 24 + Math.max(...(y.ticks || [y.min, y.max]).map(v => textW((y.format || (z => fmt(z, y.digits || 0)))(v))));
     const r0 = Math.max(0, ...ends.map(e => e.w + (e.dot ? 16 : 12) + 6)), plotW = Wd - ((o.margin && o.margin.l) ?? mL) - Math.max(34, r0);
     ends.forEach(e => { e.moved = Math.abs(e.y - e.y0) > 3.5 || (lastX - e.last[0]) / (x.max - x.min || 1) * plotW > 12; });
@@ -187,7 +187,7 @@
       const pts = PTS[k];
       if (!pts.length) return;
       if (s.area) { const a = `M${S.X(pts[0][0])},${y0} ` + pts.map(d => `L${S.X(d[0]).toFixed(1)},${S.Y(d[1]).toFixed(1)}`).join(' ') + ` L${S.X(pts[pts.length - 1][0])},${y0} Z`; el('path', { d: a, fill: col(s.color), opacity: s.area }, g); }
-      
+
       const segs = s.gaps ? pts.reduce((a, p, i) => { if (i && p[0] - pts[i - 1][0] > s.gaps) a.push([]); a[a.length - 1].push(p); return a; }, [[]]) : [pts];
       segs.forEach(sg => polys.push(sg.map(p => [S.X(p[0]), S.Y(p[1])])));
       const d = segs.map(sg => sg.map((p, i) => (i ? 'L' : 'M') + S.X(p[0]).toFixed(1) + ',' + S.Y(p[1]).toFixed(1)).join(' ')).join(' ');
@@ -202,7 +202,7 @@
       }
       if (s.points) pts.forEach(q => el('circle', { cx: S.X(q[0]), cy: S.Y(q[1]), r: 5.5, fill: col(s.color), class: anim ? 'ch-pop' : '' }, g));
     });
-    
+
     const lay = (k, at) => { const gg = el('g', anim ? { class: 'ch-fade', style: `animation-delay:${(stag * k + at).toFixed(2)}s` } : {}, g); return gg; };
     const dot = (gg, px, py, c) => el('circle', { cx: px, cy: py, r: 6.5, fill: col(c), stroke: '#fff', 'stroke-width': 2 }, gg);
     const boxes = [], lim = { l: m.l, W: Wd, t: m.t, b: Ht - m.b };
@@ -212,7 +212,7 @@
       if (it.name) { const a = el('tspan', {}, t); a.textContent = it.name; }
       if (it.val) { const b = el('tspan', { 'font-weight': 700, dx: it.name ? 8 : null, class: 'ch-num' }, t); b.textContent = it.val; }
     };
-    
+
     const maxPx = Math.max(0, ...ends.map(e => S.X(e.last[0])));
     ends.forEach(e => {
       const px = S.X(e.last[0]), py = S.Y(e.last[1]), gg = lay(e.k, dur * 0.92);
@@ -229,7 +229,7 @@
       const p = placeLabel(px, py, e.w, around, polys, boxes, lim);
       label(gg, p.x, p.y, e, p.anchor);
     });
-    
+
     const right = [[14, 7, 'start'], [12, 30, 'start'], [12, -14, 'start'], [16, 44, 'start'], [16, -28, 'start']];
     if (o.starts) o.series.forEach((s, k) => {
       const pts = PTS[k]; if (!pts.length || s.starts === false) return;
@@ -238,7 +238,7 @@
       const p = placeLabel(px, py, textW(v) * 1.06, right, polys, boxes, lim);
       label(gg, p.x, p.y, { s, name: '', val: v }, p.anchor);
     });
-    
+
     o.series.forEach((s, k) => (s.valueLabels || []).forEach(vx => {
       const pts = PTS[k], q = vx === 'last' ? pts[pts.length - 1] : vx === 'first' ? pts[0] : pts.find(z => z[0] === vx); if (!q) return;
       const px = S.X(q[0]), py = S.Y(q[1]), v = F(s)(q[1]), gg = lay(k, dur * Math.max(0.1, (q[0] - x.min) / (x.max - x.min || 1)));
@@ -278,7 +278,7 @@
     container.addEventListener('blur', hide);
   }
 
-  
+
   function bars(container, o) {
     const { svg, Wd, Ht, arrow } = frame(container, o);
     const data = o.data, vals = data.map(d => d.value).concat(o.y && o.y.extra || []);
@@ -304,7 +304,7 @@
     return { svg, S, m };
   }
 
-  
+
   function grouped(container, o) {
     if (o.legend !== false && o.series.length > 1) o = Object.assign({}, o, { height: (o.height || container.clientHeight) - 40 });
     const { svg, Wd, Ht, arrow } = frame(container, o);
@@ -331,7 +331,7 @@
     return { svg, S, m };
   }
 
-  
+
   function scatter(container, o) {
     const { svg, Wd, Ht, arrow } = frame(container, o);
     const x = o.x = Object.assign({}, o.x), y = o.y = Object.assign({}, o.y);
@@ -339,12 +339,12 @@
     const S = scales(o, Wd, Ht, m);
     const g = el('g', {}, svg);
     axes(g, o, S, m, Wd, Ht, arrow);
-    
+
     const bgT = o.bg != null ? txt(g, Wd - m.r - 6, Ht - m.b - 16, String(o.bg), 'ch-bg', { 'text-anchor': 'end' }) : null;
     const gp = el('g', {}, svg), gl = el('g', {}, svg);
     const tip = document.createElement('div'); tip.className = 'ch-tip'; container.appendChild(tip);
     const rr = o.radius || (p => 6);
-    const items = new Map();       
+    const items = new Map();
     function make(it, first, i) {
       const c = el('circle', { class: first && o.animate !== false ? 'ch-pop' : '', style: first && o.animate !== false ? `animation-delay:${Math.min(1.2, i * 0.006)}s` : null }, gp);
       c.addEventListener('pointerenter', () => { const p = it.p, r = svg.getBoundingClientRect(), k = r.width / Wd; tip.innerHTML = (o.tip || (q => esc(q.label)))(p); tip.style.left = (S.X(p.x) * k) + 'px'; tip.style.top = ((S.Y(p.y) - rr(p)) * k) + 'px'; tip.classList.add('on'); c.setAttribute('stroke', '#000000'); });
@@ -374,11 +374,11 @@
       items.forEach((it, key) => { if (!seen.has(key)) { it.c.style.display = 'none'; if (it.lab) it.lab.style.display = 'none'; } });
     }
     draw(o.points, true);
-    
+
     return { svg, S, m, update: pts => draw(pts, false), bg: t => { if (bgT) bgT.textContent = t; } };
   }
 
-  
+
   function hbars(container, o) {
     const { svg, Wd, Ht, arrow } = frame(container, o);
     const data = o.data;
@@ -400,7 +400,7 @@
     return { svg };
   }
 
-  
+
   function stack(container, o) {
     const { svg, Wd, Ht } = frame(container, o);
     const m = Object.assign({ l: 210, r: 30, t: 20, b: 20 }, o.margin || {});
@@ -426,7 +426,7 @@
     return { svg };
   }
 
-  
+
   function tint(c, t) {
     c = col(c).replace('#', '');
     const n = parseInt(c, 16), r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;

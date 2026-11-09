@@ -12,8 +12,8 @@
   const emptySteps = n => Array.from({length: n}, (_, i) => `<span data-step="${i + 1}" aria-hidden="true"></span>`).join('');
   const number = (n, digits = 1) => G.fmt(n, digits);
   const paramNote = math('α = 1/3, s = 24 %, δ = 4 %, n = 0,5 %, γ = 1 %');
-  
-  
+
+
   function add(position, id, title, html, _, extra = {}) {
     G.add(Object.assign({id, title, html, source: ''}, extra));
   }
@@ -160,8 +160,8 @@
       const style={name:entry.name,color:palette[i%palette.length],dash:i>=2?'8 5':undefined,format:x=>number(x,mode==='rate'?2:mode==='log'?2:0)};
       if(mode==='rate'&&(entry.scenario.change||entry.scenario.AFactor)){
         const shock=entry.scenario.shock??20;
-        
-        
+
+
         return [{...style,data:data.filter(r=>r[0]<shock),legend:false},
           {...style,data:data.filter(r=>r[0]>=shock&&r[1]!==null)}];
       }
@@ -174,8 +174,8 @@
       y:{zero:false}, series:pathSeries(keys,mode,total)};
     if(mode==='rate')opts.y.format=x=>number(x,1);
     if(ctx.static){
-      
-      
+
+
       const values=opts.series.flatMap(s=>s.data.map(r=>r[1]).filter(Number.isFinite));
       const lo=Math.min(...values),hi=Math.max(...values),span=Math.max(hi-lo,1e-6);
       const scale=10**Math.floor(Math.log10(span/2));

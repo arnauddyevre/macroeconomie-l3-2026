@@ -1,0 +1,77 @@
+
+.cp-slide .slide-body{gap:24px}
+.cp-slide p{margin:0}
+.cp-output{color:#000}.cp-capital{color:#B45309}.cp-human{color:#697386}.cp-tfp{color:#001F5F}
+.cp-intro{font-size:31px;line-height:1.3}
+.cp-production{display:flex;align-items:flex-start;justify-content:center;gap:25px;font-size:52px;padding:8px 0}
+.cp-term{display:inline-flex;flex-direction:column;align-items:center;gap:14px;white-space:nowrap}
+.cp-term small{font-size:23px;line-height:1.2;font-style:normal;white-space:normal;text-align:center}
+.cp-production .cp-term:last-child{max-width:400px}
+.cp-human-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center}
+.cp-human-layout .def{padding:18px 24px}.cp-human-layout .def-term{font-size:30px;margin-bottom:8px}.cp-human-layout .def-text{font-size:28px}
+.cp-reason{font-size:30px;line-height:1.4}
+.cp-per-worker{display:flex;align-items:center;gap:26px;font-size:29px;padding-top:4px}
+.cp-per-worker>.g-math{font-size:42px}.cp-conventions{margin-left:auto;font-size:31px}
+.cp-living{display:flex;gap:32px;align-items:center;font-size:26px;line-height:1.35}
+.cp-living>.g-math{font-size:34px;flex-shrink:0}.cp-living small{font-size:23px;color:#536078}
+.cp-log-level{font-size:43px;text-align:center;padding:10px 0}
+.cp-log-comparison>p{font-size:29px;margin-bottom:28px}
+.cp-log-identity{display:flex;align-items:center;justify-content:center;gap:22px;font-size:41px}
+.cp-log-identity>.cp-term{gap:18px}.cp-log-identity>.cp-term small{font-size:25px}
+.cp-log-identity>span:not(.cp-term){transform:translateY(-24px)}
+.cp-log-identity>.cp-term>.g-math{display:flex;align-items:center;gap:12px}
+.cp-share-rule{margin-top:12px;padding:19px 25px;font-size:28px;line-height:1.35}
+.cp-share-rule h3{color:#B45309;font-size:29px;margin-bottom:8px}
+.cp-share-rule .cp-sum{margin-top:10px;font-size:26px}
+.cp-residual{font-size:26px;line-height:1.35;margin-top:22px!important}
+.cp-country-layout{display:grid;grid-template-columns:minmax(0,40fr) minmax(0,60fr);gap:42px;align-items:center}
+.cp-country-position{font-size:22px;color:#536078}
+.slide .cp-country-name{font-size:43px;margin:6px 0 22px}
+.cp-country-sub{font-size:25px;margin-bottom:12px!important}
+.cp-country-equation{font-size:35px;white-space:nowrap}
+.cp-ratio-note{font-size:25px;margin-top:12px!important}
+.slide .cp-shares-title{font-size:29px;margin-top:32px;margin-bottom:12px}
+.cp-shares{font-size:29px;margin:0}.cp-shares>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0}.cp-shares dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cp-country-message{font-size:27px;line-height:1.35;margin-top:24px!important}
+.cp-chart svg{font-family:Palatino,"Palatino Linotype","Book Antiqua",serif;overflow:visible}
+.cp-chart .cp-svg-text{font-family:inherit}
+.cp-chart .cp-readout{font-size:22px;white-space:normal;max-width:96%;z-index:3;top:35px;color:#000;background:#fff;border-color:#D9DDE3}
+.cp-inspected{stroke:#000;stroke-width:3;filter:brightness(1.12)}
+.cp-step-marker{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.cp-static{display:none}.reading .cp-static,.cp-static-mode .cp-static{display:block}.reading .cp-live,.cp-static-mode .cp-live{display:none}
+.cp-static-table>p:first-child{font-size:29px;margin-bottom:24px}
+.cp-static-table table{font-size:27px;table-layout:fixed}.cp-static-table th,.cp-static-table td{padding:16px 8px;text-align:center;font-variant-numeric:tabular-nums}
+.cp-static-table th:first-child{width:180px;text-align:left}.cp-static-table thead th{font-size:23px;vertical-align:middle}.cp-static-table tbody th{font-size:26px}
+.cp-table-note{font-size:25px;line-height:1.4;margin-top:25px!important}
+.cp-group-layout{display:grid;grid-template-columns:minmax(0,38fr) minmax(0,62fr);gap:42px;align-items:center}
+.cp-group-scope{font-size:29px;line-height:1.4}
+.cp-group-result{padding:28px 0;font-size:27px;line-height:1.35}.cp-group-result>strong{display:block;font-size:44px;color:#001F5F;margin:10px 0}
+.cp-group-caveat{font-size:26px;line-height:1.35;padding:20px 24px}.cp-group-caveat h3{font-size:28px;color:#B45309;margin-bottom:12px}
+.cp-group-chart-title{font-size:28px;font-weight:600;margin-bottom:18px!important;color:#001F5F}
+.cp-group-caption{font-size:23px;line-height:1.3;text-align:center;color:#536078;margin-top:15px!important}
+.cp-legend{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;font-size:23px;margin-top:6px}.cp-legend>span{display:flex;align-items:center;gap:8px}.cp-legend i{display:inline-block;width:22px;height:17px}
+@media print{.cp-static{display:block!important}.cp-live{display:none!important}.cp-readout{display:none!important}}
+
+
+.cp-shares dd{display:flex;align-items:center;gap:14px}
+.cp-calculation-trigger{font:20px Palatino,"Palatino Linotype",serif;color:#001F5F;background:#F0F3F8;border:1px solid #D9DDE3;border-radius:8px;padding:5px 10px;cursor:pointer}
+.cp-calculation-trigger:focus-visible,.cp-calculation-close:focus-visible{outline:3px solid #B45309;outline-offset:3px}
+.cp-calculation-trigger[aria-expanded=true]{color:#fff;background:#001F5F}
+.cp-calculation-bubble{position:absolute;z-index:8;right:55px;top:180px;width:770px;box-sizing:border-box;padding:28px 32px;background:#FFF3E6;border:1px solid #E6D2BF;border-radius:12px;color:#000}
+.cp-calculation-bubble[hidden]{display:none}
+.cp-calculation-bubble h3{font-size:30px;color:#B45309;margin:0 35px 14px 0}
+.cp-calculation-bubble p{font-size:24px;line-height:1.3}
+.cp-calculation-close{position:absolute;right:14px;top:10px;border:0;background:none;font:32px Palatino,serif;color:#001F5F;cursor:pointer}
+.cp-calculation-formula{font-size:32px;line-height:1.3;margin:20px 0;text-align:center}
+.cp-calculation-bubble .cp-calculation-note{font-size:22px;color:#536078;margin-top:20px}
+.cp-static-share small{display:block;font-size:18px;line-height:1.2;margin-top:7px;white-space:nowrap}
+#s2-compta-pays .cp-static-table th,#s2-compta-pays .cp-static-table td{padding:10px 6px}
+#s2-compta-pays .cp-table-note{font-size:23px;margin-top:16px!important}
+@media print{.cp-calculation-bubble,.cp-calculation-trigger{display:none!important}}
+
+#s2-compta-pays .cp-static-table>p:first-child{font-size:26px;margin-bottom:14px}
+#s2-compta-pays .cp-static-table th,#s2-compta-pays .cp-static-table td{padding:7px 6px;line-height:1.18}
+#s2-compta-pays .cp-static-table thead th{font-size:20px}
+#s2-compta-pays .cp-static-table tbody th,#s2-compta-pays .cp-static-table tbody td{font-size:24px}
+#s2-compta-pays .cp-static-share small{font-size:18px;line-height:1.15;margin-top:5px}
+#s2-compta-pays .cp-table-note{font-size:21px;line-height:1.25;margin-top:12px!important}
