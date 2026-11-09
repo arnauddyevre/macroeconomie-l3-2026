@@ -169,3 +169,5 @@
 #s1-resumons .ss-summary-assumption{font-size:23px;color:#536078;margin:10px 0}
 #s1-resumons .ss-summary-results{display:flex;justify-content:space-around;align-items:center;gap:32px;background:#F0F3F8;border:1px solid #D9DDE3;border-radius:12px;padding:14px 24px}
 #s1-resumons .ss-summary-results .g-eq{font-size:36px;white-space:nowrap}
+
+#s1-simple-croissance .ss-population-assumption{margin-top:12px}

@@ -397,6 +397,7 @@
       <section data-step="2"><h2>Avec une PGF qui progresse</h2><p class="ss-caption">Retour au modèle général : ${m(`${f(dot('A'),'A')} = γ`)}.</p>
         <div class="ss-answer">${eq(`${f(dot('y'),'y')} = ${f('γ','1−α')}`)}</div>
         <p class="ss-balanced">Sur le sentier de croissance équilibrée</p>
+        <p class="ss-explanation ss-population-assumption">Le taux de croissance de la population reste nul par hypothèse : ${m('n = 0')}.</p>
       </section>
     </div>
     ${show(3,'<div class="g-panel orange ss-growth-takeaway">La progression de la PGF soutient la croissance durable de la production par travailleur ; l’accumulation du capital ne fait que l’accompagner.</div>')}
