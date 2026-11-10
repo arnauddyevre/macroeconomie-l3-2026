@@ -6,6 +6,9 @@
 #s1-entreprise .sf-firm-assumptions>li:first-child{padding-right:140px}
 #s1-entreprise::after{content:"Fin du cours 4";position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
 
+#s3-management{overflow:hidden}
+#s3-management::after{content:"Fin du cours 5";position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
+
 #s1-annales .slide-body{gap:44px}
 #s1-annales .sf-annales-list{font-size:35px;line-height:1.4}
 #s1-annales .sf-annales-list strong{color:#001F5F}
