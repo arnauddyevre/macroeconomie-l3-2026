@@ -12,7 +12,7 @@
     ['Solow, progrès technique','La PGF croît à un rythme donné.','A',m(dot('A')+' = γA'),''],
     ['AK','Le capital entretient son accumulation.','K',m(dot('K')+' = sAK'),''],
     ['Lucas','La formation accroît le capital humain.','h',m(dot('h')+' = uh'),''],
-    ['Romer, Aghion–Howitt','Les chercheurs produisent de nouvelles idées.','A',m(dot('A')+' = zL<sub class="g-text">chercheurs</sub>A'),''],
+    ['Romer, Aghion–Howitt','Les chercheurs produisent de nouvelles idées.','A',m(dot('A')+' = zL<sub>R</sub>A'),''],
     ['Jones, croissance semi-endogène','Davantage de chercheurs, car la population croît.','L',m(dot('L')+' = nL'),'']
   ];
   G.add({
@@ -31,5 +31,16 @@
         '<p class="gc-conventions">Formes simplifiées, sans dépréciation. '+m('u')+' : effort de formation ; '+m('z')+' : efficacité de la recherche.</p>'+
       '</div></div>',
     source:'Adapté de <a href="https://web.stanford.edu/~chadj/GrowthandIdeas.pdf" target="_blank" rel="noopener">Chad Jones, Growth and Ideas (2015), p. 4–5 et 10–11</a>.'
+  });
+  G.add({
+    id:'conclusion-synthese',part:'Conclusion',title:'Croître dans un monde fini ? Les conclusions',cls:'gc-summary',
+    html:'<ol class="gc-summary-list">'+
+      '<li><strong>Oui, en principe :</strong> les idées permettent de créer davantage de valeur sans utiliser toujours plus de matière.</li>'+
+      '<li data-step="1"><strong>Un cadre théorique simple et puissant, le modèle de Solow :</strong> accumuler du capital ne suffit pas ; le progrès technique soutient la croissance durable du niveau de vie.</li>'+
+      '<li data-step="2"><strong>Décomposer la croissance, l’importance de la PGF :</strong> capital physique, capital humain et PGF décomposent les écarts de richesse ; la PGF reste un résidu.</li>'+
+      '<li data-step="3"><strong>Ce qu’il y a dans la PGF :</strong> idées, éducation, recherche et développement, automatisation, qualité des institutions, management et allocation des facteurs.</li>'+
+      '<li data-step="4"><strong>IA :</strong> elle peut accélérer production et innovation ; les rendements décroissants et les maillons faibles limitent les gains.</li>'+
+      '</ol>',
+    source:''
   });
 })();

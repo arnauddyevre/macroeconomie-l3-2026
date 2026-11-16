@@ -1,0 +1,20 @@
+/* Charte Arnaud Dyèvre, 2026, appliquée au chapitre « L’austérité est-elle criminelle ? ».
+   Règles générales reprises de cours/01_croissance/revision.css le 16 novembre 2026. Le moteur, la structure et le contenu d’Antonin sont conservés. */
+:root{--paper:#fff;--paper-2:#f4f5f7;--stone:#f1f3f6;--ink:#000;--ink-2:#000;--muted:#536078;--rule:#cdd2da;--rule-2:#e8ebef;--blue:#001F5F;--blue-d:#001F5F;--blue-w:#f0f3f8;--red:#B45309;--red-d:#8a3e07;--red-w:#fbf4ee;--teal:#526780;--teal-d:#001F5F;--teal-w:#f0f3f8;--amber:#B45309;--amber-d:#8a3e07;--amber-w:#fbf4ee;--amber-f:#fbf4ee;--violet:#526780;--violet-d:#001F5F;--violet-w:#f0f3f8;--olive:#526780;--prune:#001F5F;--slate:#738095;--grey:#cdd2da;--sans:Palatino,"Palatino Linotype","Book Antiqua","TeX Gyre Pagella",serif;--serif:var(--sans);--line:#d9dde3;--line-stone:#d9dde3;--line-blue:#d9dde3;--line-teal:#d9dde3;--line-red:#e6d2bf;--line-amber:#e6d2bf;--line-violet:#d9dde3;--line-paper:#d9dde3}
+body.proj .slide h1,.cover-title,.sec-q,.sec-num,.def-term,.pj-card .h,.kicker,.cover-chap{color:var(--blue)}
+svg text{font-family:var(--serif)!important}
+body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-open{background:#001F5F!important;color:#fff!important}
+.slide.section-open *{color:#fff!important}
+.def,.callout,.warn,.pj-card,.p-kpi,.fiche,.card{box-shadow:none}
+.rev-cover{height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:65px;box-sizing:border-box;gap:30px}
+.rev-cover .rev-cover-kicker{transform:translateY(-70px);color:#B45309;font-size:27px;letter-spacing:.04em}
+.rev-cover h1{font-size:72px!important;line-height:1.15!important;font-weight:normal!important;color:#001F5F!important;margin:15px 0 35px!important;white-space:nowrap;min-height:212px;display:flex;align-items:center}
+.rev-cover p{font-size:30px;margin:0;transform:translateY(70px)}.rev-cover .rev-cover-term{font-size:25px;color:#536078}
+:root{--petrole:#526780;--petrole-d:#001F5F;--petrole-w:#f0f3f8;--line-petrole:#d9dde3}
+body,body.proj,body.proj .slide{background-color:#fff}
+/* Repère de partie retiré au-dessus des titres, comme au chapitre 1. */
+.kicker{display:none!important}
+/* Séparations : plan du chapitre, partie active en blanc, les autres grisées. */
+.rev-section-overview{align-items:flex-start!important;justify-content:center;height:100%}
+.rev-section-overview .pj-plan-row,.rev-section-overview .pj-plan-row *{color:#8f9bb3!important}
+.rev-section-overview .pj-plan-row.is-current,.rev-section-overview .pj-plan-row.is-current *{color:#fff!important}

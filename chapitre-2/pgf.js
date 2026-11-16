@@ -131,8 +131,7 @@
       <div class="pgf-card"><h3>Avant 1982 : extraire</h3><p>Pancréas de porcs et de bœufs, sous-produits des abattoirs.</p><p><strong>23 500 animaux</strong> pour 454 g d’insuline.</p></div>
       <div class="pgf-card pgf-card-accent" data-step="1"><h3>Depuis 1982 : faire fabriquer</h3><p>Un gène humain inséré dans des bactéries, cultivées en cuve.</p><p><strong>Aucun animal</strong> : l’offre ne dépend plus des abattoirs.</p></div>
     </div>
-    <p class="pgf-lecture" data-step="2">Ce qui a changé, c’est la recette : <strong>une idée a levé une contrainte de ressources</strong>.</p>
-    <p class="pgf-question" data-step="3">Quels sujets de notre liste retrouvez-vous ?</p>`,
+    <p class="pgf-lecture" data-step="2">Ce qui a changé, c’est la recette : <strong>une idée a levé une contrainte de ressources</strong>.</p>`,
     `<figure class="pgf-photo"><img src="assets/ad2e33dfd03b82d8.jpg" alt="Deux photographies d’atelier chez Eli Lilly : un employé examine des pancréas dans un bac, un autre alimente un broyeur."><figcaption>À gauche, les pancréas sont examinés à leur arrivée de l’abattoir. À droite, ils passent dans des broyeurs avant l’extraction de l’insuline.<span class="pgf-credit">Fabrication de l’insuline chez Eli Lilly. Photographies publiées par Diane Wendt, ${link(smithsonian,'« Two tons of pig parts: Making insulin in the 1920s »')}, National Museum of American History, Smithsonian Institution, 2013.</span></figcaption></figure>`,'pgf-insuline'),
   source:`Chiffres : ${link('https://www.gene.com/40th/cloning-insulin','Genentech, Cloning insulin')} ; ${link(smithsonian,'National Museum of American History (2013)')}. Dates : ${link('https://www.nsf.gov/impacts/rdna-insulin','National Science Foundation')}.`});
 
@@ -151,7 +150,7 @@
         <p class="pgf-book-title"><cite>More from Less</cite></p>
         <p class="pgf-book-author">Andrew McAfee, 2019</p>
         <p class="pgf-book-thesis">Sa thèse : prospérer en utilisant moins de ressources.</p>
-        <p class="pgf-book-links">${link('https://inquisitivebiologist.com/2020/04/27/book-review-more-from-less-the-surprising-story-of-how-we-learned-to-prosper-using-fewer-resources-and-what-happens-next/','Compte rendu critique')}.<br>Couverture : ${link('https://www.simonandschuster.com/books/More-from-Less/Andrew-McAfee/9781982103576','Scribner')}.</p>
+        <p class="pgf-book-links">Couverture : ${link('https://www.simonandschuster.com/books/More-from-Less/Andrew-McAfee/9781982103576','Scribner')}.</p>
       </div>
       <p class="pgf-site"><cite>${link('https://ordinaryabundance.com/','Ordinary Abundance')}</cite>, Jordan Dworkin. Une visite d’appartement : ce que la croissance a mis dans nos objets ordinaires.</p>
     </aside>

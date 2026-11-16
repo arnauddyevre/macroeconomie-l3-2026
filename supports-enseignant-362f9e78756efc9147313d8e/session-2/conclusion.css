@@ -29,4 +29,9 @@
 .gc-models sup,.gc-models sub{font-size:.65em}
 .gc-slide .gc-conventions{font-size:20px;line-height:1.35;color:#536078;margin-top:20px}
 .gc-slide .source{font-size:15px;line-height:1.3}
+.gc-summary-list{width:100%;box-sizing:border-box;margin:0;padding:0 24px 0 1.6em;font-size:32px;line-height:1.38;text-wrap:pretty}
+.gc-summary-list li{padding-left:14px}
+.gc-summary-list li+li{margin-top:26px}
+.gc-summary-list li::marker{color:#B45309;font-weight:700}
+.gc-summary-list strong{color:#001F5F}
 @media print{.gc-layout{break-inside:avoid}}

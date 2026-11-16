@@ -16,6 +16,6 @@
   window.SLIDES=G2.slides;
   window.SLIDES_ENSEIGNANT=[];
   window.NOTES=Object.fromEntries(SLIDES.map(s=>[s.id,s.notes||'']));
-  window.CH02_REALISATION={date:'2026-11-16',sections:['Introduction','Solow','Applications empiriques du modèle de Solow : comptabilité de la croissance','Qu’y a-t-il dans la PGF ?','L’impact de l’IA sur la croissance','Conclusion','Annexes'],implemented:76,main:58,appendix:18};
-  if(SLIDES.length!==76)throw new Error(`Le parcours doit contenir 76 écrans, reçu : ${SLIDES.length}`);
+  window.CH02_REALISATION={date:'2026-11-16',sections:['Introduction','Solow','Applications empiriques du modèle de Solow : comptabilité de la croissance','Qu’y a-t-il dans la PGF ?','L’impact de l’IA sur la croissance','Conclusion','Annexes'],implemented:77,main:59,appendix:18};
+  if(SLIDES.length!==77)throw new Error(`Le parcours doit contenir 77 écrans, reçu : ${SLIDES.length}`);
 })();

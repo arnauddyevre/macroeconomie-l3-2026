@@ -16,5 +16,5 @@
 
 
 
-  if(SLIDES.length!==76)throw new Error(`Le parcours doit contenir 76 écrans, reçu : ${SLIDES.length}`);
+  if(SLIDES.length!==77)throw new Error(`Le parcours doit contenir 77 écrans, reçu : ${SLIDES.length}`);
 })();
