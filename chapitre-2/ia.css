@@ -1,0 +1,70 @@
+
+.ia-split{display:grid;grid-template-columns:minmax(0,44fr) minmax(0,56fr);gap:54px;align-items:center;width:100%}
+.ia-split>div{min-width:0}
+.ia-slide .g-bullets{font-size:33px;line-height:1.32;margin:0;text-wrap:pretty}
+.ia-slide .g-bullets li+li{margin-top:.78em!important}
+.ia-slide .g-bullets strong{color:#001F5F}
+.ia-slide .ia-eq{display:block;font-style:italic;color:#001F5F;font-size:42px;line-height:1.4;margin:10px 0 0;white-space:nowrap}
+.ia-slide .ia-eq sup,.ia-slide .ia-eq sub{font-size:.62em}
+.ia-slide .ia-eq .g-text{font-style:normal}
+.ia-slide .ia-card{background:#F0F3F8;border:1px solid #D9DDE3;border-radius:12px;padding:28px 30px}
+.ia-slide .ia-card h2{font-size:32px;margin:0 0 24px}
+.ia-slide .ia-card .g-bullets{font-size:31px}
+.ia-slide .ia-orange{background:#FFF3E6;border-color:#E6D2BF}
+.ia-slide .ia-orange h2,.ia-slide .ia-orange strong,.ia-slide .ia-orange .ia-eq{color:#B45309}
+.ia-slide .ia-stack{display:flex;flex-direction:column;gap:24px}
+.ia-slide .ia-small{font-size:23px;line-height:1.3;color:#536078}
+.ia-slide .ia-small li+li{margin-top:.4em!important}
+.ia-slide .ia-context{margin-top:26px}
+.ia-slide .ia-chart-title{font-size:25px;line-height:1.2;margin:0 0 8px;color:#001F5F}
+.ia-slide .ia-chart-title .g-bullets{font-size:25px;line-height:1.2}
+.ia-slide .ia-chart-note{margin-top:10px}
+.ia-slide .ia-chart-note .g-bullets{font-size:22px;line-height:1.25;color:#536078}
+.ia-slide .source{font-size:15px;line-height:1.3;max-height:40px}
+.ia-slide .chart text.ch-lab,.ia-slide .chart text.ch-val{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+.ia-slide .chart .ia-cursor{pointer-events:none}
+.ia-slide .ia-chart-math .ch-lab{font-style:italic}
+.ia-slide .ia-controls{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 10px}
+.ia-slide .ia-controls button{font-size:22px}
+.ia-slide .ia-slider{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;font-size:24px;margin-top:12px}
+.ia-slide .ia-slider input{width:100%;accent-color:#B45309}
+.ia-slide .ia-slider output{color:#B45309;font-variant-numeric:tabular-nums;min-width:70px;display:inline-block}
+
+#s4-deux-canaux .ia-split{grid-template-columns:1fr 1fr;align-items:stretch;gap:44px}
+#s4-deux-canaux .ia-card{padding:34px}
+#s4-deux-canaux .ia-eq{font-size:46px;margin-top:28px}
+
+#s4-modele .ia-split{grid-template-columns:minmax(0,55fr) minmax(0,45fr);gap:48px}
+#s4-modele .ia-system .g-bullets{font-size:28px}
+#s4-modele .ia-system .g-bullets li+li{margin-top:28px!important}
+#s4-modele .ia-system .ia-eq{font-size:43px;margin-top:6px}
+#s4-modele .ia-definitions .g-bullets{font-size:29px}
+#s4-modele .ia-definitions .g-bullets li+li{margin-top:18px!important}
+#s4-modele .ia-context .g-bullets{font-size:25px}
+#s4-modele .ia-context .ia-eq{font-size:29px}
+#s4-innovation .g-bullets{font-size:31px}
+#s4-innovation .ia-eq{font-size:36px}
+#s4-boucle .ia-card .g-bullets{font-size:29px}
+#s4-boucle .ia-eq{font-size:39px}
+
+#s4-seuil .ia-split{grid-template-columns:minmax(0,41fr) minmax(0,59fr);gap:46px}
+#s4-seuil .g-bullets{font-size:28px}
+#s4-seuil .ia-eq{font-size:36px;margin:0 0 22px}
+#s4-seuil .ia-context .g-bullets{font-size:21px}
+#s4-seuil .g-bullets li+li{margin-top:18px!important}
+.ia-regime{font-style:italic;font-weight:700;white-space:nowrap}
+
+#s4-calcul .ia-split{grid-template-columns:minmax(0,45fr) minmax(0,55fr)}
+#s4-calcul .ia-eq{font-size:40px}
+.ia-slide .ia-table{border-collapse:collapse;width:100%;font-size:29px;line-height:1.3}
+.ia-slide .ia-table th{text-align:left;font-weight:700;color:#001F5F;padding:14px 12px;border-bottom:1px solid #D9DDE3}
+.ia-slide .ia-table td{padding:24px 12px;vertical-align:middle}
+.ia-slide .ia-table td:first-child,.ia-slide .ia-table td:nth-child(2){font-size:33px;font-style:italic;white-space:nowrap}
+.ia-slide .ia-table td:last-child{font-size:28px}
+#s4-goulots .g-bullets{font-size:31px}
+#s4-goulots .ia-eq{font-size:38px}
+#s4-message .ia-split{grid-template-columns:1fr 1fr;gap:48px;align-items:stretch}
+#s4-message .ia-card{padding:30px}
+#s4-message .ia-card .g-bullets{font-size:32px}
+@media print{.ia-split,.ia-card,.ia-table{break-inside:avoid}.ia-slide .ia-controls,.ia-slide .ia-slider{display:none!important}}
+body.reading .ia-controls,body.reading .ia-slider{display:none!important}

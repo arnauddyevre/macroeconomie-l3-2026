@@ -88,7 +88,7 @@
       <tr><td>${m('K')}</td><td>Capital productif</td></tr>
       <tr><td>${m('L')}</td><td>Personnes en emploi</td></tr>
       <tr><td>${m('A')}</td><td>Productivité globale des facteurs</td></tr>
-      <tr><td>${m('N, H')}</td><td>Population, heures travaillées</td></tr>
+      <tr><td>${m('N')}</td><td>Population</td></tr>
     </table></section>
     <section class="g-panel" data-step="1"><h2>Paramètres</h2><table class="sf-vars">
       <tr><td>${m('α')}</td><td>Élasticité au capital</td></tr>
@@ -105,7 +105,7 @@
       <li>Économie fermée à un bien</li>
       <li>Concurrence parfaite. Prix du bien unique : ${m('1')} (un <em>numéraire</em>).</li>
       <li>Travail offert = travail employé.</li>
-      <li>${m('L/N')} et ${m('H/L')} constants</li>
+      <li>${m('L/N')} constant</li>
     </ul></section>
   </div>`});
 

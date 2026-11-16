@@ -1,4 +1,4 @@
-/* Assemblage du parcours réalisé. La section 2 commence par les écarts de niveaux ; sa suite et la section 4 restent à discuter. */
+/* Assemblage du parcours réalisé. La suite de la comptabilité reste à discuter ; section IA ajoutée le 16 novembre. */
 (function(){
   'use strict';
   // Décision du 9 novembre : réserver le développement général de Solow aux annexes.
@@ -16,6 +16,6 @@
   window.SLIDES=G2.slides;
   window.SLIDES_ENSEIGNANT=[];
   window.NOTES=Object.fromEntries(SLIDES.map(s=>[s.id,s.notes||'']));
-  window.CH02_REALISATION={date:'2026-11-09',sections:['Introduction','Solow','Applications empiriques du modèle de Solow : comptabilité de la croissance','Qu’y a-t-il dans la PGF ?','Annexes'],implemented:62,main:44,appendix:18};
-  if(SLIDES.length!==62)throw new Error(`Le parcours doit contenir 62 écrans, reçu : ${SLIDES.length}`);
+  window.CH02_REALISATION={date:'2026-11-16',sections:['Introduction','Solow','Applications empiriques du modèle de Solow : comptabilité de la croissance','Qu’y a-t-il dans la PGF ?','L’impact de l’IA sur la croissance','Conclusion','Annexes'],implemented:76,main:58,appendix:18};
+  if(SLIDES.length!==76)throw new Error(`Le parcours doit contenir 76 écrans, reçu : ${SLIDES.length}`);
 })();

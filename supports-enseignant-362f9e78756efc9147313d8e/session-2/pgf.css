@@ -1,27 +1,122 @@
-/* Reprise locale de la section PGF du support 2025, dans la charte du chapitre. */
-.pgf-columns{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,1fr);gap:52px;align-items:center;width:100%}
-.pgf-text{min-width:0}.pgf-slide .g-bullets{font-size:32px;line-height:1.38}
+/* Section PGF, révision du 15 novembre 2026 : texte court à gauche, graphique natif à droite. */
+.pgf-split{display:grid;grid-template-columns:minmax(0,41fr) minmax(0,59fr);gap:56px;align-items:center;width:100%}
+.pgf-text{min-width:0}
+.pgf-slide .g-bullets{font-size:35px;line-height:1.34}
+.pgf-slide .g-bullets li+li{margin-top:.85em!important}
 .pgf-slide .g-bullets strong{color:#001F5F}
-.pgf-dense .g-bullets{font-size:30px;line-height:1.36}
-.pgf-slide .g-bullets li+li{margin-top:.58em!important}
-.pgf-photo,.pgf-figure{margin:0;min-width:0;text-align:center}
-.pgf-photo img{display:block;width:100%;height:auto;max-height:480px;object-fit:contain;margin:0 auto}
-.pgf-photo figcaption,.pgf-figure figcaption{font-size:21px;line-height:1.35;color:#536078;margin-top:16px}
-.pgf-photo figcaption a,.pgf-figure figcaption a{color:inherit;text-underline-offset:3px}
-.pgf-photo .pgf-credit{display:block;font-size:16px;margin-top:8px}
-.pgf-portrait img{max-height:450px}
-.pgf-slide .source{font-size:16px;line-height:1.3;max-height:43px}
-.pgf-chart-intro{font-size:31px;color:#001F5F;text-align:center;line-height:1.35}
-.pgf-figure img{display:block;max-width:100%;height:auto;object-fit:contain;margin:0 auto}
-.pgf-education-figure img{width:960px;max-height:545px}
-.pgf-education-figure figcaption{font-size:23px}
-#s3-education-historique .slide-body{gap:16px}
-.pgf-figures-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
-.pgf-figures-pair img{width:100%;height:410px}
-.pgf-figures-pair figcaption{font-size:25px;color:#001F5F}
-.pgf-caution{font-size:29px;text-align:center;color:#B45309;margin-top:12px!important}
-.pgf-management{grid-template-columns:minmax(0,1.05fr) minmax(0,1.2fr);gap:44px}
-.pgf-management .g-bullets{font-size:29px;line-height:1.4}
-.pgf-management-figure img{width:100%;max-height:500px}
-.pgf-management-figure figcaption{font-size:21px;line-height:1.4}
-@media print{.pgf-photo img,.pgf-figure img{break-inside:avoid}.pgf-columns,.pgf-figures-pair{break-inside:avoid}}
+.pgf-visual{min-width:0}
+.pgf-slide .pgf-chart-title{font-size:25px;font-weight:700;line-height:1.25;color:#001F5F;margin:0 0 6px}
+.pgf-slide .pgf-caption{font-size:23px;line-height:1.35;color:#536078;margin:8px 0 0}
+.pgf-slide .source{font-size:15px;line-height:1.3;max-height:40px}
+.pgf-svg-text{font-size:22px;fill:#000}
+/* Libellés posés sur les tracés : liseré blanc pour rester lisibles au-dessus des points et des courbes. */
+.pgf-slide .chart text.ch-lab,.pgf-slide .chart text.ch-val{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+.pgf-slide .pgf-inst .chart text.ch-lab,.pgf-slide .pgf-inst-pair .chart text.ch-lab{font-size:19px!important}
+.pgf-readout{font-size:17px;max-width:520px;white-space:normal}
+.pgf-inspected{opacity:.82}
+.pgf-legend{display:flex;gap:34px;justify-content:center;font-size:22px;color:#000;margin-top:6px}
+.pgf-legend span{display:inline-flex;align-items:center;gap:10px}
+.pgf-legend i{display:inline-block;width:26px;height:16px;border-radius:2px}
+
+/* Une idée sert à tous : équation et deux encadrés de la famille des bulles. */
+.pgf-usines{display:flex;flex-direction:column;gap:24px}
+.pgf-usines .g-eq{font-size:44px;line-height:1.2;margin:0;text-align:center}
+.pgf-card{border:1px solid #D9DDE3;border-radius:12px;background:#F0F3F8;padding:20px 28px}
+.pgf-card h3{font-size:27px;line-height:1.2;color:#001F5F;margin:0 0 8px}
+.pgf-slide .pgf-card p{font-size:36px;line-height:1.25;margin:0 0 8px}
+.pgf-card small{display:block;font-size:24px;line-height:1.35;color:#3F4854}
+.pgf-card-accent{background:#FFF3E6;border-color:#EBD3B8}
+.pgf-card-accent h3{color:#B45309}
+
+/* Écran des idées : propriétés à gauche ; encadrés, production d'idées et ressources à droite. */
+.pgf-idees-slide{grid-template-columns:minmax(0,44fr) minmax(0,56fr);gap:48px}
+.pgf-slide .pgf-lead{font-size:32px;line-height:1.34;margin:0 0 20px}
+.pgf-lead strong{color:#001F5F}
+.pgf-slide .pgf-list-title{font-size:30px;line-height:1.3;margin:0 0 10px}
+.pgf-idees-slide .g-bullets{font-size:30px;line-height:1.32}
+.pgf-idees-slide .g-bullets li+li{margin-top:.45em!important}
+.pgf-idees-slide .pgf-usines{gap:16px}
+.pgf-idees-slide .pgf-card{padding:14px 24px}
+.pgf-idees-slide .pgf-card h3{font-size:25px;margin-bottom:4px}
+.pgf-idees-slide .pgf-card p{font-size:32px;margin-bottom:4px}
+.pgf-idees-slide .pgf-card small{font-size:22px}
+.pgf-idees{border:1px solid #D9DDE3;border-radius:12px;padding:14px 24px}
+.pgf-idees .pgf-model{gap:6px}
+.pgf-idees .pgf-model>div{grid-template-columns:150px minmax(0,1fr);align-items:center;font-size:31px}
+.pgf-slide .pgf-model-note{font-size:22px;line-height:1.35;color:#3F4854;margin:10px 0 0}
+
+/* Institutions et revenu : nuage vivant, deux nuages en lecture et à l'impression. */
+.pgf-inst{grid-template-columns:minmax(0,33fr) minmax(0,67fr);gap:44px}
+.pgf-inst .pgf-text{display:flex;flex-direction:column;gap:26px}
+.pgf-slide .pgf-scope{font-size:31px;line-height:1.35}
+.pgf-scope strong{color:#001F5F}
+.pgf-inst .g-controls{flex-direction:column;align-items:stretch;gap:12px;margin:0}
+.pgf-inst .g-controls button{font-size:25px;padding:12px 18px;text-align:left}
+.pgf-caution h3{font-size:27px;line-height:1.25;margin:0 0 8px}
+.pgf-slide .pgf-caution p{font-size:26px;line-height:1.35}
+#pgf-inst-chart circle{transition:cx .8s ease,cy .8s ease}
+.pgf-inst-static .pgf-inst-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;margin:10px 0 14px}
+.pgf-inst-static .pgf-chart-title{font-size:22px}
+.pgf-inst-static .pgf-caution{padding:12px 22px}
+
+/* Mauvaise allocation : modèle à gauche, courbe et curseur à droite. */
+.pgf-allocation{grid-template-columns:minmax(0,46fr) minmax(0,54fr);gap:48px}
+.pgf-model{display:grid;gap:16px}
+.pgf-model>div{display:grid;grid-template-columns:168px minmax(0,1fr);align-items:baseline;gap:18px;font-size:33px;line-height:1.3}
+.pgf-model>div>span:first-child{font-size:26px;font-weight:700;color:#001F5F}
+.pgf-model sub{font-size:.62em}.pgf-model sup{font-size:.62em}
+.pgf-model-text{font-size:29px}
+.pgf-model-result{margin-top:26px;padding:16px 24px;border:1px solid #D9DDE3;border-radius:12px;background:#F0F3F8;font-size:37px;line-height:1.3;color:#001F5F;text-align:center}
+.pgf-root{border-top:2px solid currentColor;padding:0 .12em;margin-left:.04em}
+.pgf-slide .pgf-evidence{margin-top:22px;font-size:28px;line-height:1.36}
+.pgf-evidence strong{color:#B45309}
+.pgf-slider{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:8px 18px;margin-top:4px;font-size:23px}
+.pgf-slider input{width:100%;accent-color:#B45309;height:26px}
+.pgf-slider output{grid-column:1/-1;font-size:24px;color:#001F5F;min-height:32px}
+.pgf-cursor{pointer-events:none}
+
+/* Exemple de l'insuline : encadrés avant et après à gauche, photographie créditée à droite. */
+.pgf-insuline{grid-template-columns:minmax(0,54fr) minmax(0,46fr);gap:48px}
+.pgf-insuline .pgf-usines{gap:16px}
+.pgf-insuline .pgf-card{padding:16px 24px}
+.pgf-insuline .pgf-card h3{font-size:26px;margin-bottom:6px}
+.pgf-slide .pgf-insuline .pgf-card p{font-size:28px;line-height:1.3;margin:0 0 4px}
+.pgf-insuline .pgf-card strong{color:#001F5F}
+.pgf-insuline .pgf-card-accent strong{color:#B45309}
+.pgf-slide .pgf-lecture{font-size:30px;line-height:1.32;margin:20px 0 0}
+.pgf-lecture strong{color:#001F5F}
+.pgf-slide .pgf-question{font-size:30px;line-height:1.3;font-weight:700;color:#B45309;margin:14px 0 0}
+.pgf-photo{margin:0;min-width:0}
+.pgf-photo img{display:block;width:100%;height:auto}
+.pgf-photo figcaption{font-size:22px;line-height:1.35;color:#000;margin-top:12px}
+.pgf-photo .pgf-credit{display:block;font-size:15px;line-height:1.35;color:#536078;margin-top:8px}
+.pgf-photo .pgf-credit a{color:inherit;text-underline-offset:3px}
+@media print{.pgf-split,.pgf-photo,.pgf-inst-pair{break-inside:avoid}.pgf-slider{display:none!important}}
+
+/* Valeur et matière : capture et citation dans la colonne gauche élargie ; puces et lecture à droite. */
+.pgf-valeur-matiere{grid-template-columns:minmax(0,62fr) minmax(0,38fr);gap:52px}
+.pgf-valeur-points{min-width:0}
+.pgf-valeur-matiere .g-bullets{font-size:28px;line-height:1.24}
+.pgf-valeur-matiere .g-bullets li+li{margin-top:.42em!important}
+.pgf-slide .pgf-jancovici-quote{font-size:25px;line-height:1.3;font-style:normal;margin:18px 0 12px;padding:0;border:0;color:#000}
+.pgf-jancovici-quote em{color:#B45309}
+.pgf-slide .pgf-jancovici-attribution{font-size:22px;line-height:1.3;margin:0}
+.pgf-jancovici-attribution strong{color:#001F5F}
+.pgf-jancovici-attribution a{font-size:19px;color:#536078;text-underline-offset:3px}
+.pgf-jancovici-col{min-width:0}
+.pgf-jancovici-photo img{width:auto;max-width:100%;height:340px;object-fit:contain;margin:0 auto}
+.pgf-jancovici-photo figcaption{margin-top:8px;text-align:center}
+.pgf-jancovici-photo .pgf-credit{margin-top:0}
+@media print{.pgf-valeur-matiere,.pgf-jancovici-quote{break-inside:avoid}}
+
+.pgf-mcafee-book{display:grid;grid-template-columns:100px minmax(0,1fr);gap:18px;align-items:center;margin-top:20px;padding:14px 18px;background:#FFF3E6;border:1px solid #EBD3B8;border-radius:10px}
+.pgf-mcafee-book img{display:block;width:100px;height:auto}
+.pgf-slide .pgf-mcafee-book p{margin:0}
+.pgf-slide .pgf-book-label{font-size:17px;line-height:1.2;color:#B45309}
+.pgf-slide .pgf-book-title{font-size:27px;line-height:1.18;color:#001F5F;margin-top:4px}
+.pgf-slide .pgf-book-author{font-size:21px;line-height:1.25;margin-top:3px}
+.pgf-slide .pgf-book-thesis{font-size:21px;line-height:1.25;margin-top:8px}
+.pgf-slide .pgf-book-links{font-size:15px;line-height:1.25;margin-top:8px;color:#536078}
+.pgf-book-links a{color:inherit;text-underline-offset:2px}
+.pgf-slide .pgf-mcafee-book .pgf-site{grid-column:1/-1;font-size:21px;line-height:1.25;padding-top:12px;border-top:1px solid #EBD3B8}
+.pgf-site a{color:#001F5F;text-underline-offset:3px}

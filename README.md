@@ -9,10 +9,12 @@ Arnaud Dyèvre
 | Syllabus | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/syllabus.html) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/syllabus.pdf) |
 | 0. Introduction à la macroéconomie | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/introduction/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/introduction/cours.pdf) |
 | 1. Mesurer la richesse nationale | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/cours.pdf) |
-| 2. Croître à l’infini dans un monde fini ? Introduction, Solow, comptabilité et PGF | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/cours.pdf) |
+| 2. Croître à l’infini dans un monde fini ? Solow, comptabilité, PGF, ressources et IA | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/cours.pdf) |
 | Exercice : D’où vient la croissance du niveau de vie ? | — | [Télécharger l’exercice sans corrigé](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/exercices/niveau_vie_exercice_etudiant.pdf) |
 
-Supports de cours mis à jour le 10 novembre 2026 : les exercices intégrés aux supports sont proposés sans corrigé. Le chapitre 2 comprend 62 diapositives : 44 dans le parcours principal et 18 en annexe. Introduction, modèle de Solow, aparté sur les annales, comptabilité des écarts de niveau de vie et section « Qu’y a-t-il dans la PGF ? ». Il présente l’optimisation des entreprises, les parts factorielles, les simulations interactives, l’éducation, la recherche, l’automatisation, les institutions et le management. Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les bandeaux repèrent la fin des cinq premiers cours.
+Chapitre 2 mis à jour le 16 novembre 2026 : 76 diapositives, dont 58 dans le parcours principal et 18 en annexe. Il réunit le modèle de Solow, la comptabilité des écarts de niveau de vie, les déterminants de la PGF, les ressources naturelles et une section sur l’impact de l’IA sur la production et l’innovation. Les graphiques sont interactifs dans le HTML et complets dans le PDF. Les exercices intégrés aux supports étudiants sont proposés sans corrigé.
+
+Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les bandeaux repèrent la fin des cinq premiers cours.
 
 ## Annales
 
