@@ -13,7 +13,9 @@ Arnaud Dyèvre
 | 3. L’austérité est-elle criminelle ? Première partie | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/cours.pdf) |
 | Exercice : D’où vient la croissance du niveau de vie ? | — | [Télécharger l’exercice sans corrigé](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/exercices/niveau_vie_exercice_etudiant.pdf) |
 
-Chapitre 2 mis à jour le 16 novembre 2026 : 77 diapositives, dont 59 dans le parcours principal et 18 en annexe. Il réunit le modèle de Solow, la comptabilité des écarts de niveau de vie, les déterminants de la PGF, les ressources naturelles et une section sur l’impact de l’IA sur la production et l’innovation. Les graphiques sont interactifs dans le HTML et complets dans le PDF. Les exercices intégrés aux supports étudiants sont proposés sans corrigé.
+Chapitre 2 mis à jour le 16 novembre 2026 : 77 diapositives, dont 59 dans le parcours principal et 18 en annexe. Il réunit le modèle de Solow, la comptabilité des écarts de niveau de vie, les déterminants de la PGF, les ressources naturelles et une section sur l’impact de l’IA sur la production et l’innovation. Les graphiques sont interactifs dans le HTML et complets dans le PDF.
+
+Les cinq QCM du chapitre 1 comprennent leurs bonnes réponses et explications, ajoutées le 17 novembre 2026 : choisissez une option ou cliquez sur « Voir la réponse » dans le HTML ; les réponses sont visibles dans le PDF. Les autres exercices intégrés restent proposés sans corrigé.
 
 Le chapitre 3 comprend 48 diapositives, jusqu’à « Calculer un multiplicateur avec fuites », incluse. Le syllabus place désormais ce chapitre avant « Emploi, tâches et intelligence artificielle ».
 

@@ -1844,3 +1844,4 @@ body.reading .slide.exercise,
 }
 
 .student-note{position:fixed;bottom:8px;left:16px;font-size:13px;color:#536078;z-index:100}@media print{.student-note{display:none}}
+.student-quiz-actions{margin-top:14px}.student-quiz-actions .btn{font-family:Palatino,"Palatino Linotype",serif}body.reading .student-quiz-actions{display:none}@media print{.student-quiz-actions{display:none!important}}
