@@ -21,6 +21,18 @@ Chapitre 3 mis à jour le 18 novembre 2026 : 99 diapositives, budget public, dyn
 
 Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les bandeaux repèrent la fin des cinq premiers cours.
 
+## TD de 2025 — Exercices supplémentaires
+
+Trois TD en français avec leurs corrigés, ajoutés le 18 novembre 2026. Les documents d’origine sont inchangés ; les errata corrigent les erreurs relevées lors de leur vérification.
+
+| TD | Thèmes | Sujet (PDF) | Corrigé (PDF) | Errata (PDF) |
+|---|---|---|---|---|
+| 1 | Croissance, PGF, facteurs, environnement | [Sujet](td/td1-2025-sujet.pdf) | [Corrigé](td/td1-2025-corrige.pdf) | [Errata](td/td1-2025-errata.pdf) |
+| 2 | Solow, cycles, croissance trimestrielle | [Sujet](td/td2-2025-sujet.pdf) | [Corrigé](td/td2-2025-corrige.pdf) | [Errata](td/td2-2025-errata.pdf) |
+| 3 | Croix keynésienne, budget et dette | [Sujet](td/td3-2025-sujet.pdf) | [Corrigé](td/td3-2025-corrige.pdf) | [Errata](td/td3-2025-errata.pdf) |
+
+L’exercice de recherche de données du TD 1 n’a pas de corrigé fourni. L’exercice sur la dette du TD 3 doit être lu avec l’errata, qui distingue déficit total et déficit primaire. Les données et notations restent celles de 2025 ; le TD 2 utilise Solow en temps discret.
+
 ## Annales
 
 Sujets et corrigés ajoutés le 8 novembre 2026, errata le 9 novembre 2026. Les sujets et corrigés correspondent aux programmes des années indiquées. Pour chaque année, l’errata corrige les erreurs relevées dans le sujet ou le corrigé. Le programme et les modalités de 2026 figurent dans le [syllabus](https://arnauddyevre.github.io/macroeconomie-l3-2026/syllabus.html).
