@@ -10,14 +10,14 @@ Arnaud Dyèvre
 | 0. Introduction à la macroéconomie | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/introduction/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/introduction/cours.pdf) |
 | 1. Mesurer la richesse nationale | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/cours.pdf) |
 | 2. Croître à l’infini dans un monde fini ? Solow, comptabilité, PGF, ressources et IA | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/cours.pdf) |
-| 3. L’austérité est-elle criminelle ? Première partie | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/cours.pdf) |
+| 3. L’austérité est-elle criminelle ? | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/cours.pdf) |
 | Exercice : D’où vient la croissance du niveau de vie ? | — | [Télécharger l’exercice sans corrigé](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/exercices/niveau_vie_exercice_etudiant.pdf) |
 
 Chapitre 2 mis à jour le 16 novembre 2026 : 77 diapositives, dont 59 dans le parcours principal et 18 en annexe. Il réunit le modèle de Solow, la comptabilité des écarts de niveau de vie, les déterminants de la PGF, les ressources naturelles et une section sur l’impact de l’IA sur la production et l’innovation. Les graphiques sont interactifs dans le HTML et complets dans le PDF.
 
 Les cinq QCM du chapitre 1 comprennent leurs bonnes réponses et explications, ajoutées le 17 novembre 2026 : choisissez une option ou cliquez sur « Voir la réponse » dans le HTML ; les réponses sont visibles dans le PDF. Les autres exercices intégrés restent proposés sans corrigé.
 
-Le chapitre 3 comprend 48 diapositives, jusqu’à « Calculer un multiplicateur avec fuites », incluse. Le syllabus place désormais ce chapitre avant « Emploi, tâches et intelligence artificielle ».
+Chapitre 3 mis à jour le 18 novembre 2026 : 99 diapositives, budget public, dynamique de la dette, croix keynésienne, récession, austérité, crise grecque et annexes. Le syllabus place désormais ce chapitre avant « Emploi, tâches et intelligence artificielle ».
 
 Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les bandeaux repèrent la fin des cinq premiers cours.
 

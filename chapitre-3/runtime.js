@@ -536,7 +536,8 @@
     const ext = (s.extensions || []).map((e, j) => `<button class="ext-btn" data-ext="${i}:${j}">${esc(e.label)}</button>`).join('');
     const prov = s.prov ? `<span class="prov prov-${s.prov}">${{ obs: 'Données observées', fictif: 'Exemple fictif', sim: 'Simulation', illu: 'Illustration', mixte: 'Données et exemple' }[s.prov] || esc(s.prov)}</span>` : '';
     if (s.layout === 'cover' || s.layout === 'raw') return s.html;
-    const head = s.layout === 'section' ? '' :
+
+    const head = s.layout === 'section' ? `<header class="slide-head" aria-hidden="true"><h1>${s.title}</h1></header>` :
       `<header class="slide-head"><div class="kicker">${s.part ? `<span>${esc(s.part)}</span>` : ''}${s.kicker ? `<span class="kicker-part">${esc(s.kicker)}</span>` : ''}</div><h1>${s.title}</h1></header>`;
     const foot = `<footer class="slide-foot"><div class="source">${s.source || ''}</div><div class="foot-right">${ext}${prov}</div></footer>`;
     return `${head}<div class="slide-body">${s.html || ''}</div>${foot}`;
@@ -1075,7 +1076,7 @@ window.Croix = (function () {
       if (!near(v, eqX.concat(extraX))) CH.txt(svg, X(v), y0 + 31, fmt(v, 0), 'ch-tick ch-num', { 'text-anchor': 'middle', style: `font-size:${fs}px` });
       if (!near(v, eqY.concat(extraY))) CH.txt(svg, x0 - 13, Y(v) + 6.5, fmt(v, 0), 'ch-tick ch-num', { 'text-anchor': 'end', style: `font-size:${fs}px` });
     });
-    CH.txt(svg, x0 - 12, m.t - 38, o.yTitle || 'Demande globale planifiée DG, milliards', 'ch-ytitle', { 'text-anchor': 'start', style: `font-size:${fs}px` });
+    CH.txt(svg, x0 - 12, m.t - 38, o.yTitle || 'Demande globale planifiée DG(Y), milliards', 'ch-ytitle', { 'text-anchor': 'start', style: `font-size:${fs}px` });
     CH.txt(svg, x0 + L + 26, y0 + 62, o.xTitle || 'Production Y, milliards', 'ch-xtitle', { 'text-anchor': 'end', style: `font-size:${fs}px` });
 
     const plot = CH.el('g', {}, svg);
@@ -1092,7 +1093,7 @@ window.Croix = (function () {
       const d = o.diag || {}, g = fade(CH.el('g', {}, plot), d.anim, d.delay);
       const p = CH.el('path', { d: `M${X(lo)},${Y(lo)} L${X(hi)},${Y(hi)}`, fill: 'none', stroke: C.ink, 'stroke-width': 2.4 }, g);
       if (d.anim) drawIn(p, 1, d.delay || 0);
-      const t = CH.txt(g, X(hi) + 10, Y(hi) + 7, d.label || 'Y = DG', 'ch-lab', { fill: C.ink, style: `font-size:${fs}px` });
+      const t = CH.txt(g, X(hi) + 10, Y(hi) + 7, d.label || 'Y = DG(Y)', 'ch-lab', { fill: C.ink, style: `font-size:${fs}px` });
       const sub = d.sub ? CH.txt(g, X(hi) + 10, Y(hi) + 7 + fs + 4, d.sub, 'ch-lab', { fill: '#3E4954', style: `font-size:${fs - 2}px;font-weight:500` }) : null;
       ends.push({ t, sub, x: X(hi) + 10, y: Y(hi) + 7, h: sub ? 2 * (fs + 4) : fs + 4 });
     }
@@ -1209,10 +1210,48 @@ const k = (kind, html) => `<span class="k-${kind}">${html}</span>`;
 const anim = ctx => !(ctx && (ctx.reading || ctx.print));
 const put = (id, html) => { const e = typeof id === 'string' ? byId(id) : id; if (e) { e.innerHTML = html; PJ.signs(e, true); } };
 const sgn = (v, d = 0) => Math.abs(v) < 0.5 * Math.pow(10, -d) ? '0' : (v > 0 ? '+' : '−') + NB + fmt(Math.abs(v), d);
+const sgnPct = (v, d = 0) => sgn(v, d) + NB + '%';
 const seg = (svg, x1, y1, x2, y2, attrs) => CH.el('line', Object.assign({ x1, y1, x2, y2 }, attrs), svg);
+const bigLabels = svg => svg.querySelectorAll('text.ch-lab').forEach(t => { t.style.fontSize = '19px'; });
 const halo = (svg, sel = 'text') => svg.querySelectorAll(sel).forEach(t => { t.style.paintOrder = 'stroke'; t.style.stroke = '#FFFFFF'; t.style.strokeWidth = '5px'; t.style.strokeLinejoin = 'round'; });
 const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 const moisX = x => { const y = Math.floor(x + 1e-9), m = Math.min(11, Math.max(0, Math.round((x - y) * 12 - 0.5))); return MOIS[m] + ' ' + y; };
+function legendIn(box, items, o = {}) {
+    const d = document.createElement('div'); d.className = 'ch-legend';
+    d.style.cssText = `flex-wrap:wrap;gap:6px ${o.gap ?? 24}px;font-size:19px`;
+    d.innerHTML = items.map(([name, color, ring]) => `<span style="white-space:nowrap"><i style="background:${ring ? '#fff' : color};width:17px;height:17px;border-radius:${ring ? '50%' : '3px'};${ring ? `box-shadow:inset 0 0 0 3px ${color}` : ''}"></i><span style="color:#000000">${name}</span></span>`).join('');
+    box.appendChild(d);
+    return d;
+  }
+function axesMain(svg, arrow, m, Wd, Ht, Y, ticks, fmtY, yTitle, y0) {
+    seg(svg, m.l, Ht - m.b, m.l, m.t - 22, { class: 'ch-axis', 'marker-end': arrow });
+    seg(svg, m.l, y0, Wd - m.r + 18, y0, { class: 'ch-axis', 'marker-end': arrow });
+    ticks.forEach(v => { const yy = Y(v); seg(svg, m.l - 7, yy, m.l, yy, { class: 'ch-tickmark' }); CH.txt(svg, m.l - 13, yy + 6.5, fmtY(v), 'ch-tick ch-num', { 'text-anchor': 'end' }); });
+    if (yTitle) CH.txt(svg, m.l - 10, m.t - 34, yTitle, 'ch-ytitle', { 'text-anchor': 'start' });
+  }
+function bridge(box, o) {
+    const fr = CH.frame(box, { height: box.clientHeight }), svg = fr.svg, Wd = fr.Wd, Ht = fr.Ht;
+    const m = Object.assign({ l: 64, r: 22, t: 58, b: 74 }, o.margin || {});
+    const Y = v => m.t + (o.max - v) / o.max * (Ht - m.t - m.b);
+    axesMain(svg, fr.arrow, m, Wd, Ht, Y, o.ticks, o.fmtY || (v => fmt(v, 0)), o.yTitle, Y(0));
+    const nS = o.steps.length, bw = (Wd - m.l - m.r) / nS, w = Math.min(o.barMax || 110, bw * 0.6), d = o.digits || 0;
+    let level = 0;
+    o.steps.forEach((st, i) => {
+      const x0 = m.l + bw * i + (bw - w) / 2, from = st.total ? 0 : level, to = st.total ? st.value : level + st.value;
+      st.label.split('|').forEach((ln, j) => CH.txt(svg, x0 + w / 2, Ht - m.b + 28 + j * 22, ln, 'ch-tick', { 'text-anchor': 'middle' }));
+      if (i < o.upto) {
+        const ya = Y(Math.max(from, to)), yb = Y(Math.min(from, to)), isNew = o.animate && i >= (o.from || 0);
+        CH.el('rect', { x: x0, y: ya, width: w, height: Math.max(2, yb - ya), fill: st.color, class: isNew ? 'ch-bar anim-y' + (to < from ? ' neg' : '') : '' }, svg);
+        const lab = o.fmtV ? o.fmtV(st.value, st.total) : st.total ? fmt(st.value, d) : sgn(st.value, d);
+        CH.txt(svg, x0 + w / 2, (to < from && !st.total ? yb + 26 : ya - 10), lab, 'ch-val' + (isNew ? ' ch-fade' : ''), { 'text-anchor': 'middle', fill: CH.darken(st.color), style: isNew ? 'animation-delay:.3s' : '' });
+        if (i < o.upto - 1) seg(svg, x0 + w, Y(to), x0 + bw, Y(to), { stroke: SLATE, 'stroke-width': 1.5, 'stroke-dasharray': '4 4' });
+      }
+      level = to;
+    });
+    halo(svg, 'text.ch-val');
+    return { svg, Y, m };
+  }
+const G = D.grece, GY = G.annees;
 const FA = D.france_apu, PLF = D.plf2027;
 Deck.on('france-2027', {
     enter(el, ctx) {
@@ -1332,6 +1371,7 @@ const X = window.CROIX, CX = window.Croix;
 const E1 = X.E1, E2 = X.E2, E3 = X.E3, FR = X.FR, Y0 = X.Y0, DCH = X.choc;
 const A1 = X.A(E1), k1 = X.k(E1);
 const XS = 1035;
+const ZOOM = { lo: 850, hi: 1050, ticks: [850, 900, 950, 1000, 1050] };
 const croix = (id, o) => { const box = PJ.zoom(id, 1.2); return CX.draw(box, Object.assign({ height: box.clientHeight, width: box.clientWidth }, o)); };
 const num = v => fmt(v, Math.abs(v - Math.round(v)) < 0.05 ? 0 : 1);
 const kf = v => fmt(v, Math.abs(v - Math.round(v)) < 1e-9 ? 0 : Math.abs(v * 10 - Math.round(v * 10)) < 1e-9 ? 1 : 2);
@@ -1351,16 +1391,17 @@ Deck.on('prix', {
   });
 const FULL = { lo: 0, hi: 1200, ticks: [0, 400, 800, 1200] };
 scenes('droite-dg', (st, animate, prev) => {
-    const line = st >= 1;
+
+    const line = st >= 2;
     croix('pj-dg-chart', Object.assign({}, FULL, { diag: false,
-      lines: line ? [{ a: A1, b: E1.c, label: 'DG', anim: animate && prev < 1 }] : [],
-      intercepts: [{ a: A1, label: `A = ${fmt(A1, 0)}`, dy: 28, anim: animate && prev < 0 }],
-      slopes: line ? [{ a: A1, b: E1.c, x: 700, dx: 200, color: CONSO, anim: animate && prev < 1, delay: 0.9 }] : [] }));
-  }, 2);
+      lines: line ? [{ a: A1, b: E1.c, label: 'DG(Y)', anim: animate && prev < 2 }] : [],
+      intercepts: st >= 1 ? [{ a: A1, label: `A = ${fmt(A1, 0)}`, dy: 28, anim: animate && prev < 1 }] : [],
+      slopes: line ? [{ a: A1, b: E1.c, x: 700, dx: 200, color: CONSO, anim: animate && prev < 2, delay: 0.9 }] : [] }));
+  }, 3);
 scenes('dg-scen', (st, animate, prev) => {
     const piv = st >= 1, a = piv ? A1 : A1 - 50, c = piv ? 0.8 : E1.c;
     croix('pj-dgs', Object.assign({}, FULL, { diag: false,
-      lines: [{ a: A1, b: E1.c, faded: true, color: SLATE, label: 'départ', labelDy: piv ? 18 : -6 }, { a, b: c, label: 'DG', anim: animate && st !== prev && st <= 1 }],
+      lines: [{ a: A1, b: E1.c, faded: true, color: SLATE, label: 'départ', labelDy: piv ? 18 : -6 }, { a, b: c, label: 'DG(Y)', anim: animate && st !== prev && st <= 1 }],
       intercepts: (piv ? [] : [{ a: A1, faded: true, label: false }]).concat([{ a, label: `A = ${fmt(a, 0)}`, dy: 28 }]),
       slopes: piv ? [{ a, b: c, x: 700, dx: 200, color: CONSO }] : [] }));
     if (st >= 2) put('pj-dgs-card', ruleCard(`<p class="p-stmt sm">La dépense autonome ${k('dep', 'déplace')} la droite ; la propension à consommer la fait ${k('conso', 'pivoter')}.</p>
@@ -1372,13 +1413,13 @@ scenes('dg-scen', (st, animate, prev) => {
   }, 2);
 scenes('equilibre', (st, animate, prev) => {
     const gy = st === 1 ? 800 : st === 2 ? 1100 : null, atEq = st >= 3;
-    croix('pj-eq-chart', { lo: 600, hi: 1200, ticks: [600, 800, 1000, 1200], diag: { label: 'Y = DG', anim: animate && prev < 0 },
-      lines: [{ a: A1, b: E1.c, label: 'DG' }],
+    croix('pj-eq-chart', { lo: 600, hi: 1200, ticks: [600, 800, 1000, 1200], diag: { label: 'Y = DG(Y)', anim: animate && prev < 0 },
+      lines: [{ a: A1, b: E1.c, label: 'DG(Y)' }],
       gap: gy != null ? { y: gy, a: A1, b: E1.c, anim: animate && st !== prev } : null,
       eq: atEq ? [{ y: Y0, label: 'équilibre', anim: animate && prev < 3 }] : [] });
     const dg = y => A1 + E1.c * y;
     const cards = [
-      `<p class="p-txt">Sur la droite à 45°, chaque point vérifie ${k('vol', '<var>Y</var>')}${EQ}${k('dep', 'DG')} : la production égale la demande.</p>`,
+      `<p class="p-txt">Sur la droite à 45°, chaque point vérifie ${k('vol', '<var>Y</var>')}${EQ}${k('dep', 'DG(<var>Y</var>)')} : la production égale la demande.</p>`,
       scenCard('', 'Production 800', `<div class="pj-calc">${cRow('Demande', k('dep', `${A1} + 0,6 × 800 = ${fmt(dg(800), 0)}`))}${cRow('Stocks', k('moins', sgn(800 - dg(800), 0)))}</div><p class="p-txt">Les stocks baissent : les entreprises produisent davantage.</p>`),
       scenCard('', 'Production 1 100', `<div class="pj-calc">${cRow('Demande', k('dep', `${A1} + 0,6 × 1 100 = ${fmt(dg(1100), 0)}`))}${cRow('Stocks', k('moins', sgn(1100 - dg(1100), 0)))}</div><p class="p-txt">Les invendus s'accumulent : elles produisent moins.</p>`),
       ruleCard(`<p class="p-stmt sm"><span class="nowrap">${k('vol', '<var>Y</var>')}${EQ}${k('dep', A1)} + 0,6${NB}${k('vol', '<var>Y</var>')}</span>, d'où <span class="nowrap">${k('vol', '<var>Y</var>')}${EQ}${A1} / (1 − 0,6)${EQ}${k('vol', fmt(Y0, 0))}</span>.</p><p class="p-txt">À l'intersection, les stocks ne varient plus.</p>`)
@@ -1389,7 +1430,7 @@ const MU_WIN = { lo: 800, hi: 1050, ticks: [800, 900, 1000] };
 scenes('mu-tours', (st, animate, prev) => {
     const c = E1.c, a0 = A1, a1 = A1 - DCH, y1 = Y0 - k1 * DCH;
     croix('pj-mu-chart', Object.assign({}, MU_WIN, { diag: {},
-      lines: [{ a: a0, b: c, faded: true, color: OLIVE, label: 'DG', labelDy: -6 }, { a: a1, b: c, label: 'DG′', labelDy: 16, anim: animate && prev < 0 }],
+      lines: [{ a: a0, b: c, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -6 }, { a: a1, b: c, label: 'DG′(Y)', labelDy: 16, anim: animate && prev < 0 }],
       shifts: [{ x: XS, from: a0 + c * XS, to: a1 + c * XS, label: `−${NB}${DCH}`, anim: animate && prev < 0 }],
       stairs: st >= 1 ? { y0: Y0, a: a1, b: c, n: 7, anim: animate && prev < 1, step: 0.3 } : null,
       eq: [{ y: Y0, faded: true }].concat(st >= 2 ? [{ y: y1, anim: animate && prev < 2 }] : []),
@@ -1399,7 +1440,7 @@ const MUC = [0.5, 0.75];
 scenes('mu-c', (st, animate, prev) => {
     const c = MUC[Math.min(st, 1)], a0 = (1 - c) * Y0, a1 = a0 - DCH, kk = 1 / (1 - c), y1 = Y0 - kk * DCH, fresh = animate && Math.min(st, 1) !== Math.min(prev, 1);
     croix('pj-muc-chart', { lo: 750, hi: 1050, ticks: [800, 900, 1000], diag: {},
-      lines: [{ a: a0, b: c, faded: true, color: OLIVE, label: 'DG', labelDy: -6 }, { a: a1, b: c, label: 'DG′', labelDy: 16, anim: fresh }],
+      lines: [{ a: a0, b: c, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -6 }, { a: a1, b: c, label: 'DG′(Y)', labelDy: 16, anim: fresh }],
       shifts: [{ x: XS, from: a0 + c * XS, to: a1 + c * XS, label: `−${NB}${DCH}` }],
       stairs: { y0: Y0, a: a1, b: c, n: 7, anim: fresh, step: 0.2 },
       eq: [{ y: Y0, faded: true }, { y: y1, anim: fresh, delay: fresh ? 1.6 : 0 }],
@@ -1408,20 +1449,20 @@ scenes('mu-c', (st, animate, prev) => {
     put('pj-muc-card', scenCard(`${st + 1} sur 2`, `Propension à consommer ${fmt(c, 2).replace(/0$/, '')}`, `<div class="pj-calc">
       ${cRow('Pente de DG', k('conso', fmt(c, 2).replace(/0$/, '')))}${cRow('Multiplicateur', k('res', `1 / (1 − ${fmt(c, 2).replace(/0$/, '')}) = ${fmt(kk, 0)}`))}${cRow('Production', k('vol', sgn(-kk * DCH, 0)))}</div>`));
   }, 2);
-const FU = [['Sans fuites', E1], [`Avec impôts, <i>t</i>${EQ}${fmt(E2.t, 1)}`, E2], [`Et des importations, <i>m</i>${EQ}${fmt(E3.m, 1)}`, E3]];
+const FU = [['Sans fuites', E1], [`Avec impôts, <i>τ</i>${EQ}${fmt(E2.t, 1)}`, E2], [`Et des importations, <i>m</i>${EQ}${fmt(E3.m, 1)}`, E3]];
 const FU_WIN = { lo: 800, hi: 1050, ticks: [800, 900, 1000] };
 scenes('fuites', (st, animate, prev) => {
     const s3 = Math.min(st, 2), e = FU[s3][1], b = X.pente(e), kk = X.k(e), a0 = X.A(e), a1 = a0 - DCH, y1 = Y0 - kk * DCH;
     const isE1 = s3 === 0, yE1 = Y0 - k1 * DCH, fresh = animate && s3 !== Math.min(prev, 2);
     croix('pj-fu-chart', Object.assign({}, FU_WIN, { diag: {},
       lines: (isE1 ? [] : [{ a: A1 - DCH, b: E1.c, faded: true, color: SLATE, label: 'sans fuites', labelAt: 'start', labelDx: 12 }])
-        .concat([{ a: a0, b, faded: true, color: OLIVE, label: 'DG', labelDy: -8 }, { a: a1, b, label: 'DG′', labelDy: 14, anim: fresh }]),
+        .concat([{ a: a0, b, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -8 }, { a: a1, b, label: 'DG′(Y)', labelDy: 14, anim: fresh }]),
       shifts: [{ x: XS, from: a0 + b * XS, to: a1 + b * XS, label: `−${NB}${DCH}` }],
       eq: (isE1 ? [] : [{ y: yE1, faded: true, color: SLATE, yLabel: false }]).concat([{ y: Y0, faded: true }, { y: y1, anim: fresh }]),
       dY: [{ from: Y0, to: y1, label: sgn(-kk * DCH, 0), anim: fresh, delay: fresh ? 0.4 : 0 }] }));
     if (st >= 3) {
       put('pj-fu-card', ruleCard(`<p class="p-stmt sm">Impôts et importations sont des fuites : la droite ${k('dep', 'DG')} est plus plate, le multiplicateur plus faible.</p>
-        <p class="p-txt">France, ordres de grandeur : ${k('moins', '<i>t</i>' + EQ + fmt(FR.t, 2))} et ${k('moins', '<i>m</i>' + EQ + fmt(FR.m, 2))}, donc ${k('res', '<var>k</var>' + NB + '≈' + NB + fmt(X.k(FR), 1))}.</p>`));
+        <p class="p-txt">France, ordres de grandeur : ${k('moins', '<i>τ</i>' + EQ + fmt(FR.t, 2))} et ${k('moins', '<i>m</i>' + EQ + fmt(FR.m, 2))}, donc ${k('res', '<var>k</var>' + NB + '≈' + NB + fmt(X.k(FR), 1))}.</p>`));
       return;
     }
     put('pj-fu-card', scenCard(`${s3 + 1} sur 3`, FU[s3][0], `<div class="pj-calc">
@@ -1429,4 +1470,344 @@ scenes('fuites', (st, animate, prev) => {
       ${cRow('Multiplicateur', k('res', `1 / (1 − ${num(b)}) = ${kf(kk)}`))}
       ${cRow('Production', k('vol', sgn(-kk * DCH, 0)))}</div>${isE1 ? '' : `<p class="p-sub">contre ${sgn(-k1 * DCH, 0)} sans fuites</p>`}`));
   }, 3);
+const A3 = X.A(E3), b3 = X.pente(E3), k3 = X.k(E3);
+scenes('choc', (st, animate, prev) => {
+    const y1 = Y0 - k3 * DCH, o = Object.assign({}, ZOOM, { diag: {}, potentiel: { y: Y0, label: 'potentiel Y*' } });
+    const fresh = animate && prev < 1;
+    if (!st) Object.assign(o, { lines: [{ a: A3, b: b3, label: 'DG(Y)' }], eq: [{ y: Y0 }] });
+    else Object.assign(o, {
+      lines: [{ a: A3, b: b3, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -10 }, { a: A3 - DCH, b: b3, label: 'DG′(Y)', labelDy: 18, anim: fresh }],
+      shifts: [{ x: XS, from: A3 + b3 * XS, to: A3 - DCH + b3 * XS, label: `I −${NB}${DCH}`, anim: fresh }],
+      eq: [{ y: Y0, faded: true }, { y: y1, anim: fresh, delay: fresh ? 0.6 : 0 }],
+      dY: [{ from: Y0, to: y1, label: `${sgn(-k3 * DCH, 0)}, soit ${sgn(-100 * k3 * DCH / Y0, 0)}${NB}%`, anim: fresh, delay: fresh ? 0.8 : 0 }] });
+    croix('pj-choc', o);
+  }, 2);
+const PO = D.potentiel;
+Deck.on('potentiel', {
+    enter(el, ctx) {
+      const box = PJ.zoom('pj-og', 1.2);
+      const show = { 2009: 1, 2019: 1, 2020: 1, 2025: 1 };
+      CH.bars(box, { height: box.clientHeight, animate: anim(ctx), gap: 0.28, digits: 1, labelsBottom: true,
+        y: { min: -8, max: 4, ticks: [-8, -4, 0, 4] }, yTitle: 'Écart de production, % du PIB potentiel',
+        data: PO.annees.map((y, i) => ({ label: [2007, 2013, 2019, 2025].includes(y) ? String(y) : '', value: PO.ecart[i],
+          color: y >= PO.prevision_depuis ? '#CFC7BA' : PO.ecart[i] < 0 ? RED : BLUE, valueLabel: show[y] ? fmt(PO.ecart[i], 1) : '' })) });
+    }
+  });
+const P27 = (() => {
+    const P = PLF;
+    return [{ label: 'Déficit|2026', value: -P.solde_effectif['2026'], total: true, color: PET },
+            { label: 'Mesures|dépenses', value: -P.effort_depense, color: OLIVE },
+            { label: 'Mesures|recettes', value: -P.effort_recettes, color: RED },
+            { label: 'Recettes|moins|dynamiques', value: -(P.po_spontanes + P.recettes_hors_po), color: '#DE9E97' },
+            { label: 'Charge|de la dette', value: -P.contribution_charge_dette, color: '#96382F' },
+            { label: 'Conjonc-|ture', value: -(P.solde_conjoncturel['2027'] - P.solde_conjoncturel['2026']), color: BLUE },
+            { label: 'Déficit|2027', value: -P.solde_effectif['2027'], total: true, color: PET }];
+  })();
+const P27_UPTO = [1, 3, 5, 7], P27_FROM = [0, 1, 3, 5];
+PJ.scenes('pont27', (st, animate) => {
+    const s = Math.min(st, 3);
+    bridge(PJ.zoom('pj-pont', 1.2), { animate, from: P27_FROM[s], upto: P27_UPTO[s], max: 6, ticks: [0, 2, 4, 6], digits: 1, yTitle: 'Déficit public, % du PIB', barMax: 76, margin: { b: 100 }, steps: P27 });
+  }, 3);
+const yCible = Y0 - X.kCible(E3) * DCH;
+const coupes = E3.t * X.kCible(E3) * DCH, aFin = A3 - DCH - coupes;
+scenes('cible', (st, animate, prev) => {
+    const y1 = Y0 - k3 * DCH, o = Object.assign({}, ZOOM, { diag: {} }), cib = st >= 1, fresh = animate && prev < 1;
+    if (!cib) Object.assign(o, {
+      lines: [{ a: A3, b: b3, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -10 }, { a: A3 - DCH, b: b3, label: 'DG′(Y)', labelDy: 18 }],
+      shifts: [{ x: XS, from: A3 + b3 * XS, to: A3 - DCH + b3 * XS, label: `choc −${NB}${DCH}` }],
+      eq: [{ y: Y0, faded: true }, { y: y1 }],
+      dY: [{ from: Y0, to: y1, label: sgn(-k3 * DCH, 0) }] });
+    else Object.assign(o, {
+      lines: [{ a: A3, b: b3, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -10 }, { a: A3 - DCH, b: b3, faded: true, color: OLIVE, label: 'DG′(Y)', labelDy: 0 },
+              { a: aFin, b: b3, label: 'DG″(Y)', labelDy: 18, anim: fresh, delay: fresh ? 3 : 0 }],
+      shifts: [{ x: XS, from: A3 + b3 * XS, to: A3 - DCH + b3 * XS, label: `choc −${NB}${DCH}` },
+               { x: XS, from: A3 - DCH + b3 * XS, to: aFin + b3 * XS, label: `coupes −${NB}${fmt(coupes, 0)}`, anim: fresh, delay: fresh ? 3 : 0 }],
+      stairs: { y0: Y0, a: A3 - DCH - E3.t * Y0, b: b3 + E3.t, n: 7, anim: fresh, delay: 0.2, step: 0.26 },
+      eq: [{ y: Y0, faded: true }, { y: y1, faded: true }, { y: yCible, anim: fresh, delay: fresh ? 3.6 : 0 }],
+      dY: [{ from: Y0, to: yCible, label: sgn(-X.kCible(E3) * DCH, 0), anim: fresh, delay: fresh ? 3.7 : 0 }] });
+    croix('pj-ci-chart', o);
+    if (st >= 2) {
+      put('pj-ci-card', ruleCard(`<p class="p-stmt sm">Tenir un objectif de déficit pendant un choc de demande neutralise les stabilisateurs : la politique budgétaire ${k('moins', 'amplifie')} le choc.</p>`));
+      return;
+    }
+    put('pj-ci-card', scenCard(`${st + 1} sur 2`, cib ? 'Tenir l\'objectif de déficit' : 'Laisser jouer les stabilisateurs', `<div class="pj-calc">
+      ${cRow('Production', k('vol', sgn(cib ? -X.kCible(E3) * DCH : -k3 * DCH, 0)))}
+      ${cRow('Dépenses publiques', k('dep', cib ? sgn(-coupes, 0) : '0'))}
+      ${cRow('Déficit', k('fp', cib ? '0' : sgn(E3.t * k3 * DCH, 0)))}</div>
+      <p class="p-sub">${cib ? `Coupes de ${fmt(E3.t * DCH, 0)}, puis ${fmt(E3.t * E3.t * DCH, 0)}, puis ${fmt(Math.pow(E3.t, 3) * DCH, 0)}… : ${fmt(coupes, 0)} au total.` : `Les recettes baissent de ${fmt(E3.t, 1)} × ${fmt(k3 * DCH, 0)} = ${fmt(E3.t * k3 * DCH, 0)} : le déficit se creuse.`}</p>`));
+  }, 2);
+const EPD = D.epargne, EPR = R.epargne;
+const trimX = x => `T${Math.min(4, Math.floor((x - Math.floor(x)) * 4) + 1)} ${Math.floor(x)}`;
+Deck.on('epargne', {
+    enter(el, ctx) {
+      const box = PJ.zoom('pj-ep', 1.2);
+      const pic = EPD.trimestres.indexOf(EPR.pic_trimestre), last = EPD.x.length - 1;
+      const res = CH.line(box, { height: box.clientHeight, animate: anim(ctx), duration: 2.2, legend: false, ends: true, hover: false,
+        x: { min: 2000, max: EPD.x[last], ticks: [2000, 2010, 2020] },
+        y: { min: 10, max: 28, ticks: [10, 14, 18, 22, 26], format: v => fmt(v, 0) },
+        yTitle: 'Épargne des ménages, % du revenu disponible',
+        refLines: [{ y: EPR.annuel['2019'], color: 'slate', dash: '6 6' }],
+        series: [{ name: 'Taux d\'épargne', color: CONSO, data: EPD.x.map((x, i) => [x, EPD.taux[i]]), format: v => fmt(v, 1), width: 3 }],
+        markers: [{ x: EPD.x[pic], y: EPD.taux[pic], color: CONSO, label: `${fmt(EPR.pic, 1)} au ${trimX(EPD.x[pic])}`, anchor: 'end', dx: -12, dy: 4 }] });
+      if (res && res.S) {
+
+        CH.txt(res.svg, res.S.X(2021), res.S.Y(EPR.annuel['2019']) + 26, `2019 : ${fmt(EPR.annuel['2019'], 1)}`, 'ch-lab', { fill: '#5F707D' });
+        halo(res.svg, 'text.ch-lab');
+      }
+    }
+  });
+const BLK = A.blanchard_leigh_multiplicateur_suppose['prévisions de 2010'];
+const DB_ROWS = [
+    { who: 'Ramey (2019)', what: 'achats publics, moyenne des études', lo: A.ramey2019_depenses.minimum, hi: A.ramey2019_depenses.maximum, color: BLUE, lab: `${fmt(A.ramey2019_depenses.minimum, 1)} à ${fmt(A.ramey2019_depenses.maximum, 0)}` },
+    { who: 'Auerbach et Gorodnichenko', what: 'États-Unis, en expansion', lo: A.ag2012_expansion.minimum, hi: A.ag2012_expansion.maximum, color: BLUE, lab: `${fmt(A.ag2012_expansion.minimum, 0)} à ${fmt(A.ag2012_expansion.maximum, 1)}` },
+    { who: 'Auerbach et Gorodnichenko', what: 'États-Unis, en récession', lo: A.ag2012_recession.minimum, hi: A.ag2012_recession.maximum, color: BLUE, lab: `${fmt(A.ag2012_recession.minimum, 0)} à ${fmt(A.ag2012_recession.maximum, 1)}` },
+    { who: 'Guajardo, Leigh et Pescatori', what: '17 pays, sur deux ans', pt: -A.glp2014_pib['2 ans'], color: BLUE, lab: fmt(-A.glp2014_pib['2 ans'], 2) },
+    { who: 'Blanchard et Leigh (2013)', what: 'Europe 2010-2011', pt: BLK - D.bl.article.b, color: BLUE, lab: '≈' + NB + fmt(BLK - D.bl.article.b, 1) },
+    { who: 'House, Proebsting et Tesar', what: 'écarts entre pays européens', lo: A.hpt2020_multiplicateur.minimum, hi: A.hpt2020_multiplicateur.maximum, pt: A.hpt2020_multiplicateur['référence'], color: OLIVE, lab: fmt(A.hpt2020_multiplicateur['référence'], 1) },
+    { who: 'Prévisions du FMI en 2010', what: 'multiplicateur supposé', pt: BLK, color: SLATE, ref: true, lab: fmt(BLK, 1) }
+  ];
+Deck.on('debat', {
+    enter(el, ctx) {
+      const animate = anim(ctx), box = PJ.zoom('pj-db-chart', 1.15);
+      const fr = CH.frame(box, { height: box.clientHeight - 40 }), svg = fr.svg, Wd = fr.Wd, Ht = fr.Ht;
+
+      const meas = CH.txt(svg, 0, -50, '', 'ch-lab', { style: 'font-weight:650' });
+      const lw = Math.max(...DB_ROWS.flatMap(r => [r.who, r.what]).map(t => { meas.textContent = t; return meas.getComputedTextLength(); }));
+      meas.remove();
+      const m = { l: Math.ceil(lw) + 30, r: 30, t: 46, b: 54 }, xmax = 2.8;
+      const X = v => m.l + v / xmax * (Wd - m.l - m.r), rowH = (Ht - m.t - m.b) / DB_ROWS.length;
+      CH.txt(svg, 4, 22, 'Production perdue par euro d\'économie', 'ch-ytitle', { 'text-anchor': 'start' });
+      seg(svg, m.l, Ht - m.b, Wd - m.r + 14, Ht - m.b, { class: 'ch-axis', 'marker-end': fr.arrow });
+      [0, 1, 2].forEach(v => { seg(svg, X(v), Ht - m.b, X(v), Ht - m.b + 7, { class: 'ch-tickmark' }); CH.txt(svg, X(v), Ht - m.b + 30, fmt(v, 0), 'ch-tick ch-num', { 'text-anchor': 'middle' }); });
+      seg(svg, X(1), m.t - 6, X(1), Ht - m.b, { stroke: '#CFC7BA', 'stroke-width': 1.5, 'stroke-dasharray': '5 5' });
+      const yRule = m.t + rowH * (DB_ROWS.length - 1) + 2;
+      seg(svg, 4, yRule, Wd - m.r, yRule, { stroke: '#D9D2C5', 'stroke-width': 1 });
+      DB_ROWS.forEach((r, i) => {
+        const yc = m.t + rowH * i + rowH / 2 + 4, d = `animation-delay:${0.2 * i}s`;
+        CH.txt(svg, m.l - 18, yc - 4, r.who, 'ch-lab', { 'text-anchor': 'end', fill: INK, style: 'font-weight:650' });
+        CH.txt(svg, m.l - 18, yc + 19, r.what, 'ch-lab', { 'text-anchor': 'end', fill: '#3E4954', style: 'font-weight:500' });
+        if (r.lo != null) CH.el('line', { x1: X(r.lo), x2: X(r.hi), y1: yc, y2: yc, stroke: r.color, 'stroke-width': 14, 'stroke-linecap': 'round', opacity: r.pt != null ? 0.35 : 1, class: animate ? 'ch-fade' : '', style: d }, svg);
+        if (r.pt != null) CH.el('circle', { cx: X(r.pt), cy: yc, r: 10, fill: r.ref ? '#fff' : r.color, stroke: r.color, 'stroke-width': r.ref ? 3 : 0, class: animate ? 'ch-pop' : '', style: d }, svg);
+        CH.txt(svg, X(Math.max(r.hi ?? 0, r.pt ?? 0)) + 16, yc + 7, r.lab, 'ch-val' + (animate ? ' ch-fade' : ''), { 'text-anchor': 'start', fill: CH.darken(r.color), style: d });
+      });
+      halo(svg, 'text');
+      legendIn(box, [['multiplicateur d\'un pays', BLUE], ['écart entre pays d\'une union monétaire', OLIVE]]);
+    }
+  });
+const BL = D.bl;
+const BL_LAB = { 'Grèce': [-12, 22, 'end'], 'Allemagne': [12, -12, 'start'], 'Suède': [12, 6, 'start'], 'Irlande': [12, -14, 'start'], 'France': [10, -14, 'start'] };
+Deck.on('fmi', {
+    enter(el, ctx) {
+      const animate = anim(ctx), box = PJ.zoom('pj-bl-chart', 1.2);
+      const res = CH.scatter(box, { height: box.clientHeight, animate, opacity: 0.9, radius: () => 8,
+        x: { min: -3.5, max: 6, ticks: [-2, 0, 2, 4, 6] }, y: { min: -9, max: 8, ticks: [-8, -4, 0, 4, 8] },
+        yTitle: 'Erreur de prévision de la croissance, points', xTitle: 'Consolidation prévue, points de PIB',
+        points: BL.points.map(p => Object.assign({ x: p.consol, y: p.erreur, color: 'blue', label: p.pays, key: p.pays }, BL_LAB[p.pays] ? { hl: true, dx: BL_LAB[p.pays][0], dy: BL_LAB[p.pays][1], anchor: BL_LAB[p.pays][2] } : {})),
+        tip: null });
+      if (res && res.S) {
+        const x1 = -3, x2 = 5.8, g = CH.el('g', animate ? { class: 'ch-fade', style: 'animation-delay:.9s' } : {}, res.svg);
+        seg(g, res.S.X(x1), res.S.Y(BL.a + BL.b * x1), res.S.X(x2), res.S.Y(BL.a + BL.b * x2), { stroke: RED, 'stroke-width': 3, 'stroke-dasharray': '9 7' });
+        CH.txt(g, res.S.X(2.9), res.S.Y(-4), `pente ${fmt(BL.b, 2)}`, 'ch-val', { fill: CH.darken(RED), 'text-anchor': 'end' });
+        bigLabels(res.svg);
+        halo(res.svg, 'text.ch-val,text.ch-lab');
+      }
+    }
+  });
+const adDelta = (d, kk, s) => (d - (1 - kk * s)) / (1 - kk / 100) - d;
+const AD = [
+    { name: 'France 2027, multiplicateur 0,5', d: Math.round(PLF.dette['2026']), k: 0.5, s: 0.6 },
+    { name: 'France 2027, multiplicateur 1', d: Math.round(PLF.dette['2026']), k: 1, s: 0.6 },
+    { name: 'Grèce 2011, multiplicateur 1,5', d: Math.round(G.dette_pct.EL[GY.indexOf(2011)]), k: 1.5, s: 0.5 }
+  ];
+PJ.scenes('ad-scen', (st, animate) => {
+    const s = Math.min(st, 2), sc = AD[s];
+    const box = PJ.zoom('pj-ad-chart', 1.2);
+    const curve = (d, ss) => Array.from({ length: 51 }, (_, i) => [i * 0.05, adDelta(d, i * 0.05, ss)]);
+    const series = [];
+    if (s === 2) series.push({ name: 'France', color: '#B9C2CA', data: curve(AD[0].d, AD[0].s), width: 2.5, dash: '6 6' });
+    series.push({ name: s === 2 ? 'Grèce' : 'France', color: PET, data: curve(sc.d, sc.s), width: 3.5 });
+    const pts = (s === 2 ? [AD[2]] : AD.slice(0, s + 1)).map((p, i, arr) => ({ x: p.k, y: adDelta(p.d, p.k, p.s), color: i === arr.length - 1 ? PET : SLATE, r: i === arr.length - 1 ? 8 : 6,
+      label: sgn(adDelta(p.d, p.k, p.s), 1), anchor: 'end', dx: -12, dy: -12 }));
+    const res = CH.line(box, { height: box.clientHeight, animate: false, hover: false, legend: false,
+      x: { min: 0, max: 2.5, ticks: [0, 0.5, 1, 1.5, 2, 2.5], format: v => fmt(v, 1) },
+      y: { min: -2, max: 6, ticks: [-2, 0, 2, 4, 6], format: v => fmt(v, 0) },
+      yTitle: 'Variation du ratio de dette, points', xTitle: 'Multiplicateur k', series, markers: pts });
+    if (res && res.svg) halo(res.svg, 'text');
+    if (st >= 3) {
+      put('pj-ad-card', `<div class="pj-scen-card"><div><span class="p-scen">La règle</span></div>
+        <p class="p-stmt sm">La première année, le ratio de dette monte si ${k('res', '<var>k</var>')} (${k('fp', '<var>d</var>')} + <var>ε</var>) > 1.</p>
+        <p class="p-sub">Multiplicateur élevé et dette élevée : le PIB baisse plus vite que la dette.</p></div>`);
+      return;
+    }
+    const dy = -sc.k, db = 1 - sc.k * sc.s, dr = adDelta(sc.d, sc.k, sc.s), cond = sc.k * (sc.d / 100 + sc.s);
+    put('pj-ad-card', `<div class="pj-scen-card">
+      <div><span class="p-scen"><span class="n">Situation ${s + 1} sur 3</span>${sc.name}</span></div>
+      <p class="p-sub">Dette de ${fmt(sc.d, 0)} % du PIB ; le solde perd ${fmt(sc.s, 1)} point par point de PIB perdu.</p>
+      <div class="pj-calc">
+        <div><span class="l">PIB</span><span class="v">${k('vol', sgnPct(dy, 1))}</span></div>
+        <div><span class="l">Solde public, points de PIB</span><span class="v">${k('fp', sgn(db, 2))}</span></div>
+        <div><span class="l">Ratio de dette, points</span><span class="v">${k('fp', sgn(dr, 1))}</span></div>
+      </div>
+      <p class="p-sub">${fmt(sc.k, 1)} × (${fmt(sc.d / 100, 2)} + ${fmt(sc.s, 1)}) = ${fmt(cond, 2)} ${cond > 1 ? '> 1 : il monte' : '< 1 : il baisse'}</p></div>`);
+  }, 3);
+const EC = D.ecarts_de, ECR = R.ecarts_de, AMBER = '#B87514';
+const ECX = TX.mois.map(m => +m.slice(0, 4) + (+m.slice(5, 7) - 0.5) / 12);
+const PAYS = { EL: 'Grèce', IE: 'Irlande', PT: 'Portugal', ES: 'Espagne', IT: 'Italie' };
+const xMois = m => +m.slice(0, 4) + (+m.slice(5, 7) - 0.5) / 12;
+Deck.on('ecarts', {
+    enter(el, ctx) {
+      const box = PJ.zoom('pj-ze-chart', 1.2), H = box.clientHeight;
+      const panels = [{ geos: ['EL'], max: 30, ticks: [0, 10, 20, 30], h: Math.round(H * 0.37) }, { geos: ['PT', 'IE'], max: 15, ticks: [0, 5, 10, 15], h: Math.round(H * 0.3) },
+                      { geos: ['ES', 'IT'], max: 6, ticks: [0, 3, 6], h: 0 }];
+      panels[2].h = H - panels[0].h - panels[1].h;
+      panels.forEach((pn, j) => {
+        const div = document.createElement('div'); box.appendChild(div);
+        const cols = [BLUE, AMBER];
+        const res = CH.line(div, { height: pn.h, animate: anim(ctx), duration: 2, stagger: 0.2, legend: false, hover: false,
+          x: { min: 2007, max: ECX[ECX.length - 1] + 0.1, ticks: j === 2 ? [2007, 2012, 2017, 2022] : [] },
+          y: { min: 0, max: pn.max, ticks: pn.ticks, format: v => fmt(v, 0) },
+
+          margin: { b: j === 2 ? 40 : 10, t: j === 0 ? 28 : 20 },
+          series: pn.geos.map((g, i) => ({ name: PAYS[g], color: cols[i], data: ECX.map((x, t) => [x, EC[g][t]]), gaps: 0.1, width: 2.8, format: v => fmt(v, 1) })),
+          markers: pn.geos.map((g, i) => ({ x: xMois(ECR[g].pic_mois), y: ECR[g].pic, color: cols[i], label: `${PAYS[g]} : ${fmt(ECR[g].pic, 1)}`, anchor: 'start', dx: 12, dy: i ? 20 : 2 })) });
+        if (res && res.S) {
+          [[2010 + 4.5 / 12, 'mai 2010'], [2012 + 6.5 / 12, 'juillet 2012']].forEach(([xv, lab]) => {
+            CH.el('line', { x1: res.S.X(xv), x2: res.S.X(xv), y1: res.m.t - 6, y2: res.S.Y(0), stroke: '#8A9BA8', 'stroke-width': 1.4, 'stroke-dasharray': '4 5' }, res.svg);
+            if (j === 0) CH.txt(res.svg, res.S.X(xv) + (lab === 'mai 2010' ? -6 : 6), res.m.t - 12, lab, 'ch-lab', { 'text-anchor': lab === 'mai 2010' ? 'end' : 'start', fill: '#5F707D' });
+          });
+          halo(res.svg, 'text.ch-lab,text.ch-val');
+        }
+      });
+    }
+  });
+const GRc = window.GRECE_CH03;
+const GDS = [{ label: '2009', value: GRc.debut, total: true, color: BLUE },
+               { label: 'Déficits|primaires', value: GRc.primaire, color: PET },
+               { label: 'Intérêts', value: GRc.interets, color: RED },
+               { label: 'Baisse|du PIB', value: GRc.pib, color: NOM },
+               { label: 'Restruc-|turation|et autres', value: GRc.autres, color: SLATE },
+               { label: '2013', value: GRc.fin, total: true, color: BLUE }];
+const GD_FROM = [0, 1, 2, 4], GD_UPTO = [1, 2, 4, 6];
+PJ.scenes('grece-dette', (st, animate) => {
+    const e = Math.min(st, 3);
+    bridge(PJ.zoom('pj-gd', 1.2), { animate, from: GD_FROM[e], upto: GD_UPTO[e], max: 250, ticks: [0, 50, 100, 150, 200, 250], digits: 1,
+      yTitle: 'Dette de la Grèce, % du PIB', barMax: 80, margin: { b: 100 }, steps: GDS });
+  }, 3);
+{
+    const F25 = window.REPERES.fr_2025, DDc = window.DETTE_CH03;
+
+
+
+
+    const DA = [{ label: 'Intérêts', value: F25.interets_mds, color: RED },
+                { label: 'Déficit|primaire', value: -F25.solde_primaire_mds, color: PET },
+                { label: 'Autres|opérations', value: DDc.autres_mds, color: SLATE },
+                { label: 'Hausse de|la dette', value: DDc.hausse_mds, total: true, color: BLUE }];
+    const AUTRES_BULLE = ['Opérations qui changent la dette', 'sans passer par le déficit :', 'variation de la trésorerie de l\'État,',
+      'prêts et prises de participation,', 'primes et décotes à l\'émission,', 'indexation des obligations sur l\'inflation.'];
+
+    const bulleEtiquette = (svg, mots, lignes) => {
+      const labs = Array.from(svg.querySelectorAll('text.ch-tick')).filter(t => mots.includes(t.textContent));
+      if (!labs.length) return;
+      const bb = labs.map(t => t.getBBox()), x1 = Math.min(...bb.map(b => b.x)), x2 = Math.max(...bb.map(b => b.x + b.width));
+      const y1 = Math.min(...bb.map(b => b.y)), y2 = Math.max(...bb.map(b => b.y + b.height)), cx = (x1 + x2) / 2;
+      labs.forEach(t => t.setAttribute('style', 'text-decoration:underline dotted;text-underline-offset:4px'));
+      const W = +(svg.getAttribute('viewBox') || '').split(/\s+/)[2] || svg.getBBox().width;
+      const lh = 24, bw = 370, bh = lignes.length * lh + 20, bx = Math.max(4, Math.min(W - bw - 4, cx - bw / 2)), by = y1 - bh - 12;
+      const g = CH.el('g', { style: 'opacity:0;transition:opacity .12s;pointer-events:none' }, svg);
+      CH.el('rect', { x: bx, y: by, width: bw, height: bh, rx: 6, fill: 'rgba(24,33,43,.94)' }, g);
+      lignes.forEach((l, i) => CH.txt(g, bx + 14, by + 30 + i * lh, l, '', { fill: '#fff', style: 'font-size:18px' }));
+      const zone = CH.el('rect', { x: x1 - 8, y: y1 - 6, width: x2 - x1 + 16, height: y2 - y1 + 12, fill: 'transparent', style: 'cursor:help' }, svg);
+      zone.addEventListener('pointerenter', () => { g.style.opacity = 1; });
+      zone.addEventListener('pointerleave', () => { g.style.opacity = 0; });
+    };
+    let vuDA = null;
+    PJ.scenes('dette-annee', (st, animate) => {
+      const e = Math.min(st, 2), anime = animate && (vuDA === null || e > vuDA);
+      vuDA = Math.max(e, vuDA === null ? -1 : vuDA);
+      const { svg } = bridge(PJ.zoom('pj-dette-annee', 1.2), { animate: anime, from: [0, 2, 3][e], upto: [2, 3, 4][e], max: 160,
+        ticks: [0, 40, 80, 120, 160], digits: 1, yTitle: 'Dette publique ajoutée en 2025, Md€', barMax: 90, steps: DA });
+      bulleEtiquette(svg, ['Autres', 'opérations'], AUTRES_BULLE);
+    }, 2);
+
+
+
+    const tauxEn = an => DDc.fr_taux.find(p => p[0] === an)[1];
+    PJ.scenes('dette-interets-fr', st => {
+      const box = PJ.zoom('pj-interets-fr', 1.2), e = Math.min(st, 2);
+      const series = [{ name: 'Taux apparent', color: RED, width: 4, endLabel: 'taux apparent', data: DDc.fr_taux }];
+      if (e >= 2) series.push({ name: 'Croissance du PIB nominal', color: NOM, width: 3, endLabel: 'croissance nominale', data: DDc.fr_gnom });
+
+      const markers = e >= 1 ? [{ x: 2000, y: tauxEn(2000), color: RED, label: fmt(tauxEn(2000), 1) + ' %', dy: -18 },
+                                { x: 2021, y: tauxEn(2021), color: RED, label: fmt(tauxEn(2021), 1) + ' %', dx: 14, dy: -20, anchor: 'start' }] : [];
+      const res = CH.line(box, { height: box.clientHeight, animate: false, hover: false, legend: false,
+        x: { min: 2000, max: 2025, ticks: [2000, 2005, 2010, 2015, 2020, 2025], format: x => String(x) },
+        y: { min: -6, max: 10, ticks: [-5, 0, 5, 10], format: x => fmt(x, 0) },
+        yTitle: 'Taux et croissance, %', series, markers });
+      if (res && res.svg) halo(res.svg, 'text');
+    }, 2);
+
+
+
+    const UKs = window.DETTE_SERIES.uk, URr = window.DETTE_SERIES.uk_reperes;
+    const ukData = UKs.annees.map((an, i) => [an, UKs.dette_pct_pib[i]]);
+    const ukBandes = [null, [URr.apres_1815.de, URr.apres_1815.a], [URr.apres_1945.de, URr.apres_1945.a], [2008, 2025]];
+    const ukLab = ([an, val]) => fmt(val, 0) + ' % en ' + an;
+
+    const UK_EVTS = [[1694, 'Banque d\'Angleterre', 'bas'], [1756, 'Sept Ans', 'bas'], [1775, 'Guerre d\'Amérique', 'haut'],
+                     [1793, 'Révolution et Empire', 'haut'], [1914, '1914-1918', 'haut'], [1939, '1939-1945', 'haut']];
+
+    let ukChart = null, ukVu = false;
+    const finirUK = () => {
+      if (ukChart) ukChart.svg.querySelector('.ch-line').classList.remove('ch-anim');
+    };
+    const dessinerUK = (st, animate = false) => {
+      const host = document.getElementById('pj-royaume-uni'), e = Math.min(st, 3);
+      if (!ukChart || !ukChart.svg.isConnected || ukChart.width !== host.clientWidth || ukChart.height !== host.clientHeight) {
+        const box = PJ.zoom(host, 1.2);
+
+
+        const ppu = (box.clientHeight - 110) / 275, auRas = y => Math.max(24, y * ppu - 6);
+        const pics = [URr.pic_1815, URr.pic_1923, URr.pic_1946].map(p => Object.assign({ x: p[0], y: p[1], color: BLUE, label: ukLab(p), dy: -18 },
+          p === URr.pic_1946 ? { anchor: 'start', dx: 12, dy: 6 } : p === URr.pic_1815 ? { anchor: 'start', dx: 4, dy: -48 } : {}));
+        const bas = [[URr.creux_1913, 1, null], [URr.creux_1990, 2, null], [URr.annee_2025, 3, { anchor: 'end', dx: -12, dy: -16 }]]
+          .map(([p, , o]) => Object.assign({ x: p[0], y: p[1], color: RED, label: ukLab(p), dy: auRas(p[1]) }, o || {}));
+        const res = CH.line(box, { height: box.clientHeight, animate, duration: 2.2, hover: false, legend: false,
+          x: { min: 1680, max: 2025, ticks: [1700, 1750, 1800, 1850, 1900, 1950, 2000], format: x => String(x) },
+          y: { min: 0, max: 275, ticks: [0, 50, 100, 150, 200, 250], format: x => fmt(x, 0) },
+          yTitle: 'Dette publique britannique, % du PIB', series: [{ name: 'Royaume-Uni', color: BLUE, width: 3, data: ukData }],
+          bands: ukBandes.slice(1).map(([x0, x1]) => ({ x0, x1 })), markers: [...pics, ...bas] });
+        halo(res.svg, 'text');
+
+
+        if (res.S) {
+          const g = CH.el('g', {}, res.svg), S = res.S, haut = S.Y(275), bas0 = S.Y(0);
+          res.svg.insertBefore(g, res.svg.querySelector('.ch-line').parentNode);
+          UK_EVTS.forEach(([an, lab, pos]) => {
+            const x = S.X(an), y0 = pos === 'haut' ? haut : bas0 - 6;
+            CH.el('line', { x1: x, x2: x, y1: haut, y2: bas0, stroke: '#5F707D', 'stroke-width': 1.4, 'stroke-dasharray': '5 5' }, g);
+            CH.txt(g, x - 5, y0, lab, 'ch-lab', { 'text-anchor': pos === 'haut' ? 'end' : 'start', transform: `rotate(-90 ${x - 5} ${y0})`, fill: '#5F707D', style: 'font-size:15px;font-weight:600' });
+          });
+        }
+        ukChart = {
+          svg: res.svg, width: host.clientWidth, height: host.clientHeight,
+          bandes: Array.from(res.svg.querySelector('.ch-line').parentNode.children).filter(el => el.tagName === 'rect'),
+          reperes: Array.from(res.svg.querySelectorAll('.ch-val')).slice(pics.length).map(label => [label.previousElementSibling, label])
+        };
+        res.svg.querySelector('.ch-line').addEventListener('animationend', finirUK, { once: true });
+      }
+      ukChart.bandes.forEach((b, i) => { b.style.display = e === i + 1 ? '' : 'none'; });
+      ukChart.reperes.forEach((repere, i) => repere.forEach(el => { el.style.display = e >= i + 1 ? '' : 'none'; }));
+    };
+    Deck.on('dette-royaume-uni', {
+      enter(el, ctx) {
+        const statique = ctx.reading || ctx.print;
+        finirUK();
+        dessinerUK(statique ? 3 : ctx.step || 0, !statique && !ukVu && !matchMedia('(prefers-reduced-motion: reduce)').matches);
+        if (!statique) ukVu = true;
+      },
+      step(el, st) { dessinerUK(st); },
+      leave: finirUK
+    });
+  }
 })();

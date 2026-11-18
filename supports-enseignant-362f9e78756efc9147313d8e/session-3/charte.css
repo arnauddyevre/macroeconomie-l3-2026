@@ -14,7 +14,44 @@ body.proj .slide.section-open,body.reading .slide.section-open,.slide.section-op
 body,body.proj,body.proj .slide{background-color:#fff}
 /* Repère de partie retiré au-dessus des titres, comme au chapitre 1. */
 .kicker{display:none!important}
+/* Partie 2, la dette (17 novembre 2026) : formules longues des fiches tenues sur une ligne. */
+.fiche.fiche-dette .fiche-f{font-size:32px!important;line-height:1.3}
+/* Annexe (17 novembre 2026) : séparation au seul titre, sur fond marine, comme au chapitre 2. */
+.rev-annexe{height:100%;width:100%;display:flex;align-items:center;justify-content:center}
+.rev-annexe .rev-annexe-titre{font-family:var(--serif);font-size:64px;line-height:1.2;color:#fff!important;margin:0}
+/* Séparations : bandeau de titre présent mais invisible, sur une ligne, comme celui de l'écran du plan ; les lignes du plan
+   restent ainsi exactement à la même place d'un écran à l'autre (demande d'Arnaud, 17 novembre 2026). */
+.slide.section-open .slide-head{visibility:hidden}
+.slide.section-open .slide-head h1{white-space:nowrap;overflow:hidden}
 /* Séparations : plan du chapitre, partie active en blanc, les autres grisées. */
 .rev-section-overview{align-items:flex-start!important;justify-content:center;height:100%}
 .rev-section-overview .pj-plan-row,.rev-section-overview .pj-plan-row *{color:#8f9bb3!important}
 .rev-section-overview .pj-plan-row.is-current,.rev-section-overview .pj-plan-row.is-current *{color:#fff!important}
+/* Fractions dans les formules : la barre couvre le plus long des deux termes (chapitre 3, 17 novembre 2026) */
+.formula .frac,.fiche-f .frac{align-items:stretch}
+.formula .frac>span,.fiche-f .frac>span{text-align:center}
+.fiche.fiche-grande .fiche-f{font-size:42px!important}
+/* Partie 2 : une couleur par grandeur de l'équation de la dette (demande d'Arnaud, 17 novembre 2026) */
+.k-qi,.k-qr,.k-qb,.k-qt,.k-qg,.k-qp{font-weight:650}
+.k-qi{color:#B45309} .k-qr{color:#8A3E07} .k-qb{color:#2E7D5B} .k-qt{color:#7A3E9D} .k-qg{color:#001F5F} .k-qp{color:#B0285A}
+/* Formule clé encadrée (d* de la partie 2) : même bulle bleue que k* au chapitre 2, demande d'Arnaud du 18 novembre 2026 */
+.encadre-cle{display:inline-block;border:1px solid #D9DDE3;border-radius:12px;background:#F0F3F8;padding:16px 28px}   /* = .ss-answer du chapitre 2 (k* de Solow) */
+/* Dette britannique : le tracé reste complet même si l’on ouvre la lecture ou l’impression pendant l’animation. */
+body.reading #pj-royaume-uni .ch-line {
+  animation: none !important;
+  stroke-dasharray: none !important;
+}
+@media print {
+  #pj-royaume-uni .ch-line {
+    animation: none !important;
+    stroke-dasharray: none !important;
+  }
+}
+/* Hypothèse en orange : les bulles bleues sont réservées aux définitions (Arnaud, 18 novembre 2026) */
+.encadre-hypothese .callout{background:#FCF3E1;border-color:#F0DEBB}
+.encadre-hypothese .callout .lbl{color:#B45309}
+/* Résultat à retenir dans une fiche : même bulle bleue que d* et k*, libellé au sommet (Arnaud, 18 novembre 2026) */
+.encadre-retenir{display:table;margin:22px auto 4px;font-size:60px;text-align:center;padding:14px 40px}
+.encadre-retenir .lbl{display:block;font:650 18px/1.2 var(--sans);color:var(--blue);text-align:left;margin-bottom:6px}
+.encadre-hypothese.compacte .callout{font-size:27px;line-height:1.3;padding:10px 18px}
+.encadre-hypothese.compacte .callout .lbl{font-size:17px;margin-bottom:4px}
