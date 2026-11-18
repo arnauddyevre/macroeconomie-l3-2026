@@ -992,6 +992,18 @@ const D = window.DATA, R = window.REPERES, CH = window.Charts, PJ = window.PJ;
 const { fmt } = CH;
 const NB = ' ';
 const byId = id => document.getElementById(id);
+const k = (kind, html) => `<span class="k-${kind}">${html}</span>`;
+const v = x => `<var>${x}</var>`;
+function typo(root) {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    for (let nd = w.nextNode(); nd; nd = w.nextNode()) {
+      const t = nd.nodeValue.replace(/ ([;:?!»])/g, ' $1').replace(/« /g, '« ').replace(/(\d) (?=\d{3}(?!\d))/g, '$1 ')
+        .replace(/(\d) (?=(%|€|\$|k€|M€|Md€|Mt|ans?\b|heures?\b|points?\b|h\b))/g, '$1 ');
+      if (t !== nd.nodeValue) nd.nodeValue = t;
+    }
+  }
+const put = (id, html) => { const e = typeof id === 'string' ? byId(id) : id; if (e) { e.innerHTML = html; typo(e); } };
+const pcs = (x, d = 1) => Math.abs(x) < 0.5 * Math.pow(10, -d) ? '0' + NB + '%' : (x > 0 ? '+' : '−') + fmt(Math.abs(x), d) + NB + '%';
 const pairs = (rows, xi, yi) => rows.filter(r => r[yi] != null).map(r => [r[xi], r[yi]]);
 const seg = (svg, x1, y1, x2, y2, attrs) => CH.el('line', Object.assign({ x1, y1, x2, y2 }, attrs), svg);
 const halo = (svg, sel = 'text') => svg.querySelectorAll(sel).forEach(t => { t.style.paintOrder = 'stroke'; t.style.stroke = '#FBFAF6'; t.style.strokeWidth = '5px'; t.style.strokeLinejoin = 'round'; });
@@ -1020,7 +1032,46 @@ function scenes(id, draw, last = 99) {
       step(el, n, o) { n = Math.min(n, last); if (o.jump && n === cur) return; const prev = cur; cur = n; draw(n, !o.jump, false, prev); }
     });
   }
+const scen = (i, nb, name) => `<div><span class="p-scen"><span class="n">Scénario ${i} sur ${nb}</span>${name}</span></div>`;
+const rule = name => `<div><span class="p-scen">${name}</span></div>`;
+const st = (l, val, sub) => `<div class="pj-st"><div class="l">${l}</div><div class="v">${val}</div>${sub ? `<div class="sub">${sub}</div>` : ''}</div>`;
 const BLUE = CH.PAL.blue, RED = CH.PAL.red, SLATE = CH.PAL.slate;
+scenes('deux-siecles', (s, animate) => {
+    const lg = s >= 1;
+    zline('pj-ds', 1.2, { animate, duration: 2, ends: true,
+      x: { min: 1820, max: 2022, ticks: [1820, 1870, 1920, 1970, 2022] },
+      y: lg ? { log: true, min: 500, max: 100000, ticks: [500, 1000, 2000, 5000, 10000, 20000, 50000, 100000] } : { min: 0, max: 70000, ticks: [0, 20000, 40000, 60000] },
+      yTitle: 'Dollars de 2011 par habitant' + (lg ? ', échelle logarithmique' : ''),
+      series: [{ name: 'France', color: 'blue', data: pairs(D.maddison, 0, 1), endLabel: 'France', format: x => fmt(x, 0) },
+               { name: 'Monde', color: 'slate', data: pairs(D.maddison, 0, 2), endLabel: 'Monde', format: x => fmt(x, 0) },
+               { name: 'États-Unis', color: '#B45309', dash: false, data: window.MADDISON_US_DATA.rows, endLabel: 'États-Unis', format: x => fmt(x, 0) }] });
+  }, 1);
+const R70 = [[4.6, 'Le rythme des années 1960'], [2, 'Le rythme des années 1980'], [0.5, 'Le rythme de la France depuis 2019'], [-1, 'Une baisse de 1 % par an']];
+const R70C = ['blue', 'slate', 'amber', 'red'];
+const path70 = g => Array.from({ length: 36 }, (_, t) => [t, 100 * Math.pow(1 + g / 100, t)]);
+scenes('regle-70', (s, animate) => {
+    const opts = { animate, duration: 1.2, ends: true,
+      x: { min: 0, max: 35, ticks: [0, 10, 20, 35], format: x => x ? x + ' ans' : '0' },
+      y: { min: 0, max: 500, ticks: [0, 100, 200, 300, 400, 500] }, yTitle: 'Niveau, départ = 100' };
+    if (s >= 4) {
+      zline('pj-r70c', 1.2, Object.assign(opts, { animate: false, series: R70.map(([g], i) => ({ name: pcs(g, 1), color: R70C[i], data: path70(g), endLabel: pcs(g, 1), format: x => fmt(x, 0) })) }));
+      put('pj-r70-card', `<div class="p-col" style="gap:26px">${rule('La règle des 70')}
+        <div class="pj-fbox"><p class="pj-f">${v('T')} ≈ 70 / ${v('g')} <span class="p-sub">(${v('g')} en %)</span></p></div>
+        ${C.def('Taux de croissance annuel moyen', `Le taux constant ${v('g')} qui mène de ${v('X')}<sub>0</sub> à ${v('X')}<sub>T</sub> en ${v('T')} années : (1 + ${v('g')})<sup>${v('T')}</sup> = ${v('X')}<sub>T</sub> / ${v('X')}<sub>0</sub>.`, { cls: 'compact' })}</div>`);
+      return;
+    }
+    const [g, lab] = R70[s];
+    const ser = [{ name: pcs(g, 1), color: 'blue', width: 5, data: path70(g), endLabel: pcs(g, 1), format: x => fmt(x, 0) }];
+    if (g !== 2) ser.push({ name: '2 %', color: 'slate', dash: '7 7', width: 3, data: path70(2), endLabel: '+2 %', format: x => fmt(x, 0) });
+    zline('pj-r70c', 1.2, Object.assign(opts, { series: ser }));
+    const dbl = g > 0 ? Math.log(2) / Math.log(1 + g / 100) : null, m35 = Math.pow(1 + g / 100, 35);
+    put('pj-r70-card', `<div class="p-col" style="gap:24px">${scen(s + 1, 4, pcs(g, 1) + ' par an')}<p class="p-sub">${lab}</p>
+      <div class="pj-steps">
+        ${dbl ? st('Le niveau double en', k('vol', fmt(dbl, 0) + NB + 'ans'), `règle des 70 : 70 / ${fmt(g, 1)} ≈ ${fmt(70 / g, 0)} ans`)
+              : st('Le niveau baisse : il est divisé par deux en', k('prix', fmt(Math.log(0.5) / Math.log(1 + g / 100), 0) + NB + 'ans'), 'il ne double jamais')}
+        ${st('En 35 ans, il est multiplié par', k('res', '×' + NB + fmt(m35, 2)), pcs((m35 - 1) * 100, 0) + ' en une génération')}
+      </div></div>`);
+  }, 4);
 once('emissions-monde', animate => {
     const rows = D.monde_co2.filter(r => r[0] >= 1960 && r[2] != null), b = rows.find(r => r[0] === 1990);
     zline('pj-em', 1.2, { animate, duration: 2, stagger: 0.3, ends: true,
@@ -1028,6 +1079,11 @@ once('emissions-monde', animate => {
       y: { min: 0, max: 300, ticks: [0, 100, 200, 300] }, yTitle: 'Indice, 1990 = 100',
       series: [{ name: 'PIB mondial', color: 'blue', data: rows.map(r => [r[0], r[2] / b[2] * 100]), endLabel: 'PIB mondial', format: x => fmt(x, 0) },
                { name: 'CO₂ fossile', color: 'red', data: rows.map(r => [r[0], r[1] / b[1] * 100]), endLabel: 'CO₂', format: x => fmt(x, 0) }] });
+  });
+PJ.atStep('pib-combien', 1, 'pj-pibm', animate => {
+    const box = PJ.zoom('pj-pibm', 1.2);
+    CH.hbars(box, { height: box.clientHeight, animate, yTitle: 'PIB 2025, milliers de milliards de dollars', format: x => fmt(x, 1),
+      data: D.wdi_pib_2025.map(r => ({ label: r[1], value: r[2], color: r[0] === 'FRA' ? 'blue' : r[0] === 'WLD' ? 'grey' : 'slate', bold: r[0] === 'FRA' })) });
   });
 function drawTri(upto, animate, from) {
     const box = byId('pj-tri'); box.innerHTML = '';
@@ -1096,7 +1152,7 @@ function drawCourses(mode, animate) {
                { name: 'Ensemble', color: 'blue', data: rows.filter(r => r[3] != null).map(r => [t(r[0]), r[3]]), endLabel: 'Ensemble', format: x => fmt(x, 1) }] }));
   }
 scenes('courses', (s, animate) => {
-    const mode = 'taux';
+    const mode = s >= 1 ? 'niveau' : 'taux';
     if (mode === crsMode && byId('pj-crs').firstChild) return;
     crsMode = mode; drawCourses(mode, animate);
   }, 2);

@@ -782,7 +782,7 @@
   function revealChoices(gid) {
     const g = document.getElementById(gid);
     if (!g || g.classList.contains('revealed')) return;
-    g.classList.add('revealed');
+    g.classList.add('revealed'); document.querySelectorAll('[data-show-answer]').forEach(b => { if (b.dataset.showAnswer === gid) b.setAttribute('aria-expanded', 'true'); });
     const fb = document.getElementById(gid + '-fb');
     if (fb && fb.dataset.text) { fb.innerHTML = fb.dataset.text; frTypo(fb); }
   }
@@ -807,7 +807,7 @@
 
   function setReading(on) {
     st.reading = on;
-    document.body.classList.toggle('reading', on);
+    document.body.classList.toggle('reading', on); if (on) document.querySelectorAll('[data-student-quiz]').forEach(g => revealChoices(g.id));
     const stage = $('#stage');
     if (on) {
       st.els.forEach((el, i) => {
@@ -854,7 +854,7 @@
         const g = ch.closest('.choices');
         if (!g.classList.contains('revealed')) { $$('.choice', g).forEach(c => c.classList.toggle('picked', c === ch)); }
         ch.blur();
-
+        if (g.hasAttribute('data-student-quiz')) { revealChoices(g.id); advanceAfterChoice(g); }
         return;
       }
       const rc = e.target.closest('[data-show-answer]');
@@ -909,6 +909,7 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => (document.fonts ? document.fonts.ready : Promise.resolve()).then(build));
   else (document.fonts ? document.fonts.ready : Promise.resolve()).then(build);
 })();
+window.addEventListener("beforeprint",()=>document.querySelectorAll("[data-student-quiz]").forEach(g=>Deck.revealChoices(g.id)));
 (function () {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
