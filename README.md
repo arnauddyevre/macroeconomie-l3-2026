@@ -21,15 +21,15 @@ Chapitre 3 mis à jour le 18 novembre 2026 : 99 diapositives, budget public, dyn
 
 Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les HTML et PDF comportent les sept bandeaux de fin de cours : trois dans le chapitre 1, deux dans le chapitre 2 et deux dans le chapitre 3. Le syllabus a été vérifié et synchronisé le 18 novembre 2026.
 
-## TD de 2025 — Exercices supplémentaires
+## TD de 2025
 
-Trois TD en français avec leurs corrigés, ajoutés le 18 novembre 2026. Les documents d’origine sont inchangés ; les errata corrigent les erreurs relevées lors de leur vérification.
+Trois TD en français avec leurs corrigés, ajoutés le 18 novembre 2026. Les documents d’origine sont inchangés ; les errata intègrent la relecture du 18 novembre 2026.
 
-| TD | Thèmes | Sujet (PDF) | Corrigé (PDF) | Errata (PDF) |
-|---|---|---|---|---|
-| 1 | Croissance, PGF, facteurs, environnement | [Sujet](td/td1-2025-sujet.pdf) | [Corrigé](td/td1-2025-corrige.pdf) | [Errata](td/td1-2025-errata.pdf) |
-| 2 | Solow, cycles, croissance trimestrielle | [Sujet](td/td2-2025-sujet.pdf) | [Corrigé](td/td2-2025-corrige.pdf) | [Errata](td/td2-2025-errata.pdf) |
-| 3 | Croix keynésienne, budget et dette | [Sujet](td/td3-2025-sujet.pdf) | [Corrigé](td/td3-2025-corrige.pdf) | [Errata](td/td3-2025-errata.pdf) |
+| TD | Sujet (PDF) | Corrigé (PDF) | Errata (PDF) |
+|---|---|---|---|
+| 1 | [Sujet](td/td1-2025-sujet.pdf) | [Corrigé](td/td1-2025-corrige.pdf) | [Errata](td/td1-2025-errata.pdf) |
+| 2 | [Sujet](td/td2-2025-sujet.pdf) | [Corrigé](td/td2-2025-corrige.pdf) | [Errata](td/td2-2025-errata.pdf) |
+| 3 | [Sujet](td/td3-2025-sujet.pdf) | [Corrigé](td/td3-2025-corrige.pdf) | [Errata](td/td3-2025-errata.pdf) |
 
 L’exercice de recherche de données du TD 1 n’a pas de corrigé fourni. L’exercice sur la dette du TD 3 doit être lu avec l’errata, qui distingue déficit total et déficit primaire. Les données et notations restent celles de 2025 ; le TD 2 utilise Solow en temps discret.
 
