@@ -21,6 +21,14 @@ Chapitre 3 mis à jour le 18 novembre 2026 : 99 diapositives, budget public, dyn
 
 Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les HTML et PDF comportent les sept bandeaux de fin de cours : trois dans le chapitre 1, deux dans le chapitre 2 et deux dans le chapitre 3. Le syllabus a été vérifié et synchronisé le 18 novembre 2026.
 
+## Exemple de quiz
+
+Un sujet du quiz 1 sur le chapitre 1, à faire en quinze minutes sur papier, et son corrigé, ajoutés le 22 novembre 2026.
+
+| Quiz | Sujet (PDF) | Corrigé (PDF) |
+|---|---|---|
+| 1 | [Sujet](quiz/quiz-1-sujet.pdf) | [Corrigé](quiz/quiz-1-corrige.pdf) |
+
 ## TD de 2025
 
 Trois TD en français avec leurs corrigés, ajoutés le 18 novembre 2026. Les documents d’origine sont inchangés ; les errata intègrent la relecture du 18 novembre 2026.
