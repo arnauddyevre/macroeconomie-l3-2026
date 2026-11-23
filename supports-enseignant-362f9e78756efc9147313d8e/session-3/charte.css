@@ -61,3 +61,22 @@ body.reading #pj-royaume-uni .ch-line {
 #p1-verif2::after,#hypotheses::after{position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;transform:rotate(45deg);background:#B45309;color:#fff;font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;pointer-events:none;z-index:2}
 #p1-verif2::after{content:"Fin du cours 6"}
 #hypotheses::after{content:"Fin du cours 7"}
+/* Diagramme de Sankey des finances publiques (budget-sankey), ajout du 22 novembre 2026 à la demande d’Arnaud. */
+#budget-sankey .pj-sankey-svg{display:block;overflow:visible}
+#budget-sankey .pj-sk-lien{opacity:.42;transition:opacity .25s}
+#budget-sankey .pj-sk-lien.pj-sk-pale{opacity:.14}
+#budget-sankey .pj-sk-lien.pj-sk-fort{opacity:.85}
+#budget-sankey .pj-sk-lien.pj-sk-survol{opacity:.92}
+#budget-sankey .pj-sk-noeud.pj-sk-survol{stroke:var(--ink);stroke-width:2}
+#budget-sankey .pj-sk-nom{font-size:21px;font-weight:650;fill:var(--ink)}
+#budget-sankey .pj-sk-val{font-size:18px;font-weight:400;fill:#4F5F6B}
+#budget-sankey .pj-sankey-txt{font-size:28px;line-height:1.3;max-width:690px}
+
+/* structurel (23 novembre 2026) : fiche compacte au-dessus du graphique du solde public décomposé */
+body.proj #structurel .fiche.pj-sstr-fiche{padding:12px 30px 14px}
+body.proj #structurel .pj-sstr-fiche .fiche-f{font-size:40px;padding:4px 0 6px}
+body.proj #structurel .pj-sstr-fiche .fiche-ex{font-size:27px;line-height:1.34;margin-top:4px}
+body.proj #structurel .pj-sstr-fiche .fiche-trap{font-size:26px;line-height:1.34;margin-top:4px}
+
+/* ad-scen (23 novembre 2026) : étape de calcul sous chaque ligne des cartes */
+#ad-scen .pj-ad-etape{display:block;margin-top:4px;font-size:24px;line-height:1.3;font-weight:400;color:#4F5F6B}

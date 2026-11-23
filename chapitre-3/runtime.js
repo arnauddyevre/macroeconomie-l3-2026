@@ -1174,6 +1174,37 @@ window.Croix = (function () {
       }
     }
 
+
+
+    if (o.tours) {
+      const st = o.tours, b = st.b, a = st.a, n = st.n || 6, dt = st.step || 0.45, w = 3.2, defs = svg.querySelector('defs');
+      const pointe = col => {
+        const id = 'croix-tour-' + (draw.nt = (draw.nt || 0) + 1);
+        const mk = CH.el('marker', { id, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 4, markerHeight: 4, orient: 'auto-start-reverse' }, defs);
+        CH.el('path', { d: 'M0,0 L10,5 L0,10 z', fill: col }, mk);
+        return `url(#${id})`;
+      };
+      const pV = pointe(st.colorV), pH = pointe(st.colorH);
+      const fleche = (g, xa, ya, xb, yb, col, p) => {
+        const len = Math.hypot(xb - xa, yb - ya), tip = len >= 16, r = tip ? 2.4 / len : 0;
+        seg(g, xa, ya, xb - (xb - xa) * r, yb - (yb - ya) * r, { stroke: col, 'stroke-width': w, 'stroke-linecap': tip ? 'butt' : 'round', 'marker-end': tip ? p : null });
+      };
+      const lab = (g, x, y, lines, anchor, col, up) => lines.forEach((s, k) => CH.txt(g, x, y + (up ? k - lines.length + 1 : k) * (fs + 3), s, 'ch-lab',
+        { 'text-anchor': anchor, fill: CH.darken(col), style: `font-size:${fs}px;font-weight:700` }));
+      let x = st.y0, yv = st.y0, i = 0;
+      for (let j = 0; j < n; j++) {
+        const yd = a + b * x;
+        if (Math.abs(yd - yv) < span * 0.004) break;
+        const g1 = fade(CH.el('g', {}, plot), st.anim, (st.delay || 0) + dt * i++);
+        fleche(g1, X(x), Y(yv), X(x), Y(yd), st.colorV, pV);
+        if (!j && st.labelV) lab(g1, X(x) - 8, Y(yv) - 12, st.labelV, 'end', st.colorV, true);
+        const g2 = fade(CH.el('g', {}, plot), st.anim, (st.delay || 0) + dt * i++);
+        fleche(g2, X(x), Y(yd), X(yd), Y(yd), st.colorH, pH);
+        if (!j && st.labelH) lab(g2, X(x) + 10, Y(yd) + 2, st.labelH, 'start', st.colorH, false);
+        yv = yd; x = yd;
+      }
+    }
+
     (o.dY || []).forEach(d => {
       const g = fade(CH.el('g', {}, plot), d.anim, d.delay), yy = y0 - (d.h || 22);
       seg(g, X(d.from), yy, X(d.to) + (d.to < d.from ? 3 : -3), yy, { stroke: d.color || C.blue, 'stroke-width': 3.4, 'marker-end': fr.arrow });
@@ -1484,25 +1515,15 @@ scenes('choc', (st, animate, prev) => {
     croix('pj-choc', o);
   }, 2);
 const PO = D.potentiel;
-Deck.on('potentiel', {
-    enter(el, ctx) {
-      const box = PJ.zoom('pj-og', 1.2);
-      const show = { 2009: 1, 2019: 1, 2020: 1, 2025: 1 };
-      CH.bars(box, { height: box.clientHeight, animate: anim(ctx), gap: 0.28, digits: 1, labelsBottom: true,
-        y: { min: -8, max: 4, ticks: [-8, -4, 0, 4] }, yTitle: 'Écart de production, % du PIB potentiel',
-        data: PO.annees.map((y, i) => ({ label: [2007, 2013, 2019, 2025].includes(y) ? String(y) : '', value: PO.ecart[i],
-          color: y >= PO.prevision_depuis ? '#CFC7BA' : PO.ecart[i] < 0 ? RED : BLUE, valueLabel: show[y] ? fmt(PO.ecart[i], 1) : '' })) });
-    }
-  });
 const P27 = (() => {
     const P = PLF;
-    return [{ label: 'Déficit|2026', value: -P.solde_effectif['2026'], total: true, color: PET },
-            { label: 'Mesures|dépenses', value: -P.effort_depense, color: OLIVE },
-            { label: 'Mesures|recettes', value: -P.effort_recettes, color: RED },
-            { label: 'Recettes|moins|dynamiques', value: -(P.po_spontanes + P.recettes_hors_po), color: '#DE9E97' },
-            { label: 'Charge|de la dette', value: -P.contribution_charge_dette, color: '#96382F' },
-            { label: 'Conjonc-|ture', value: -(P.solde_conjoncturel['2027'] - P.solde_conjoncturel['2026']), color: BLUE },
-            { label: 'Déficit|2027', value: -P.solde_effectif['2027'], total: true, color: PET }];
+    return [{ label: 'Déficit|2026', value: -P.solde_effectif['2026'], total: true, color: '#001F5F' },
+            { label: 'Mesures|dépenses', value: -P.effort_depense, color: '#2E7D6B' },
+            { label: 'Mesures|recettes', value: -P.effort_recettes, color: '#B45309' },
+            { label: 'Recettes|moins|dynamiques', value: -(P.po_spontanes + P.recettes_hors_po), color: '#D4A017' },
+            { label: 'Charge|de la dette', value: -P.contribution_charge_dette, color: '#8B1E3F' },
+            { label: 'Conjonc-|ture', value: -(P.solde_conjoncturel['2027'] - P.solde_conjoncturel['2026']), color: '#6A4C93' },
+            { label: 'Déficit|2027', value: -P.solde_effectif['2027'], total: true, color: '#4A6FA5' }];
   })();
 const P27_UPTO = [1, 3, 5, 7], P27_FROM = [0, 1, 3, 5];
 PJ.scenes('pont27', (st, animate) => {
@@ -1522,41 +1543,21 @@ scenes('cible', (st, animate, prev) => {
       lines: [{ a: A3, b: b3, faded: true, color: OLIVE, label: 'DG(Y)', labelDy: -10 }, { a: A3 - DCH, b: b3, faded: true, color: OLIVE, label: 'DG′(Y)', labelDy: 0 },
               { a: aFin, b: b3, label: 'DG″(Y)', labelDy: 18, anim: fresh, delay: fresh ? 3 : 0 }],
       shifts: [{ x: XS, from: A3 + b3 * XS, to: A3 - DCH + b3 * XS, label: `choc −${NB}${DCH}` },
-               { x: XS, from: A3 - DCH + b3 * XS, to: aFin + b3 * XS, label: `coupes −${NB}${fmt(coupes, 0)}`, anim: fresh, delay: fresh ? 3 : 0 }],
-      stairs: { y0: Y0, a: A3 - DCH - E3.t * Y0, b: b3 + E3.t, n: 7, anim: fresh, delay: 0.2, step: 0.26 },
+               { x: XS, from: A3 - DCH + b3 * XS, to: aFin + b3 * XS, label: `coupes −${NB}${fmt(coupes, 0)}`, color: '#2E7D6B', anim: fresh, delay: fresh ? 3 : 0 }],
+      tours: { y0: y1, a: A3 - DCH - E3.t * Y0, b: b3 + E3.t, n: 7, anim: fresh, delay: 0.2, step: 0.3, colorV: '#2E7D6B', colorH: '#B45309', labelV: ['baisse nécessaire', 'des dépenses'], labelH: ['réponse de', 'la production'] },
       eq: [{ y: Y0, faded: true }, { y: y1, faded: true }, { y: yCible, anim: fresh, delay: fresh ? 3.6 : 0 }],
       dY: [{ from: Y0, to: yCible, label: sgn(-X.kCible(E3) * DCH, 0), anim: fresh, delay: fresh ? 3.7 : 0 }] });
     croix('pj-ci-chart', o);
     if (st >= 2) {
-      put('pj-ci-card', ruleCard(`<p class="p-stmt sm">Tenir un objectif de déficit pendant un choc de demande neutralise les stabilisateurs : la politique budgétaire ${k('moins', 'amplifie')} le choc.</p>`));
+      put('pj-ci-card', ruleCard(`<p class="p-stmt sm">Tenir un objectif de déficit pendant un choc de demande neutralise les stabilisateurs : la politique budgétaire ${k('moins', 'amplifie')} le choc.</p><p class="p-txt" style="margin-top:18px">Le multiplicateur passe de ${fmt(k3, 0)} à ${k('res', fmt(X.kCible(E3), 0))} dans l'économie du cours, de ${fmt(X.k(FR), 1)} à ${fmt(X.kCible(FR), 1)} aux ordres de grandeur français.</p>`));
       return;
     }
-    put('pj-ci-card', scenCard(`${st + 1} sur 2`, cib ? 'Tenir l\'objectif de déficit' : 'Laisser jouer les stabilisateurs', `<div class="pj-calc">
+    put('pj-ci-card', scenCard(`${st + 1} sur 2`, cib ? 'Tenir l\'objectif de déficit' : 'Laisser jouer les stabilisateurs', `${cib ? `<p class="p-txt" style="margin:0 0 12px">Δ<var>B</var> = <var>τ</var> Δ<var>Y</var> − Δ<var>G</var> = ${fmt(E3.t, 1)} × (−${NB}${fmt(X.kCible(E3) * DCH, 0)}) − (−${NB}${fmt(coupes, 0)}) = ${k('fp', fmt(E3.t * X.kCible(E3) * DCH - coupes, 0))}</p>` : `<p class="p-sub" style="margin:0 0 4px">Solde public : <var>B</var> = <var>τ</var><var>Y</var> − <var>G</var>.</p><p class="p-txt" style="margin:0 0 12px">Δ<var>B</var> = <var>τ</var> Δ<var>Y</var> − Δ<var>G</var> = ${fmt(E3.t, 1)} × (−${NB}${fmt(k3 * DCH, 0)}) − 0 = ${k('fp', '−' + NB + fmt(E3.t * k3 * DCH, 0))}</p>`}<div class="pj-calc">
       ${cRow('Production', k('vol', sgn(cib ? -X.kCible(E3) * DCH : -k3 * DCH, 0)))}
       ${cRow('Dépenses publiques', k('dep', cib ? sgn(-coupes, 0) : '0'))}
       ${cRow('Déficit', k('fp', cib ? '0' : sgn(E3.t * k3 * DCH, 0)))}</div>
-      <p class="p-sub">${cib ? `Coupes de ${fmt(E3.t * DCH, 0)}, puis ${fmt(E3.t * E3.t * DCH, 0)}, puis ${fmt(Math.pow(E3.t, 3) * DCH, 0)}… : ${fmt(coupes, 0)} au total.` : `Les recettes baissent de ${fmt(E3.t, 1)} × ${fmt(k3 * DCH, 0)} = ${fmt(E3.t * k3 * DCH, 0)} : le déficit se creuse.`}</p>`));
+      <p class="p-sub">${cib ? `Coupes de ${fmt(E3.t * DCH, 0)}, puis ${fmt(E3.t * E3.t * DCH, 0)}, puis ${fmt(Math.pow(E3.t, 3) * DCH, 0)}… : ${fmt(coupes, 0)} au total.</p><p class="p-sub">Les coupes compensent la baisse des recettes : le déficit ne bouge pas, mais la production baisse de ${fmt(X.kCible(E3) * DCH, 0)}.` : `Les recettes baissent : le déficit se creuse de ${fmt(E3.t * k3 * DCH, 0)}, sans aucune décision.`}</p>`));
   }, 2);
-const EPD = D.epargne, EPR = R.epargne;
-const trimX = x => `T${Math.min(4, Math.floor((x - Math.floor(x)) * 4) + 1)} ${Math.floor(x)}`;
-Deck.on('epargne', {
-    enter(el, ctx) {
-      const box = PJ.zoom('pj-ep', 1.2);
-      const pic = EPD.trimestres.indexOf(EPR.pic_trimestre), last = EPD.x.length - 1;
-      const res = CH.line(box, { height: box.clientHeight, animate: anim(ctx), duration: 2.2, legend: false, ends: true, hover: false,
-        x: { min: 2000, max: EPD.x[last], ticks: [2000, 2010, 2020] },
-        y: { min: 10, max: 28, ticks: [10, 14, 18, 22, 26], format: v => fmt(v, 0) },
-        yTitle: 'Épargne des ménages, % du revenu disponible',
-        refLines: [{ y: EPR.annuel['2019'], color: 'slate', dash: '6 6' }],
-        series: [{ name: 'Taux d\'épargne', color: CONSO, data: EPD.x.map((x, i) => [x, EPD.taux[i]]), format: v => fmt(v, 1), width: 3 }],
-        markers: [{ x: EPD.x[pic], y: EPD.taux[pic], color: CONSO, label: `${fmt(EPR.pic, 1)} au ${trimX(EPD.x[pic])}`, anchor: 'end', dx: -12, dy: 4 }] });
-      if (res && res.S) {
-
-        CH.txt(res.svg, res.S.X(2021), res.S.Y(EPR.annuel['2019']) + 26, `2019 : ${fmt(EPR.annuel['2019'], 1)}`, 'ch-lab', { fill: '#5F707D' });
-        halo(res.svg, 'text.ch-lab');
-      }
-    }
-  });
 const BLK = A.blanchard_leigh_multiplicateur_suppose['prévisions de 2010'];
 const DB_ROWS = [
     { who: 'Ramey (2019)', what: 'achats publics, moyenne des études', lo: A.ramey2019_depenses.minimum, hi: A.ramey2019_depenses.maximum, color: BLUE, lab: `${fmt(A.ramey2019_depenses.minimum, 1)} à ${fmt(A.ramey2019_depenses.maximum, 0)}` },
@@ -1633,6 +1634,18 @@ PJ.scenes('ad-scen', (st, animate) => {
       x: { min: 0, max: 2.5, ticks: [0, 0.5, 1, 1.5, 2, 2.5], format: v => fmt(v, 1) },
       y: { min: -2, max: 6, ticks: [-2, 0, 2, 4, 6], format: v => fmt(v, 0) },
       yTitle: 'Variation du ratio de dette, points', xTitle: 'Multiplicateur k', series, markers: pts });
+
+    if (res && res.S) {
+      const it = { 'font-style': 'italic' };
+      const ligne = (y, parts, fw) => {
+        const t = CH.el('text', { x: res.S.X(0.08), y: res.S.Y(y), class: 'ch-lab', fill: '#3E4954', style: `font-size:20px;font-weight:${fw}` }, res.svg);
+        parts.forEach(p => { const sp = CH.el('tspan', typeof p === 'string' ? {} : it, t); sp.textContent = typeof p === 'string' ? p : p[0]; });
+      };
+      const pente = q => `${fmt(q.d / 100, 2)} + ${fmt(q.s, 1)} = ${fmt(q.d / 100 + q.s, 2)}`;
+      ligne(5.3, ['variation du ratio ≈ −1 + ', ['k'], ' × (', ['d'], ' + ', ['ε'], ')'], 600);
+      ligne(4.5, s === 2 ? [`pente : Grèce ${pente(AD[2])} ; France ${fmt(AD[0].d / 100 + AD[0].s, 2)}`]
+        : ['pente ', ['d'], ' + ', ['ε'], ` = ${pente(sc)}`], 500);
+    }
     if (res && res.svg) halo(res.svg, 'text');
     if (st >= 3) {
       put('pj-ad-card', `<div class="pj-scen-card"><div><span class="p-scen">La règle</span></div>
@@ -1643,11 +1656,11 @@ PJ.scenes('ad-scen', (st, animate) => {
     const dy = -sc.k, db = 1 - sc.k * sc.s, dr = adDelta(sc.d, sc.k, sc.s), cond = sc.k * (sc.d / 100 + sc.s);
     put('pj-ad-card', `<div class="pj-scen-card">
       <div><span class="p-scen"><span class="n">Situation ${s + 1} sur 3</span>${sc.name}</span></div>
-      <p class="p-sub">Dette de ${fmt(sc.d, 0)} % du PIB ; le solde perd ${fmt(sc.s, 1)} point par point de PIB perdu.</p>
+      <p class="p-sub">PIB de départ : 100 ; dette : ${fmt(sc.d, 0)}, soit ${fmt(sc.d, 0)} % du PIB ; le solde perd ${fmt(sc.s, 1)} point par point de PIB perdu.</p>
       <div class="pj-calc">
-        <div><span class="l">PIB</span><span class="v">${k('vol', sgnPct(dy, 1))}</span></div>
-        <div><span class="l">Solde public, points de PIB</span><span class="v">${k('fp', sgn(db, 2))}</span></div>
-        <div><span class="l">Ratio de dette, points</span><span class="v">${k('fp', sgn(dr, 1))}</span></div>
+        <div><span class="l">PIB<span class="pj-ad-etape">1 point × ${fmt(sc.k, 1)} : de 100 à ${fmt(100 - sc.k, 1)}</span></span><span class="v">${k('vol', sgnPct(dy, 1))}</span></div>
+        <div><span class="l">Solde public, points de PIB<span class="pj-ad-etape">1 − ${fmt(sc.s, 1)} × ${fmt(sc.k, 1)} = ${fmt(db, 2)} : les mesures, moins les recettes perdues</span></span><span class="v">${k('fp', sgn(db, 2))}</span></div>
+        <div><span class="l">Ratio de dette, points<span class="pj-ad-etape">dette : ${fmt(sc.d, 0)} − ${fmt(db, 2)} = ${fmt(sc.d - db, 2)} ; ratio : ${fmt(sc.d - db, 2)} / ${fmt(100 - sc.k, 1)} = ${fmt(sc.d + dr, 1)} %, contre ${fmt(sc.d, 0)} %</span></span><span class="v">${k('fp', sgn(dr, 1))}</span></div>
       </div>
       <p class="p-sub">${fmt(sc.k, 1)} × (${fmt(sc.d / 100, 2)} + ${fmt(sc.s, 1)}) = ${fmt(cond, 2)} ${cond > 1 ? '> 1 : il monte' : '< 1 : il baisse'}</p></div>`);
   }, 3);
@@ -1810,5 +1823,163 @@ PJ.scenes('grece-dette', (st, animate) => {
       step(el, st) { dessinerUK(st); },
       leave: finirUK
     });
+  }
+{
+    const BS = window.BUDGET_SANKEY;
+    const W = 1480, H = 560, NW = 18, XL = 238, XM = 700, XR = 1004, GAP_R = 11, TOP = 46, BOT = 10;
+
+
+    const COUL_SRC = { 'impots-nationaux': RED, 'cotisations': CH.darken(RED, 0.72), 'impots-locaux': CH.tint(RED, 0.45), 'autres-recettes': SLATE, 'emprunt': PET };
+    const COUL_EMP = id => id === 'interets' ? RED : OLIVE;
+    const EN_AVANT = ['emprunt', 'interets'];
+    const pct = v => 100 * v / BS.total_mds;
+    const part = v => fmt(pct(v), pct(v) < 10 ? 1 : 0) + NB + '%';
+    const mds = v => fmt(v, 0) + NB + 'Md€';
+
+    const lignes = (texte, max = 44) => texte.split(' ').reduce((acc, mot) => {
+      const der = acc[acc.length - 1];
+      if (der && (der + ' ' + mot).length <= max) acc[acc.length - 1] = der + ' ' + mot; else acc.push(mot);
+      return acc;
+    }, []);
+
+    function dessinerSankey(etape) {
+      const host = document.getElementById('pj-budget-sankey');
+      if (!host) return;
+      host.innerHTML = '';
+      const svg = CH.el('svg', { viewBox: `0 0 ${W} ${H}`, width: '100%', height: '100%', preserveAspectRatio: 'xMidYMid meet', class: 'pj-sankey-svg' }, host);
+      const echelle = (H - TOP - BOT - GAP_R * (BS.emplois.length - 1)) / BS.total_mds;
+      const hauteur = v => v * echelle;
+
+      const totalSrc = BS.sources.reduce((a, x) => a + hauteur(x.valeur), 0);
+      const gapL = (H - TOP - BOT - totalSrc) / (BS.sources.length - 1);
+      let y = TOP;
+      const src = BS.sources.map(x => { const nd = Object.assign({}, x, { y0: y, h: hauteur(x.valeur) }); y += nd.h + gapL; return nd; });
+      y = TOP;
+      const emp = BS.emplois.map(x => { const nd = Object.assign({}, x, { y0: y, h: hauteur(x.valeur) }); y += nd.h + GAP_R; return nd; });
+      const hMil = hauteur(BS.total_mds), yMil = TOP + (H - TOP - BOT - hMil) / 2;
+
+      const gFlux = CH.el('g', { class: 'pj-sk-flux' }, svg), gNoeuds = CH.el('g', {}, svg), gTxt = CH.el('g', {}, svg);
+      const bande = (x1, a0, a1, x2, b0, b1) => {
+        const xm = (x1 + x2) / 2;
+        return `M${x1},${a0} C${xm},${a0} ${xm},${b0} ${x2},${b0} L${x2},${b1} C${xm},${b1} ${xm},${a1} ${x1},${a1} Z`;
+      };
+      const cible = [];
+
+      let yIn = yMil;
+      src.forEach(nd => {
+        const p = CH.el('path', { d: bande(XL + NW, nd.y0, nd.y0 + nd.h, XM, yIn, yIn + nd.h), fill: COUL_SRC[nd.id], class: 'pj-sk-lien', 'data-id': nd.id }, gFlux);
+        cible.push([p, nd, 'src']);
+        yIn += nd.h;
+      });
+
+      let yOut = yMil;
+      emp.forEach(nd => {
+        const p = CH.el('path', { d: bande(XM + NW, yOut, yOut + nd.h, XR, nd.y0, nd.y0 + nd.h), fill: COUL_EMP(nd.id), class: 'pj-sk-lien pj-sk-droite', 'data-id': nd.id }, gFlux);
+        cible.push([p, nd, 'emp']);
+        yOut += nd.h;
+      });
+
+      src.forEach(nd => cible.push([CH.el('rect', { x: XL, y: nd.y0, width: NW, height: Math.max(nd.h, 2), fill: COUL_SRC[nd.id], class: 'pj-sk-noeud', 'data-id': nd.id }, gNoeuds), nd, 'src']));
+      CH.el('rect', { x: XM, y: yMil, width: NW, height: hMil, fill: INK }, gNoeuds);
+      emp.forEach(nd => cible.push([CH.el('rect', { x: XR, y: nd.y0, width: NW, height: Math.max(nd.h, 2), fill: COUL_EMP(nd.id), class: 'pj-sk-noeud pj-sk-droite', 'data-id': nd.id }, gNoeuds), nd, 'emp']));
+
+      src.forEach(nd => {
+        const yc = nd.y0 + nd.h / 2;
+        CH.txt(gTxt, XL - 12, yc - 4, nd.label, 'pj-sk-nom', { 'text-anchor': 'end' });
+        CH.txt(gTxt, XL - 12, yc + 20, `${mds(nd.valeur)} · ${part(nd.valeur)}`, 'pj-sk-val', { 'text-anchor': 'end' });
+      });
+      emp.forEach(nd => {
+        const t = CH.txt(gTxt, XR + NW + 12, nd.y0 + nd.h / 2 + 7, nd.label, 'pj-sk-nom pj-sk-droite', { 'text-anchor': 'start' });
+        const ts = CH.el('tspan', { class: 'pj-sk-val' }, t);
+        ts.textContent = `  ${mds(nd.valeur)} · ${part(nd.valeur)}`;
+      });
+
+      CH.txt(gTxt, XM + NW / 2, yMil - 16, `Dépenses publiques en ${BS.annee} : ${mds(BS.total_mds)}`, 'pj-sk-nom',
+        { 'text-anchor': 'middle', stroke: '#fff', 'stroke-width': 6, 'stroke-linejoin': 'round', 'paint-order': 'stroke' });
+
+
+      svg.querySelectorAll('.pj-sk-droite').forEach(el => { el.style.display = etape >= 1 ? '' : 'none'; });
+      if (etape >= 2) {
+        svg.querySelectorAll('.pj-sk-lien').forEach(el => el.classList.toggle(EN_AVANT.includes(el.dataset.id) ? 'pj-sk-fort' : 'pj-sk-pale', true));
+      }
+
+
+      const bulle = CH.el('g', { class: 'pj-sk-bulle', style: 'opacity:0;pointer-events:none' }, svg);
+      const fond = CH.el('rect', { rx: 6, fill: 'rgba(24,33,43,.94)' }, bulle);
+      const textes = [0, 1, 2, 3, 4].map(i => CH.txt(bulle, 0, 0, '', '', { fill: '#fff', style: `font-size:${i ? 18 : 20}px;font-weight:${i ? 400 : 700}` }));
+      const montrer = (nd, cote, ev) => {
+        const contenu = [nd.label, `${fmt(nd.valeur, 1)}${NB}Md€, soit ${fmt(pct(nd.valeur), 1)}${NB}% des dépenses publiques`, ...lignes(nd.detail)].slice(0, 5);
+        const larg = 14 + 9.6 * Math.max(...contenu.map(l => l.length)), haut = 18 + contenu.length * 26;
+        const pt = svg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY;
+        const loc = pt.matrixTransform(svg.getScreenCTM().inverse());
+        const bx = Math.max(4, Math.min(W - larg - 4, cote === 'src' ? loc.x + 18 : loc.x - larg - 18));
+        const by = Math.max(4, Math.min(H - haut - 4, loc.y - haut / 2));
+        fond.setAttribute('x', bx); fond.setAttribute('y', by); fond.setAttribute('width', larg); fond.setAttribute('height', haut);
+        textes.forEach((t, i) => { t.textContent = contenu[i] || ''; t.setAttribute('x', bx + 14); t.setAttribute('y', by + 31 + i * 26); });
+        bulle.style.opacity = 1;
+      };
+      cible.forEach(([el, nd, cote]) => {
+        el.style.cursor = 'help';
+        el.addEventListener('pointermove', ev => { montrer(nd, cote, ev); svg.querySelectorAll(`[data-id="${nd.id}"]`).forEach(x => x.classList.add('pj-sk-survol')); });
+        el.addEventListener('pointerleave', () => { bulle.style.opacity = 0; svg.querySelectorAll('.pj-sk-survol').forEach(x => x.classList.remove('pj-sk-survol')); });
+      });
+      svg.appendChild(bulle);
+    }
+    PJ.scenes('budget-sankey', st => dessinerSankey(Math.min(st, 2)), 2);
+  }
+{
+    const PO = D.potentiel, SE = A.mpl2019_semi_elasticite.France;
+    const SS = PO.annees.map((an, i) => ({ an, tot: PO.solde[i], str: PO.solde_structurel[i], conj: SE * PO.ecart[i] }))
+      .filter(r => r.str != null && r.an < PO.prevision_depuis)
+      .map(r => Object.assign(r, { ponct: r.tot - r.str - r.conj }));
+    const SS_COUL = { str: PET, conj: RED, ponct: '#B9C2CA', tot: INK };
+    const SS_NOM = { str: 'solde structurel', conj: 'solde conjoncturel', ponct: 'mesures ponctuelles', tot: 'solde public' };
+    const f1 = v => (Math.abs(v) < 0.05 ? '0,0' : fmt(v, 1));
+    function soldeDecompose(box, animate) {
+      const fr = CH.frame(box, { height: box.clientHeight }), svg = fr.svg, Wd = fr.Wd, Ht = fr.Ht;
+      const m = { l: 64, r: 22, t: 66, b: 42 }, lo = -10, hi = 2, TICKS = [-10, -8, -6, -4, -2, 0, 2];
+      const Y = v => m.t + (hi - v) / (hi - lo) * (Ht - m.t - m.b);
+      TICKS.forEach(v => { if (v) seg(svg, m.l, Y(v), Wd - m.r, Y(v), { stroke: '#E3E7EB', 'stroke-width': 1 }); });
+      axesMain(svg, fr.arrow, m, Wd, Ht, Y, TICKS, v => fmt(v, 0), 'Solde public, % du PIB', Y(0));
+
+      const leg = CH.el('g', {}, svg);
+      let lx = m.l + 330;
+      ['str', 'conj', 'ponct', 'tot'].forEach(cle => {
+        const yl = m.t - 40;
+        if (cle === 'tot') CH.el('circle', { cx: lx + 8, cy: yl - 6, r: 7, fill: INK }, leg);
+        else CH.el('rect', { x: lx, y: yl - 14, width: 16, height: 16, fill: SS_COUL[cle] }, leg);
+        const t = CH.txt(leg, lx + 24, yl, SS_NOM[cle], 'ch-lab', { fill: cle === 'ponct' ? '#5F707D' : CH.darken(SS_COUL[cle]), style: 'font-size:19px;font-weight:600' });
+        let w = 0; try { w = t.getComputedTextLength(); } catch (e) { w = 0; }
+        lx += 24 + (w || 9.6 * SS_NOM[cle].length) + 34;
+      });
+      const nb = SS.length, bw = (Wd - m.l - m.r) / nb, w = Math.min(46, bw * 0.58);
+      const g = CH.el('g', {}, svg);
+      const tip = document.createElement('div'); tip.className = 'ch-tip'; box.appendChild(tip);
+
+      const fade = (d, cls) => (animate ? { class: ((cls || '') + ' ch-fade').trim(), style: `animation-delay:${d.toFixed(2)}s` } : (cls ? { class: cls } : {}));
+      SS.forEach((r, i) => {
+        const x0 = m.l + bw * i + (bw - w) / 2, xc = x0 + w / 2;
+        let bas = 0, haut = 0;
+        ['str', 'conj', 'ponct'].forEach((cle, j) => {
+          const v = r[cle];
+          if (Math.abs(v) < 0.02) return;
+          const a = v < 0 ? bas : haut, b = a + v;
+          if (v < 0) bas = b; else haut = b;
+          CH.el('rect', Object.assign({ x: x0, y: Y(Math.max(a, b)), width: w, height: Math.max(1, Math.abs(Y(b) - Y(a))), fill: SS_COUL[cle] }, fade(0.45 * j + 0.03 * i)), g);
+        });
+        CH.el('circle', Object.assign({ cx: xc, cy: Y(r.tot), r: 7, fill: INK, stroke: '#fff', 'stroke-width': 2.5 }, fade(1.4 + 0.03 * i)), g);
+        CH.txt(g, xc, Y(Math.min(bas, r.tot)) + 27, f1(r.tot), 'ch-val', Object.assign({ 'text-anchor': 'middle', fill: INK }, fade(1.5 + 0.03 * i, 'ch-val')));
+        CH.txt(svg, xc, Ht - m.b + 30, String(r.an), 'ch-tick', { 'text-anchor': 'middle' });
+
+        const zone = CH.el('rect', { x: m.l + bw * i, y: m.t, width: bw, height: Ht - m.t - m.b, fill: 'transparent' }, svg);
+        zone.addEventListener('pointerenter', () => {
+          tip.innerHTML = `<b>${r.an}</b> · solde public ${f1(r.tot)}<br>structurel ${f1(r.str)} · conjoncturel ${f1(r.conj)} · ponctuel ${f1(r.ponct)}`;
+          tip.style.left = xc + 'px'; tip.style.top = (Y(Math.max(haut, 0)) - 6) + 'px'; tip.style.opacity = 1;
+        });
+        zone.addEventListener('pointerleave', () => { tip.style.opacity = 0; });
+      });
+      halo(svg, 'text.ch-val');
+    }
+    Deck.on('structurel', { enter(el, ctx) { const box = PJ.zoom('pj-sstr', 1.2); if (box) soldeDecompose(box, anim(ctx)); } });
   }
 })();
