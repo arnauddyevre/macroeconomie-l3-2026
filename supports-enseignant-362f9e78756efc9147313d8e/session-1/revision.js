@@ -85,7 +85,7 @@
   window.COURSE.description = 'Chapitre 1 de macroéconomie L3 : production, revenus, prix, niveaux de vie et limites du PIB.';
   edit('couverture',s=>{
     s.title = `1. ${window.COURSE.title}`;
-    s.html = `<div class="rev-cover"><div class="rev-cover-kicker">Macroéconomie L3</div><h1>1. Mesurer la richesse nationale</h1><p>Arnaud Dyèvre · HEC Paris</p><p class="rev-cover-term">Automne 2026</p></div>`;
+    s.html = `<div class="rev-cover"><div class="rev-cover-kicker">Macroéconomie L3</div><div class="rev-cover-heading"><h1>1. Mesurer la richesse nationale</h1><p class="rev-cover-sub">Comptabilité nationale</p></div><p>Arnaud Dyèvre · HEC Paris</p><p class="rev-cover-term">Automne 2026</p></div>`;
   });
   // La couverture est volontairement sans graphique ; désactiver son ancien tracé.
   window.Deck.on('couverture', {enter(){}});

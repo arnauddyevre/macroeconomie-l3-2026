@@ -11,13 +11,16 @@ Arnaud Dyèvre
 | 1. Mesurer la richesse nationale | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/cours.pdf) |
 | 2. Croître à l’infini dans un monde fini ? Solow, comptabilité, PGF, ressources et IA | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-2/cours.pdf) |
 | 3. L’austérité est-elle criminelle ? | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-3/cours.pdf) |
+| 4. Peut-on imprimer de l’argent sans fabriquer d’inflation ? | [Ouvrir](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-4/) | [Télécharger](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-4/cours.pdf) |
 | Exercice : D’où vient la croissance du niveau de vie ? | — | [Télécharger l’exercice sans corrigé](https://arnauddyevre.github.io/macroeconomie-l3-2026/chapitre-1/exercices/niveau_vie_exercice_etudiant.pdf) |
 
 Chapitre 2 mis à jour le 16 novembre 2026 : 77 diapositives, dont 59 dans le parcours principal et 18 en annexe. Il réunit le modèle de Solow, la comptabilité des écarts de niveau de vie, les déterminants de la PGF, les ressources naturelles et une section sur l’impact de l’IA sur la production et l’innovation. Les graphiques sont interactifs dans le HTML et complets dans le PDF.
 
-Les supports étudiants des chapitres 0 à 3 conservent les réponses et corrections des exercices de cours depuis la mise à jour du 18 novembre 2026. Les QCM proposent « Voir la réponse » ; le mode lecture et les PDF affichent les corrections. [Corrigé détaillé de l’exercice sur le niveau de vie](chapitre-1/exercices/niveau_vie_exercice_corrige.pdf). Les notes privées restent exclues.
+Les supports étudiants des chapitres 0 à 4 conservent les réponses et corrections des exercices de cours depuis la mise à jour du 18 novembre 2026. Les QCM proposent « Voir la réponse » ; le mode lecture et les PDF affichent les corrections. [Corrigé détaillé de l’exercice sur le niveau de vie](chapitre-1/exercices/niveau_vie_exercice_corrige.pdf). Les notes privées restent exclues.
 
 Chapitre 3 mis à jour le 23 novembre 2026 : 87 diapositives, budget public, dynamique de la dette, croix keynésienne, récession, solde structurel, coût de l’austérité, crise grecque et annexes. Le syllabus place désormais ce chapitre avant « Emploi, tâches et intelligence artificielle ».
+
+Chapitre 4 publié le 25 novembre 2026 : 86 diapositives en six sections, de la définition de la monnaie à la politique monétaire de la BCE, avec la création monétaire par les banques, l’inflation, la courbe de Phillips et les données d’octobre 2026.
 
 Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les HTML et PDF comportent les sept bandeaux de fin de cours : trois dans le chapitre 1, deux dans le chapitre 2 et deux dans le chapitre 3. Le syllabus a été vérifié et synchronisé le 18 novembre 2026.
 

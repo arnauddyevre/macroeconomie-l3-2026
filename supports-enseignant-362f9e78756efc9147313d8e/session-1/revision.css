@@ -176,3 +176,8 @@ body.proj .rev-section-overview::before{content:"";display:block;flex:0 0 calc(5
 .rev-moore-card dl{margin:0;font-size:25px;line-height:1.3}
 .rev-moore-card dl>div{display:flex;justify-content:space-between;gap:12px}
 .rev-moore-card dt,.rev-moore-card dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* Sous-titre de couverture (Arnaud, 24 novembre 2026) : même style que celui du chapitre 2 */
+.rev-cover-heading{min-height:212px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;margin:15px 0 35px}
+.rev-cover .rev-cover-heading h1{min-height:0!important;margin:0!important}
+.rev-cover .rev-cover-sub{transform:none;font-size:32px;color:#536078;line-height:1.25}

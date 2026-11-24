@@ -80,3 +80,8 @@ body.proj #structurel .pj-sstr-fiche .fiche-trap{font-size:26px;line-height:1.34
 
 /* ad-scen (23 novembre 2026) : étape de calcul sous chaque ligne des cartes */
 #ad-scen .pj-ad-etape{display:block;margin-top:4px;font-size:24px;line-height:1.3;font-weight:400;color:#4F5F6B}
+
+/* Sous-titre de couverture (Arnaud, 24 novembre 2026) : même style que celui du chapitre 2 */
+.rev-cover-heading{min-height:212px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;margin:15px 0 35px}
+.rev-cover .rev-cover-heading h1{min-height:0!important;margin:0!important}
+.rev-cover .rev-cover-sub{transform:none;font-size:32px;color:#536078;line-height:1.25}
