@@ -137,6 +137,7 @@
     part: 'Conclusion', title: 'Pour aller plus loin', cls: 'conclusion-reading',
     html: `<div class="conclusion-reading-grid"><section><h2>Lire</h2><ul>
       <li><strong>C. I. Jones, <i>Macroeconomics</i></strong><span>Chapitres 2 et 3 : mesure et vue d’ensemble de la croissance.</span></li>
+      <li><strong>${link('https://basilhalperin.com/essays/macrohistory.html', 'B. Halperin (2026), <i>Macrohistory in Six Facts</i>')}</strong><span>Pourquoi les niveaux de vie ont-ils divergé depuis la révolution industrielle ?</span></li>
       <li><strong>${link('https://books.core-econ.org/the-economy/', 'CORE Econ, <i>The Economy 2.0</i>')}</strong><span>Unités 1 et 2.</span></li>
       <li><strong>${link('https://www.insee.fr/fr/statistiques/1377417', 'Stiglitz, Sen et Fitoussi (2009)')}</strong><span>Mesure des performances économiques et du progrès social.</span></li>
       <li><strong>${link('https://doi.org/10.1111/roiw.12681', 'Berman et Bourguignon (2024)')}</strong><span>La distinction entre croissance anonyme et non anonyme.</span></li>

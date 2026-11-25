@@ -210,6 +210,7 @@
 
 
   function line(container, o) {
+    const labelColor = o.exactSeriesColors ? color => color : darken;
     if (o.legend !== false && o.series.length > 1 && !o.series.some(s => s.endLabel)) o = Object.assign({}, o, { height: (o.height || container.clientHeight) - 40 });
     const { svg, Wd, Ht, arrow } = frame(container, o);
     const all = o.series.flatMap(s => s.data.filter(d => d[1] != null));
@@ -254,7 +255,7 @@
     const y0 = axes(g, o, S, m, Wd, Ht, arrow);
     (o.refLines || []).forEach(r => {
       el('line', { x1: m.l, x2: Wd - m.r, y1: S.Y(r.y), y2: S.Y(r.y), stroke: col(r.color || 'red'), 'stroke-width': 2.4, 'stroke-dasharray': r.dash || '8 7' }, g);
-      if (r.label) txt(g, Wd - m.r + 8, S.Y(r.y) + 6, r.label, 'ch-lab', { fill: darken(r.color || 'red') });
+      if (r.label) txt(g, Wd - m.r + 8, S.Y(r.y) + 6, r.label, 'ch-lab', { fill: labelColor(r.color || 'red') });
     });
     const polys = [];
     o.series.forEach((s, k) => {
@@ -275,7 +276,7 @@
     const boxes = [], lim = { l: m.l, W: Wd, t: m.t, b: Ht - m.b };
     (o.markers || []).forEach(mk => { if (mk.label) boxes.push(tbox(S.X(mk.x) + (mk.dx || 0), S.Y(mk.y) + (mk.dy ?? -16), textW(mk.label), mk.anchor || 'middle')); });
     const label = (gg, xx, yy, it, anchor) => {
-      const t = el('text', { x: xx, y: yy, class: 'ch-lab', fill: darken(it.s.color), 'text-anchor': anchor || 'start' }, gg);
+      const t = el('text', { x: xx, y: yy, class: 'ch-lab', fill: labelColor(it.s.color), 'text-anchor': anchor || 'start' }, gg);
       if (it.name) { const a = el('tspan', {}, t); a.textContent = it.name; }
       if (it.val) { const b = el('tspan', { 'font-weight': 700, dx: it.name ? 8 : null, class: 'ch-num' }, t); b.textContent = it.val; }
     };
@@ -285,7 +286,7 @@
       const px = S.X(e.last[0]), py = S.Y(e.last[1]), gg = lay(e.k, dur * 0.92);
       if (e.dot) dot(gg, px, py, e.s.color);
       const lx = maxPx + (ends.some(q => q.dot) ? 14 : 12) + (arrows ? 22 : 0);
-      if (arrows) leader(gg, lx - 5, e.y, px, py, e.dot ? 10 : 5, darken(e.s.color));
+      if (arrows) leader(gg, lx - 5, e.y, px, py, e.dot ? 10 : 5, labelColor(e.s.color));
       label(gg, lx, e.y + 7, e);
       boxes.push(tbox(lx, e.y + 7, e.w, 'start'));
     });
@@ -315,7 +316,7 @@
     }));
     (o.markers || []).forEach(mk => {
       el('circle', { cx: S.X(mk.x), cy: S.Y(mk.y), r: mk.r || 7, fill: col(mk.color || 'red'), stroke: '#fff', 'stroke-width': 2.5 }, g);
-      if (mk.label) txt(g, S.X(mk.x) + (mk.dx || 0), S.Y(mk.y) + (mk.dy ?? -16), mk.label, 'ch-val', { fill: darken(mk.color || 'red'), 'text-anchor': mk.anchor || 'middle' });
+      if (mk.label) txt(g, S.X(mk.x) + (mk.dx || 0), S.Y(mk.y) + (mk.dy ?? -16), mk.label, 'ch-val', { fill: labelColor(mk.color || 'red'), 'text-anchor': mk.anchor || 'middle' });
     });
     if (o.legend !== false && !o.series.some(s => s.endLabel)) legend(container, o.series);
     if (o.hover !== false) hoverLine(container, svg, o, S, m, Wd, Ht);
@@ -333,7 +334,7 @@
     function show(i) {
       cur = Math.max(0, Math.min(xs.length - 1, i)); const xv = xs[cur];
       guide.setAttribute('x1', S.X(xv)); guide.setAttribute('x2', S.X(xv)); guide.setAttribute('opacity', 1);
-      const rows = o.series.map((s, k) => { const d = s.data.find(z => z[0] === xv); if (!d || d[1] == null) { dots[k].setAttribute('opacity', 0); return ''; } dots[k].setAttribute('cx', S.X(xv)); dots[k].setAttribute('cy', S.Y(d[1])); dots[k].setAttribute('opacity', 1); return `<div><b style="color:${darken(s.color)}">${esc(s.name || '')}</b> ${(s.format || o.y.hoverFormat || (v => fmt(v, o.y.digits || 0)))(d[1])}</div>`; }).join('');
+      const rows = o.series.map((s, k) => { const d = s.data.find(z => z[0] === xv); if (!d || d[1] == null) { dots[k].setAttribute('opacity', 0); return ''; } dots[k].setAttribute('cx', S.X(xv)); dots[k].setAttribute('cy', S.Y(d[1])); dots[k].setAttribute('opacity', 1); return `<div><b style="color:${labelColor(s.color)}">${esc(s.name || '')}</b> ${(s.format || o.y.hoverFormat || (v => fmt(v, o.y.digits || 0)))(d[1])}</div>`; }).join('');
       ro.innerHTML = `<div style="font-weight:700;margin-bottom:2px">${fx(xv)}</div>${rows}`; ro.classList.add('on');
     }
     function hide() { guide.setAttribute('opacity', 0); dots.forEach(d => d.setAttribute('opacity', 0)); ro.classList.remove('on'); }
@@ -1057,14 +1058,17 @@ window.M5 = (function () {
 
   const ENT = { alpha: 'Banque Alpha', beta: 'Banque Bêta', bce: 'BCE (Eurosystème)' };
   const OPS = {
-    credit: { titre: 'Alpha accorde à Léa un crédit immobilier de 200 000 €',
+    credit: { titre: 'Alpha accorde à Léa un crédit immobilier de 200 000 €. Alpha ne transfère de réserves à Bêta que lorsque Léa paie Marc',
       texte: 'La banque inscrit une créance sur Léa à son actif et le dépôt qu\'elle lui doit à son passif. Personne n\'a été privé de son épargne : 200 000 € de monnaie existent en plus.',
       e: [['alpha', 'actif', 'Crédit à Léa', 200000, 'autre'], ['alpha', 'passif', 'Dépôt de Léa', 200000, 'dep']] },
-    paiement: { titre: 'Léa paie l\'appartement à Marc, le vendeur, client de Bêta',
+    paiement: { titre: 'Léa paie Marc, client de Bêta. Alpha règle le virement avec ses réserves. La banque centrale débite le compte d’Alpha de 200 000 € et crédite celui de Bêta du même montant, sans échange de billets',
       texte: 'Le dépôt passe d\'une banque à l\'autre : la monnaie ne change pas. Alpha règle Bêta en lui cédant 200 000 € de réserves.',
       e: [['alpha', 'passif', 'Dépôt de Léa', -200000, 'dep'], ['alpha', 'actif', 'Réserves', -200000, 'res'],
           ['beta', 'actif', 'Réserves', 200000, 'res'], ['beta', 'passif', 'Dépôt de Marc', 200000, 'dep']] },
-    remboursement: { titre: 'Un an plus tard, Léa rembourse 10 000 €',
+    salaire: { titre: 'En un an, Léa reçoit 40 000 € de salaire. Les deux comptes sont chez Alpha : au passif, le dépôt de l’employeur baisse et celui de Léa augmente d’autant. Aucun transfert de réserves : l’actif d’Alpha ne varie pas',
+      texte: 'Alpha débite le compte de l’employeur et crédite celui de Léa du même montant.',
+      e: [['alpha', 'passif', 'Dépôt de l’employeur', -40000, 'dep'], ['alpha', 'passif', 'Dépôt de Léa', 40000, 'dep']] },
+    remboursement: { titre: 'Léa rembourse ensuite 10 000 € de capital',
       texte: 'La somme est prélevée sur son compte, où son salaire a été versé : le dépôt et la créance baissent ensemble. Ces 10 000 € de monnaie sont détruits.',
       e: [['alpha', 'actif', 'Crédit à Léa', -10000, 'autre'], ['alpha', 'passif', 'Dépôt de Léa', -10000, 'dep']] },
     reglement: { titre: 'Le paiement de Léa se règle sur les comptes des banques à la BCE',
@@ -1091,7 +1095,7 @@ window.M5 = (function () {
   };
 
   const SCEN = {
-    credit: { ops: ['credit', 'paiement', 'remboursement'], ent: ['alpha', 'beta'], unite: '€' },
+    credit: { ops: ['credit', 'paiement', 'salaire', 'remboursement'], ent: ['alpha', 'beta'], unite: '€' },
     reserves: { ops: ['reglement', 'retrait', 'refinancement'], ent: ['alpha', 'beta', 'bce'], unite: '€', avant: ['credit'] },
     qe: { ops: ['qe_assureur', 'qe_banque'], ent: ['bce', 'alpha', 'beta'], unite: 'M€', separes: true }
   };
@@ -1115,7 +1119,7 @@ window.M5 = (function () {
 
   const mult = (r, c) => (1 + c) / (r + c);
   const MULT = {
-    manuel: { r: 0.01, c: 0.10, nom: 'Manuel : réserves exigées seulement' },
+    manuel: { r: 0.01, c: 0.10, nom: 'Réserves limitées au minimum exigé' },
     z2007: { r: R.monnaie.identite_2007.r / 100, c: R.monnaie.identite_2007.c / 100, nom: 'Zone euro, juin 2007' },
     z2026: { r: R.monnaie.identite_dernier.r / 100, c: R.monnaie.identite_dernier.c / 100, nom: 'Zone euro, août 2026' }
   };
@@ -1185,8 +1189,8 @@ window.Bilans = (function () {
     return `<div class="bl-card bl-${ent}"><div class="bl-head">${esc(M().ENT[ent])}</div>
       <div class="bl-t"><div class="bl-col"><div class="bl-lbl">Actif</div>${col('actif')}</div><div class="bl-col"><div class="bl-lbl">Passif</div>${col('passif')}</div></div></div>`;
   }
-  function compteur(lbl, v, u, cls) {
-    return `<div class="bl-cpt ${cls || ''}"><div class="bl-cpt-l">${lbl}</div><div class="bl-cpt-v k-nom">${v === 0 ? '0' : sgn(v, u)}</div></div>`;
+  function compteur(lbl, v, u, cls, precision = '') {
+    return `<div class="bl-cpt ${cls || ''}"><div class="bl-cpt-l">${lbl}</div><div class="bl-cpt-v k-nom">${v === 0 ? '0' : sgn(v, u)}</div>${precision ? `<div class='p-sub' style='font-size:22px;margin:2px 0 0'>${precision}</div>` : ''}</div>`;
   }
 
 
@@ -1199,7 +1203,7 @@ window.Bilans = (function () {
     const etat = k => (avant.includes(k) ? 'avant' : k === dern ? 'new' : 'old');
     const t = M().compteurs(o.seul && !S.separes ? avant.concat(S.ops.slice(0, n)) : ops);
     const base = o.base ?? S.ent.includes('bce');
-    const cpt = o.compteurs === false ? '' : `<div class="bl-cpts">${compteur('Monnaie détenue par le public', t.monnaie, u, 'm')}${compteur('Réserves des banques', t.reserves, u, 'r')}${base ? compteur('Monnaie de banque centrale', t.base, u, 'b') : ''}</div>`;
+    const cpt = o.compteurs === false ? '' : `<div class="bl-cpts">${compteur('Monnaie détenue par le public', t.monnaie, u, 'm', scen === 'credit' ? 'Ici, on additionne les dépôts du public chez Alpha et Bêta. Le compteur affiche la variation depuis le début.' : '')}${compteur(scen === 'credit' ? 'Réserves totales des banques<br><span style=font-weight:400>à la Banque Centrale</span>' : 'Réserves des banques', t.reserves, u, 'r')}${base ? compteur('Monnaie de banque centrale', t.base, u, 'b') : ''}</div>`;
     const op = dern ? M().OPS[dern] : null;
     const leg = o.legende === false ? '' : `<div class="bl-leg">${op ? `<b>${esc(op.titre)}.</b> ${esc(op.texte)}` : (o.depart || '')}</div>`;
 
@@ -1466,15 +1470,15 @@ window.G5 = (function () {
 
   const ESD = D.eurosysteme, ESX = ESD.mois.map(xm), ESR = R.eurosysteme;
   function eurosys(box, o) {
-    const res = CH.line(box, {
+    const res = CH.line(box, { exactSeriesColors: true,
       height: o.height, animate: o.animate, duration: 2, stagger: 0.2, hover: !o.big,
       x: { min: 2007, max: ESX[ESX.length - 1] + 0.1, ticks: [2007, 2010, 2014, 2018, 2022, 2026], hoverFormat: moisX },
       y: { min: 0, max: 5000, ticks: [0, 1000, 2000, 3000, 4000, 5000] },
       yTitle: 'Eurosystème, milliards d\'euros',
-      series: [{ name: 'Prêts aux banques', color: NOM, data: ESX.map((x, j) => [x, ESD.prets[j]]), endLabel: 'prêts aux banques', endDy: -22, width: 3.4, format: v => fmt(v, 0) },
-               { name: 'Titres de politique monétaire', color: TEAL, data: ESX.map((x, j) => [x, ESD.titres[j]]).filter(d => d[1] != null), endLabel: 'titres', width: 3.4, format: v => fmt(v, 0) }],
-      markers: [{ x: xd(ESR.prets_pic_date), y: ESR.prets_pic_mds, color: NOM, label: fmt(ESR.prets_pic_mds, 0), dy: -14 },
-                { x: xd(ESR.titres_pic_date), y: ESR.titres_pic_mds, color: TEAL, label: fmt(ESR.titres_pic_mds, 0), dy: -14 }]
+      series: [{ name: 'Prêts aux banques', color: BLUE, data: ESX.map((x, j) => [x, ESD.prets[j]]), endLabel: 'prêts aux banques', endDy: -22, width: 3.4, format: v => fmt(v, 0) },
+               { name: 'Titres de politique monétaire', color: RED, data: ESX.map((x, j) => [x, ESD.titres[j]]).filter(d => d[1] != null), endLabel: 'titres', width: 3.4, format: v => fmt(v, 0) }],
+      markers: [{ x: xd(ESR.prets_pic_date), y: ESR.prets_pic_mds, color: BLUE, label: fmt(ESR.prets_pic_mds, 0), dy: -14 },
+                { x: xd(ESR.titres_pic_date), y: ESR.titres_pic_mds, color: RED, label: fmt(ESR.titres_pic_mds, 0), dy: -14 }]
     });
     if (res && res.svg) halo(res.svg, 'text.ch-val');
     return res;
@@ -1818,25 +1822,42 @@ window.G5 = (function () {
   function bilans(id, scen, box, nOps) {
     PJ.scenes(id, n => {
       const S = M5.SCEN[scen], op = S.ops[n];
-      Bilans.render(byId(box), scen, n + 1, { legende: false, base: scen !== 'credit', seul: scen === 'reserves' });
+      Bilans.render(byId(box), scen, n + 1, { legende: false, base: scen !== 'credit' });
       put(box + '-leg', `<span class="p-scen" style="margin-right:14px"><span class="n">${n + 1} / ${nOps}</span></span><b>${M5.OPS[op].titre}.</b>`);
     }, nOps - 1);
   }
-  bilans('credit-bilan', 'credit', 'pj-bl-credit', 3);
+  bilans('credit-bilan', 'credit', 'pj-bl-credit', 4);
   bilans('reserves-bilan', 'reserves', 'pj-bl-reserves', 3);
   bilans('qe-bilan', 'qe', 'pj-bl-qe', 2);
   onEnter('bce-monnaie', a => { const b = zoom('pj-eurosys'); G.eurosys(b, big(b, a)); });
   onEnter('credit-m3', a => { const b = zoom('pj-credit-m3'); G.creditM3(b, big(b, a)); });
 
-  const MU = M5.MULT, MUK = ['manuel', 'z2007', 'z2026'];
-  const MUN = { manuel: 'L\'hypothèse du manuel : r = 1 %, c = 10 %', z2007: 'Zone euro, juin 2007', z2026: 'Zone euro, ' + MOIS[+R.monnaie.composition.mois.slice(5, 7) - 1] + ' ' + R.monnaie.composition.mois.slice(0, 4) };
-  PJ.scenes('multi-scen', n => {
-    const key = MUK[n], p = MU[key], m = M5.mult(p.r, p.c);
-    scen('pj-mu-lbl', n, 3, MUN[key]);
-    put('pj-mu-m', k('res', fmt(m, 1)));
-    put('pj-mu-f', `(1 + ${fmt(p.c, 3)}) / (${fmt(p.r, 3)} + ${fmt(p.c, 3)})`);
-    put('pj-mu-r', k('res', fmt(100 * p.r, 1) + NB + '%'));
-    put('pj-mu-c', k('res', fmt(100 * p.c, 1) + NB + '%'));
+  const monnaie = R.monnaie;
+  const moisObserve = monnaie.composition.mois;
+  const casMultiplicateur = [
+    { titre: 'Scénario de référence', m3_mds: 110, base_mds: 11, billets_public_mds: 10, reserves_larges_mds: 1 },
+    { titre: 'Zone euro, juin 2007', ...monnaie.identite_2007 },
+    { titre: 'Zone euro, ' + MOIS[+moisObserve.slice(5, 7) - 1] + ' ' + moisObserve.slice(0, 4), ...monnaie.identite_dernier }
+  ];
+  PJ.scenes('multi-scen', i => {
+    const { titre, m3_mds: m3, base_mds: base, billets_public_mds: billets, reserves_larges_mds: reserves } = casMultiplicateur[i];
+    const depots = m3 - billets, r = reserves / depots, c = billets / depots;
+    const exemple = i === 0, signe = exemple ? '=' : '≈';
+    const precision = exemple ? 2 : 4, dec = x => fmt(x, precision);
+    const rAffiche = Number(r.toFixed(precision)), cAffiche = Number(c.toFixed(precision));
+    const frac = window.C.frac;
+    const ratio = (lettre, montant, taux) => `<i>${lettre}</i> = ${frac(fmt(montant), fmt(depots))} ${signe} ${dec(taux)} = <b>${fmt(100 * taux, exemple ? 0 : 2)}${NB}%</b>`;
+    scen('pj-mu-lbl', i, casMultiplicateur.length, titre);
+    put('pj-mu-depots', exemple
+      ? 'Pour <b>100 € de dépôts</b>, supposons que les banques gardent 1 € de réserves et que le public détient 10 € en billets.'
+      : `En milliards d’euros, <b>dépôts</b> = M3 − billets du public = ${fmt(m3)} − ${fmt(billets)} = <b>${fmt(depots)}</b>.`);
+    put('pj-mu-r', ratio('r', reserves, r));
+    put('pj-mu-c', ratio('c', billets, c));
+    const substitution = frac('1 + ' + dec(c), dec(r) + ' + ' + dec(c));
+    const quotient = frac(dec(1 + cAffiche), dec(rAffiche + cAffiche));
+    put('pj-mu-m', `${frac('M3', '<i>B</i>')} = ${frac('1 + <i>c</i>', '<i>r</i> + <i>c</i>')} ${signe} ${substitution} = ${quotient} ${signe} <b>${fmt(M5.mult(r, c), exemple ? 0 : 1)}</b>`);
+    const stocks = exemple ? 'M3 = 100 + 10 = 110 € et la base monétaire vaut 1 + 10 = 11 €.' : 'Montants arrondis au milliard d’euros.';
+    put('pj-mu-verif', `${stocks} On retrouve M3 / <i>B</i> = ${fmt(m3)} / ${fmt(base)} ${signe} ${fmt(m3 / base, exemple ? 0 : 1)}.`);
   }, 2);
   onEnter('multi-reserves', a => { const b = zoom('pj-reserves'); G.reserves(b, big(b, a)); });
   onEnter('qe-donnees', a => { const b = zoom('pj-qe'); G.qe(b, big(b, a)); });
@@ -2030,8 +2051,7 @@ window.G5 = (function () {
     if (res && res.S) {
       const y10 = res.S.Y(10);
       CH.el('line', { x1: res.S.X(opts.x0), x2: res.S.X(2026.9), y1: y10, y2: y10, stroke: GRIS, 'stroke-width': 1.8, 'stroke-dasharray': '7 6' }, res.svg);
-      const aDroite = opts.manuel !== 'gauche';
-      CH.txt(res.svg, aDroite ? res.S.X(2026.9) - 4 : res.S.X(opts.x0) + 10, aDroite ? y10 - 10 : y10 + 26, 'valeur du manuel, environ 10', 'ch-lab', { 'text-anchor': aDroite ? 'end' : 'start', fill: GRIS, style: `font-size:${o.big ? 18 : 14}px` });
+      CH.txt(res.svg, res.S.X(2026.9) - 4, y10 - 10, 'scénario de référence : 10', 'ch-lab', { 'text-anchor': 'end', fill: GRIS, style: `font-size:${o.big ? 18 : 14}px` });
       halo(res.svg, 'text.ch-val, text.ch-lab');
     }
     return res;

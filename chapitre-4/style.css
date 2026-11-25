@@ -970,6 +970,17 @@ ul.pj-25 li:last-child{margin-bottom:0}
 .pj-bilan-schema .pj-bl-hd{font-weight:700;font-size:22px;border-bottom:2px solid #000;padding-bottom:4px;margin-bottom:8px;text-align:center}
 .pj-bilan-schema .pj-bl-l{display:flex;justify-content:space-between;gap:12px;font-size:21px;line-height:1.3;margin:6px 0}
 .pj-bilan-schema .pj-bl-l b{font-variant-numeric:tabular-nums}
+
+#credit-bilan .bl-cards{min-height:340px}
+@media print{.bl-row.new{animation:none!important}}
+#credit-bilan .bl-col{gap:3px}
+#credit-bilan .bl-row{padding-block:1px}
+
+#reserves-bilan .bl-cards{grid-template-rows:minmax(206px,auto) minmax(264px,auto);row-gap:12px}
+#reserves-bilan .bl-card{padding:8px 16px}
+#reserves-bilan .bl-col{gap:2px;padding-block:4px}
+#reserves-bilan .bl-row{padding-block:1px}
+#reserves-bilan .bl-row,#reserves-bilan .bl-row .bl-v{font-size:23px;line-height:1.2}
 table.pj-tours{border-collapse:collapse;font-size:28px;width:100%}
 table.pj-tours th{font-weight:650;color:#001F5F;text-align:right;padding:6px 12px;border-bottom:2px solid #000}
 table.pj-tours td{text-align:right;padding:6px 12px;border-bottom:1px solid #E3E7EB}
@@ -999,6 +1010,32 @@ table.pj-tours tr.pj-tours-total td{font-weight:700;border-top:2px solid #000}
 .pj-portrait figure{margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
 .pj-portrait img{width:190px;height:240px;object-fit:cover;object-position:top;border-radius:4px;display:block}
 .pj-portrait figcaption{font-size:16px;line-height:1.3;color:#536078}
+
+#bce-monnaie .eurosys-prets,#bce-monnaie .k-eurosys-prets{color:var(--blue);font-weight:700}
+#bce-monnaie .eurosys-titres,#bce-monnaie .k-eurosys-titres{color:var(--red);font-weight:700}
+#bce-monnaie .eurosys-legende{font-size:25px;line-height:1.25;margin:12px 0 0}
+#controle .pj-card li strong{color:#B45309}
+#controle .def.compact .def-term{font-size:29px}
+#controle .def.compact .def-text{font-size:25px}
+#multi-serie .formula{padding-block:8px}
+#multi-serie .encadre-note .callout{font-size:28px;line-height:1.3;padding:14px 20px}
+#multi-fiche .multi-identite{gap:22px}
+#multi-fiche .multi-identite .p-txt{font-size:31px;line-height:1.3}
+#multi-fiche .multi-ratios{display:flex;align-items:center;justify-content:center;gap:72px;font-size:30px}
+#multi-fiche .fiche{background:#F0F3F8;border:2px solid #001F5F;padding:16px 26px}
+#multi-fiche .fiche-f{font-size:40px;padding:10px 0}
+#multi-fiche .fiche-vars{font-size:23px;padding-top:7px}
+#multi-fiche .fiche-lbl,#multi-fiche .fiche-f{color:#001F5F}
+
+#multi-scen .multi-calculs{display:grid;gap:20px;align-content:start}
+#multi-scen .p-scen{justify-self:start}
+#multi-scen .p-txt{font-size:30px;line-height:1.3;min-height:2.6em}
+#multi-scen .multi-ratios{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+#multi-scen .pj-res .t{font-size:26px}
+#multi-scen .calcul{font:400 36px/1.2 var(--serif);margin-top:12px;white-space:nowrap}
+#multi-scen .multi-resultat{background:#F0F3F8;border:2px solid #001F5F}
+#multi-scen .multi-resultat .calcul{font-size:40px;color:#001F5F}
+#multi-scen .p-sub{margin:0;font-size:25px}
 
 
 body.proj .slide.exercise,

@@ -1210,6 +1210,7 @@ window.CREDITS={};
 
   /* --------------------------------------------------------------- courbes */
   function line(container, o) {
+    const labelColor = o.exactSeriesColors ? color => color : darken;
     if (o.legend !== false && o.series.length > 1 && !o.series.some(s => s.endLabel)) o = Object.assign({}, o, { height: (o.height || container.clientHeight) - 40 });
     const { svg, Wd, Ht, arrow } = frame(container, o);
     const all = o.series.flatMap(s => s.data.filter(d => d[1] != null));
@@ -1254,7 +1255,7 @@ window.CREDITS={};
     const y0 = axes(g, o, S, m, Wd, Ht, arrow);
     (o.refLines || []).forEach(r => {
       el('line', { x1: m.l, x2: Wd - m.r, y1: S.Y(r.y), y2: S.Y(r.y), stroke: col(r.color || 'red'), 'stroke-width': 2.4, 'stroke-dasharray': r.dash || '8 7' }, g);
-      if (r.label) txt(g, Wd - m.r + 8, S.Y(r.y) + 6, r.label, 'ch-lab', { fill: darken(r.color || 'red') });
+      if (r.label) txt(g, Wd - m.r + 8, S.Y(r.y) + 6, r.label, 'ch-lab', { fill: labelColor(r.color || 'red') });
     });
     const polys = [];
     o.series.forEach((s, k) => {
@@ -1275,7 +1276,7 @@ window.CREDITS={};
     const boxes = [], lim = { l: m.l, W: Wd, t: m.t, b: Ht - m.b };
     (o.markers || []).forEach(mk => { if (mk.label) boxes.push(tbox(S.X(mk.x) + (mk.dx || 0), S.Y(mk.y) + (mk.dy ?? -16), textW(mk.label), mk.anchor || 'middle')); });
     const label = (gg, xx, yy, it, anchor) => {
-      const t = el('text', { x: xx, y: yy, class: 'ch-lab', fill: darken(it.s.color), 'text-anchor': anchor || 'start' }, gg);
+      const t = el('text', { x: xx, y: yy, class: 'ch-lab', fill: labelColor(it.s.color), 'text-anchor': anchor || 'start' }, gg);
       if (it.name) { const a = el('tspan', {}, t); a.textContent = it.name; }
       if (it.val) { const b = el('tspan', { 'font-weight': 700, dx: it.name ? 8 : null, class: 'ch-num' }, t); b.textContent = it.val; }
     };
@@ -1285,7 +1286,7 @@ window.CREDITS={};
       const px = S.X(e.last[0]), py = S.Y(e.last[1]), gg = lay(e.k, dur * 0.92);
       if (e.dot) dot(gg, px, py, e.s.color);
       const lx = maxPx + (ends.some(q => q.dot) ? 14 : 12) + (arrows ? 22 : 0);
-      if (arrows) leader(gg, lx - 5, e.y, px, py, e.dot ? 10 : 5, darken(e.s.color));
+      if (arrows) leader(gg, lx - 5, e.y, px, py, e.dot ? 10 : 5, labelColor(e.s.color));
       label(gg, lx, e.y + 7, e);
       boxes.push(tbox(lx, e.y + 7, e.w, 'start'));
     });
@@ -1315,7 +1316,7 @@ window.CREDITS={};
     }));
     (o.markers || []).forEach(mk => {
       el('circle', { cx: S.X(mk.x), cy: S.Y(mk.y), r: mk.r || 7, fill: col(mk.color || 'red'), stroke: '#fff', 'stroke-width': 2.5 }, g);
-      if (mk.label) txt(g, S.X(mk.x) + (mk.dx || 0), S.Y(mk.y) + (mk.dy ?? -16), mk.label, 'ch-val', { fill: darken(mk.color || 'red'), 'text-anchor': mk.anchor || 'middle' });
+      if (mk.label) txt(g, S.X(mk.x) + (mk.dx || 0), S.Y(mk.y) + (mk.dy ?? -16), mk.label, 'ch-val', { fill: labelColor(mk.color || 'red'), 'text-anchor': mk.anchor || 'middle' });
     });
     if (o.legend !== false && !o.series.some(s => s.endLabel)) legend(container, o.series);
     if (o.hover !== false) hoverLine(container, svg, o, S, m, Wd, Ht);
@@ -1333,7 +1334,7 @@ window.CREDITS={};
     function show(i) {
       cur = Math.max(0, Math.min(xs.length - 1, i)); const xv = xs[cur];
       guide.setAttribute('x1', S.X(xv)); guide.setAttribute('x2', S.X(xv)); guide.setAttribute('opacity', 1);
-      const rows = o.series.map((s, k) => { const d = s.data.find(z => z[0] === xv); if (!d || d[1] == null) { dots[k].setAttribute('opacity', 0); return ''; } dots[k].setAttribute('cx', S.X(xv)); dots[k].setAttribute('cy', S.Y(d[1])); dots[k].setAttribute('opacity', 1); return `<div><b style="color:${darken(s.color)}">${esc(s.name || '')}</b> ${(s.format || o.y.hoverFormat || (v => fmt(v, o.y.digits || 0)))(d[1])}</div>`; }).join('');
+      const rows = o.series.map((s, k) => { const d = s.data.find(z => z[0] === xv); if (!d || d[1] == null) { dots[k].setAttribute('opacity', 0); return ''; } dots[k].setAttribute('cx', S.X(xv)); dots[k].setAttribute('cy', S.Y(d[1])); dots[k].setAttribute('opacity', 1); return `<div><b style="color:${labelColor(s.color)}">${esc(s.name || '')}</b> ${(s.format || o.y.hoverFormat || (v => fmt(v, o.y.digits || 0)))(d[1])}</div>`; }).join('');
       ro.innerHTML = `<div style="font-weight:700;margin-bottom:2px">${fx(xv)}</div>${rows}`; ro.classList.add('on');
     }
     function hide() { guide.setAttribute('opacity', 0); dots.forEach(d => d.setAttribute('opacity', 0)); ro.classList.remove('on'); }
@@ -2235,14 +2236,17 @@ window.M5 = (function () {
        autre : crédit, titre, emprunt (ni monnaie ni réserves). */
   const ENT = { alpha: 'Banque Alpha', beta: 'Banque Bêta', bce: 'BCE (Eurosystème)' };
   const OPS = {
-    credit: { titre: 'Alpha accorde à Léa un crédit immobilier de 200 000 €',
+    credit: { titre: 'Alpha accorde à Léa un crédit immobilier de 200 000 €. Alpha ne transfère de réserves à Bêta que lorsque Léa paie Marc',
       texte: 'La banque inscrit une créance sur Léa à son actif et le dépôt qu\'elle lui doit à son passif. Personne n\'a été privé de son épargne : 200 000 € de monnaie existent en plus.',
       e: [['alpha', 'actif', 'Crédit à Léa', 200000, 'autre'], ['alpha', 'passif', 'Dépôt de Léa', 200000, 'dep']] },
-    paiement: { titre: 'Léa paie l\'appartement à Marc, le vendeur, client de Bêta',
+    paiement: { titre: 'Léa paie Marc, client de Bêta. Alpha règle le virement avec ses réserves. La banque centrale débite le compte d’Alpha de 200 000 € et crédite celui de Bêta du même montant, sans échange de billets',
       texte: 'Le dépôt passe d\'une banque à l\'autre : la monnaie ne change pas. Alpha règle Bêta en lui cédant 200 000 € de réserves.',
       e: [['alpha', 'passif', 'Dépôt de Léa', -200000, 'dep'], ['alpha', 'actif', 'Réserves', -200000, 'res'],
           ['beta', 'actif', 'Réserves', 200000, 'res'], ['beta', 'passif', 'Dépôt de Marc', 200000, 'dep']] },
-    remboursement: { titre: 'Un an plus tard, Léa rembourse 10 000 €',
+    salaire: { titre: 'En un an, Léa reçoit 40 000 € de salaire. Les deux comptes sont chez Alpha : au passif, le dépôt de l’employeur baisse et celui de Léa augmente d’autant. Aucun transfert de réserves : l’actif d’Alpha ne varie pas',
+      texte: 'Alpha débite le compte de l’employeur et crédite celui de Léa du même montant.',
+      e: [['alpha', 'passif', 'Dépôt de l’employeur', -40000, 'dep'], ['alpha', 'passif', 'Dépôt de Léa', 40000, 'dep']] },
+    remboursement: { titre: 'Léa rembourse ensuite 10 000 € de capital',
       texte: 'La somme est prélevée sur son compte, où son salaire a été versé : le dépôt et la créance baissent ensemble. Ces 10 000 € de monnaie sont détruits.',
       e: [['alpha', 'actif', 'Crédit à Léa', -10000, 'autre'], ['alpha', 'passif', 'Dépôt de Léa', -10000, 'dep']] },
     reglement: { titre: 'Le paiement de Léa se règle sur les comptes des banques à la BCE',
@@ -2269,7 +2273,7 @@ window.M5 = (function () {
   };
   // Scénarios : opérations successives, entités montrées, unité, écritures de départ (estompées)
   const SCEN = {
-    credit: { ops: ['credit', 'paiement', 'remboursement'], ent: ['alpha', 'beta'], unite: '€' },
+    credit: { ops: ['credit', 'paiement', 'salaire', 'remboursement'], ent: ['alpha', 'beta'], unite: '€' },
     reserves: { ops: ['reglement', 'retrait', 'refinancement'], ent: ['alpha', 'beta', 'bce'], unite: '€', avant: ['credit'] },
     qe: { ops: ['qe_assureur', 'qe_banque'], ent: ['bce', 'alpha', 'beta'], unite: 'M€', separes: true }
   };
@@ -2295,7 +2299,7 @@ window.M5 = (function () {
      Avec c = billets du public / dépôts et r = réserves / dépôts : M3 / B = (1 + c) / (r + c), une identité. */
   const mult = (r, c) => (1 + c) / (r + c);                    // r et c en fractions (0,01 pour 1 %)
   const MULT = {
-    manuel: { r: 0.01, c: 0.10, nom: 'Manuel : réserves exigées seulement' },
+    manuel: { r: 0.01, c: 0.10, nom: 'Réserves limitées au minimum exigé' },
     z2007: { r: R.monnaie.identite_2007.r / 100, c: R.monnaie.identite_2007.c / 100, nom: 'Zone euro, juin 2007' },
     z2026: { r: R.monnaie.identite_dernier.r / 100, c: R.monnaie.identite_dernier.c / 100, nom: 'Zone euro, août 2026' }
   };
@@ -2589,8 +2593,9 @@ window.SLIDES = window.SLIDES || [];
         <li>Un billet est une <b>dette de la banque centrale</b>, sans échéance : une reconnaissance de dette (en anglais, <i>IOU</i>, « I owe you »).</li>
         <li>Détenir un billet, c'est faire confiance à la banque centrale pour préserver sa valeur : pouvoir acheter demain ce qu'il permet d'acheter aujourd'hui.</li></ul>
       <div class="p-col" style="gap:22px">
-        ${s(1, def('Cours légal', 'Les billets en euros doivent être acceptés en paiement : la loi leur donne ce statut (traité sur le fonctionnement de l\'Union européenne, article 128).', { cls: 'compact' }))}
-        ${s(2, note('Comment la banque centrale garantit-elle sa crédibilité&#8239;? Réponse en section 5.', 'Une question pour la suite'))}
+        ${s(1, def('Cours légal', 'Le cours légal est le statut que la loi donne à un moyen de paiement dont chacun peut, en principe, se servir pour régler une dette à sa valeur nominale.', { cls: 'compact' }))}
+        ${s(2, `<p class="pj-25" style="margin:0">Les billets en euros doivent être acceptés en paiement : la loi leur donne ce statut (traité sur le fonctionnement de l'Union européenne, article 128).</p>`)}
+        ${s(3, note('Comment la banque centrale garantit-elle sa crédibilité&#8239;? Réponse en section 5.', 'Une question pour la suite'))}
       </div></div>`,
     source: 'Traité sur le fonctionnement de l\'Union européenne, article 128.',
     prov: null
@@ -2601,11 +2606,10 @@ window.SLIDES = window.SLIDES || [];
     id: 'banques', part: P, title: 'Votre argent est dans une banque commerciale',
     html: `<div class="p-grid2" style="gap:44px;align-items:center;height:100%">
       <ul class="bullets pj-25">
-        <li>Vous n'avez pas de compte à la banque centrale, mais dans une <b>banque commerciale</b>.</li>
-        <li>Une banque est une entreprise : elle gagne sa vie sur l'écart entre le taux de ses crédits et le coût de ses ressources.</li>
-        <li>Les banques ont un compte courant à la banque centrale, leurs <b>réserves</b>, et peuvent y emprunter à court terme.</li>
-        <li>Pour donner des billets à leurs clients, aux guichets ou aux distributeurs, elles les obtiennent de la banque centrale, qui débite leur compte.</li></ul>
-      ${s(1, note('Vous m\'achetez une pomme et payez par virement, ou par chèque, depuis une autre banque que la mienne. Votre banque doit alors de l\'argent à la mienne : les deux banques se règlent en monnaie de banque centrale. Les bilans de la section 2 le montrent.', 'Et si le vendeur a une autre banque&#8239;?'))}
+        <li>Une banque est une entreprise. Sa marge dépend de l’écart entre le taux de ses crédits et le coût de ses ressources.</li>
+        <li>Ses <b>réserves</b> sont ses dépôts à la banque centrale. Elle peut aussi y emprunter à court terme.</li>
+        <li>Elle échange des réserves contre des billets pour ses clients.</li></ul>
+      ${s(1, note('Vous me payez par virement. Votre banque transfère des réserves à la mienne.', 'Et si nos banques sont différentes&#8239;?'))}
     </div>`,
     prov: null
   });
@@ -2625,7 +2629,7 @@ window.SLIDES = window.SLIDES || [];
     html: `<div class="p-row" style="gap:40px">
       <div class="p-col" style="gap:8px;flex:0 0 60%"><div class="p-scen" id="pj-agr-lbl"></div><div id="pj-agr-cercles" style="width:100%;height:540px"></div>
         <p class="p-sub" style="font-size:18px;margin:0">Schéma : surfaces non proportionnelles aux montants. Survol : définition de chaque agrégat.</p></div>
-      <div class="p-grow p-col" style="gap:18px">${s(1, def('Masse monétaire', 'Monnaie détenue par les ménages et les entreprises : billets, dépôts, et placements que l\'on change en dépôts sans délai ni perte. M1 : billets et dépôts à vue ; M2 : M1 et dépôts à court terme (livret A, dépôts à moins de deux ans) ; M3 : M2 et titres monétaires.', { cls: 'compact' }))}
+      <div class="p-grow p-col" style="gap:18px">${s(1, def('Masse monétaire', 'Monnaie détenue par les ménages et les entreprises : billets, dépôts, et placements que l\'on change en dépôts sans délai ni perte. M1 : billets et dépôts à vue ; M2 : M1 et dépôts à court terme (livret A, dépôts à moins de deux ans) ; M3 ajoute notamment les parts de fonds monétaires et les obligations émises par une banque pour deux ans au plus.', { cls: 'compact' }))}
         ${s(4, `<div class="encadre-note">${callout('M0, ou base monétaire : billets et réserves des banques à la banque centrale. Les réserves ne font pas partie de M1. M4 (M3 et titres de court terme des entreprises et de l\'État) n\'est pas calculé dans la zone euro.', { label: 'M0 et M4' })}</div>`)}${marks(2, 3)}</div>
     </div>`,
     source: `M1 à M3 : ${SRC.bce_bsi} : encours de fin de mois corrigés des variations saisonnières. M0 : ${SRC.bce_ilm_c}, semaine du 9 octobre 2026.`,
@@ -2656,7 +2660,7 @@ window.SLIDES = window.SLIDES || [];
   const blScreen = id => `<div class="p-col pj-bl" style="gap:16px"><div id="${id}"></div><div class="pj-bl-leg" id="${id}-leg"></div></div>`;
   SLIDES.push({
     id: 'credit-bilan', part: P, title: 'Une banque qui prête crée de la monnaie',
-    html: blScreen('pj-bl-credit') + marks(1, 2),
+    html: blScreen('pj-bl-credit') + marks(1, 3),
     source: `Exemple fictif : variations des bilans, en euros. ${SRC.boe}.`,
     prov: 'fictif'
   });
@@ -2683,12 +2687,14 @@ window.SLIDES = window.SLIDES || [];
   SLIDES.push({
     id: 'bce-monnaie', part: P, title: 'Comment la BCE fournit-elle les réserves&#8239;?',
     html: `<div class="p-row" style="gap:46px">
-      <div class="p-w55"><div id="pj-eurosys" style="width:100%;height:600px"></div></div>
+      <div class="p-w55"><div id="pj-eurosys" style="width:100%;height:490px"></div>
+        <p class="eurosys-legende">Ces quantités sont <em>à l’actif</em> de la banque centrale (elle possède ces titres et les prêts lui sont dus).</p>
+        <p class="eurosys-legende">Les réserves, elles, sont dues aux banques commerciales et sont au passif de la banque centrale.</p></div>
       <div class="p-grow p-col" style="gap:18px">
         <p class="p-txt" style="margin:0">La BCE fait varier la base monétaire M0 de deux façons :</p>
         <ul class="bullets pj-25">
-          <li>elle <b>prête aux banques</b>, contre des garanties (refinancement) : ${k('nom', n(ES.prets_2007_06_mds, 0) + ' → ' + mds(ES.prets_dernier_mds))} de juin 2007 à octobre 2026 ;</li>
-          ${s(1, `elle <b>achète des titres</b>, surtout des obligations d'État : jusqu'à ${k('nom', mds(ES.titres_pic_mds))} (${mois(ES.titres_pic_date.slice(0, 7))}).`, 'li')}
+          <li>elle <b class="eurosys-prets">prête aux banques</b>, contre des garanties (par exemple des titres) : ${k('eurosys-prets', n(ES.prets_2007_06_mds, 0) + ' → ' + mds(ES.prets_dernier_mds))} de juin 2007 à octobre 2026 ;</li>
+          ${s(1, `elle <b class="eurosys-titres">achète des titres</b>, surtout des obligations d'État : jusqu'à ${k('eurosys-titres', mds(ES.titres_pic_mds))} (${mois(ES.titres_pic_date.slice(0, 7))}).`, 'li')}
         </ul>
         ${s(1, def('Opération d\'open market', 'Achat ou vente de titres par la banque centrale, payés en réserves : elle crée ou retire de la monnaie de banque centrale.', { cls: 'compact' }))}
       </div></div>`,
@@ -2696,7 +2702,7 @@ window.SLIDES = window.SLIDES || [];
     prov: 'obs'
   });
 
-  /* Section 2, « Qui crée la monnaie ? » : écrans repris du cours de 2025 d'Arnaud (diapositives 25, 26, 30, 38-39, 41-42, 43,
+  /* Section 2, « Qui crée la monnaie ? » : écrans repris du cours de 2025 d'Arnaud (diapositives 25, 26, 38-39, 41-42, 43,
      44-48), ajoutés le 24 novembre 2026 (plan_integration_2025_2026-11-24.md). Insérés par scripts/adapter_ch04.py dans le
      bloc de la section 1 d'Antonin (outils s, k, def, callout, v ; données R, MO, RS). La note `note` est définie dans
      ecrans_2025_partie1.js, inséré plus haut dans le même bloc. */
@@ -2704,16 +2710,18 @@ window.SLIDES = window.SLIDES || [];
   // Retour sur ce qu'est une banque : la vision classique, que les bilans corrigent (diapositive 25 ; écran facultatif)
   SLIDES.push({
     id: 'banque-def', part: P, title: 'Retour sur ce qu\'est une banque : la vision classique',
-    html: `<div class="p-grid2" style="gap:44px;align-items:center;height:100%">
+    html: `<div class="p-col" style="height:100%;gap:16px"><div class="p-grid2 p-grow" style="gap:44px;align-items:center">
       <ul class="bullets pj-25">
-        <li>Un intermédiaire financier : il reçoit les dépôts des ménages et des entreprises et accorde des crédits.</li>
+        <li>Un <strong style="color:#B45309">intermédiaire financier</strong> : il reçoit les dépôts des ménages et des entreprises et accorde des crédits.</li>
         <li>Un avantage pour évaluer les projets et gérer le risque.</li>
         <li>Tous les déposants ne retirent pas leur argent en même temps : une partie des dépôts peut être prêtée.</li>
         <li>De nombreux petits dépôts financent ainsi de grands projets d'investissement.</li></ul>
       <div class="p-col" style="gap:22px">
-        ${s(1, note('Votre argent n\'est pas stocké physiquement à la banque. Si tous les déposants retirent en même temps, la banque ne peut pas payer : c\'est la ruée bancaire. La confiance est donc décisive.', 'Une fragilité'))}
+        ${s(1, note('Votre argent n\'est pas stocké physiquement à la banque. Si tous les déposants retirent en même temps, la banque ne peut pas payer : c\'est la <strong style="color:#B45309">ruée bancaire</strong>. La confiance est donc décisive.', 'Une fragilité'))}
         ${s(2, `<p class="p-stmt sm" style="margin:0">Cette vision, la banque qui prête l'épargne de ses clients, est-elle exacte&#8239;? Les bilans vont répondre.</p>`)}
-      </div></div>`,
+      </div></div>
+      ${s(3, note('Une banque emprunte à court terme et prête à long terme.', 'Transformation des échéances'))}
+    </div>`,
     prov: null
   });
 
@@ -2724,74 +2732,74 @@ window.SLIDES = window.SLIDES || [];
     html: `<div class="p-grid2" style="gap:44px;align-items:center;height:100%">
       <div class="p-col" style="gap:16px">
         ${def('Actif', 'Ce que l\'on possède, y compris ce que les autres nous doivent.', { cls: 'compact' })}
-        ${def('Passif', 'Ce que l\'on doit aux autres.', { cls: 'compact' })}
-        ${def('Valeur nette, ou fonds propres', 'L\'actif moins le passif : ce qui appartient aux propriétaires.', { cls: 'compact' })}
+        ${def('Passif', 'Les dettes de la banque envers ses créanciers et la part qui revient à ses actionnaires (les fonds propres).', { cls: 'compact' })}
+        ${def('Valeur nette, ou fonds propres', 'La valeur des actifs moins les dettes de la banque.', { cls: 'compact' })}
       </div>
+      <div class="p-col" style="gap:20px">
       ${s(1, `<div class="pj-bilan-schema"><div class="pj-bl-titre">Bilan d'une banque, pour 100 € d'actif</div>
         <div class="pj-bl-cols"><div class="pj-bl-col"><div class="pj-bl-hd">Actif</div>
           ${ligneBilan('Réserves à la banque centrale', '10')}${ligneBilan('Crédits aux ménages et aux entreprises', '60')}${ligneBilan('Prêts aux autres banques, titres', '25')}${ligneBilan('Immeubles et matériel', '5')}
         </div><div class="pj-bl-col"><div class="pj-bl-hd">Passif</div>
           ${ligneBilan('Dépôts (comptes courants, livrets)', '70')}${ligneBilan('Autres dettes (emprunts, obligations)', '22')}${ligneBilan('Fonds propres', '8')}
         </div></div></div>`)}
+        ${s(2, note('Pourquoi les fonds propres sont au passif&#8239;?', 'Question'))}
+      </div>
     </div>`,
     source: 'Bilan schématique : exemple fictif.',
     prov: 'fictif'
   });
 
-  // Deux créateurs de monnaie (diapositive 30 ; après la réponse au vote, pour ne pas la dévoiler ; écran facultatif)
+  // Limites au crédit, après le graphique sur le crédit et M3 (diapositives 38 et 39 de 2025).
   SLIDES.push({
-    id: 'createurs', part: P, title: 'Deux créateurs de monnaie',
-    html: `<div class="p-col" style="gap:30px;height:100%;justify-content:center">
-      <div class="p-grid2" style="gap:40px">
-        <div class="pj-card"><div class="h">La banque centrale</div><p>Elle crée la ${k('nom', 'monnaie de banque centrale')} : les billets et les réserves des banques.</p></div>
-        <div class="pj-card"><div class="h">Les banques commerciales</div><p>Elles créent les ${k('nom', 'dépôts')} quand elles accordent des crédits.</p></div>
+    id: 'controle', part: P, title: 'Si le crédit crée les dépôts, qu’est-ce qui limite les prêts&#8239;?',
+    html: `<div class="p-col" style="height:100%;justify-content:center;gap:24px">
+      <p class="p-txt">En août 2023, sur un an, le crédit progresse de ${p1(CM.points['2023-08'].credit)} % et M3 recule de ${p1(-CM.points['2023-08'].m3)} % dans la zone euro.</p>
+      <div class="p-grid2" style="align-items:stretch">
+        <div class="pj-card"><div class="h">La banque peut-elle prêter&#8239;?</div>
+          <ul class="bullets pj-25">
+            <li><strong>Fonds propres.</strong> Si Léa ne rembourse pas, Alpha doit pouvoir absorber la perte.</li>
+            <li><strong>Liquidité.</strong> Si Léa paie un client de Bêta, Alpha doit pouvoir régler le virement en réserves.</li>
+          </ul></div>
+        ${s(1, `<div class="pj-card"><div class="h">À quel taux le client peut-il emprunter&#8239;?</div>
+          <ul class="bullets pj-25">
+            <li><strong>Taux directeurs.</strong> Quand la BCE relève ses taux, les nouveaux crédits deviennent généralement plus chers.</li>
+            <li>À un taux plus élevé, certains ménages et certaines entreprises renoncent à emprunter.</li>
+          </ul></div>`)}
       </div>
-      ${s(1, `<ul class="bullets pj-25"><li>Leur capacité dépend de leurs clients : des <b>emprunteurs</b> qui demandent du crédit, des <b>déposants</b> qui gardent leurs dépôts ou retirent des billets.</li></ul>`)}
+      ${s(2, def('Réserves obligatoires', 'Dans la zone euro, chaque banque doit détenir en moyenne, sur la période de constitution, des réserves égales à 1 % de certains engagements, principalement des dépôts.', { cls: 'compact' }))}
     </div>`,
+    source: 'BCE, statistiques monétaires (août 2023) et « Que sont les réserves obligatoires ? ». Règlement (UE) n° 575/2013, art. 92.',
     prov: null
   });
 
-  // Quel contrôle sur la création monétaire ? (diapositives 38 et 39 ; remplace « limites » avec « autres-limites »)
-  SLIDES.push({
-    id: 'controle', part: P, title: 'Quel contrôle sur la création monétaire&#8239;?',
-    html: `<div class="p-grid2" style="gap:40px;align-items:start;height:100%">
-      <div class="pj-card"><div class="h">La réglementation prudentielle</div><ul class="bullets pj-25">
-        <li>En France, le code monétaire et financier, et les règles européennes : éviter que les banques prennent trop de risques et fassent faillite.</li>
-        <li>Des fonds propres d'au moins 8 % des crédits, pondérés par leur risque : 8 € pour 100 € de crédits.</li>
-        <li>Le risque de liquidité : une ruée bancaire, ou des crédits longs financés par des dépôts que l'on peut retirer à tout moment.</li></ul></div>
-      ${s(1, `<div class="pj-card"><div class="h">La politique monétaire</div><ul class="bullets pj-25">
-        <li>Le prix des réserves : le taux directeur fixé par la banque centrale (section 6).</li>
-        <li>Les réserves obligatoires : la banque doit toujours disposer d'assez de réserves.</li></ul>
-        <div style="margin-top:14px">${def('Réserves obligatoires', `Part des dépôts qu'une banque doit garder en réserves à la banque centrale ; notée ${v('r')}<sub>exigé</sub>, 1 % dans la zone euro depuis janvier 2012.`, { cls: 'compact' })}</div></div>`)}
-    </div>`,
-    source: 'Exigence de fonds propres : règlement (UE) n° 575/2013, article 92. Réserves obligatoires : BCE, communiqué du 8 décembre 2011.',
-    prov: null
-  });
-
-  // Le raisonnement du manuel : quelle augmentation finale ? (diapositives 41 et 42 ; chaîne de la diapositive 40)
+  // Expansion des dépôts (diapositives 41 et 42 ; chaîne de la diapositive 40)
   const tour = (st, banque, depot, reserve, pret) => s(st, `<td>${banque}</td><td>${k('nom', depot)}</td><td>${reserve}</td><td>${pret}</td>`, 'tr');
   SLIDES.push({
-    id: 'multi-serie', part: P, title: 'Le raisonnement du manuel : quelle augmentation finale&#8239;?',
-    html: `<div class="p-row" style="gap:44px;align-items:center;height:100%">
+    id: 'multi-serie', part: P, title: 'Jusqu’où les dépôts peuvent-ils augmenter&#8239;?',
+    html: `<div class="p-col" style="height:100%;gap:24px">
+      <p class="p-txt">On vient de voir plusieurs limites au crédit. Isolons les <b>réserves obligatoires</b>. Que se passe-t-il si chaque banque doit garder <b>10 % de ses dépôts</b> en réserves&#8239;?</p>
+      <div class="p-row" style="gap:44px;align-items:center;flex:1;min-height:0;height:auto">
       <div class="p-col" style="gap:12px;flex:0 0 47%">
-        <p class="p-sub" style="margin:0;font-size:24px">Raisonnement du manuel, avec des réserves obligatoires de 10 % (${v('r')} = 0,1)</p>
+        <p style="margin:0;font-size:28px;line-height:1.3"><b>Rappel&#8239;:</b> les crédits d’une banque sont les dépôts d’une autre. Ici, les 90 € prêtés par A arrivent chez B quand l’emprunteur paie.</p>
+        <p class="p-sub" style="margin:0;font-size:24px">Dépôt initial de 100 € (${v('r')} = 0,1). Montants en euros.</p>
         <table class="pj-tours"><thead><tr><th></th><th>Dépôt</th><th>Réserves</th><th>Prêt</th></tr></thead><tbody>
           <tr><td>Banque A</td><td>${k('nom', '100')}</td><td>10</td><td>90</td></tr>
           ${tour(1, 'Banque B', '90', '9', '81')}${tour(1, 'Banque C', '81', '8,1', '72,9')}${tour(1, '…', '…', '…', '…')}
           ${s(2, `<td>Total</td><td>${k('nom', '1 000')}</td><td>100</td><td></td>`, 'tr', 'pj-tours-total')}
         </tbody></table></div>
       <div class="p-grow p-col" style="gap:20px">
-        ${s(2, `<div class="formula" style="font-size:32px;line-height:1.5">${v('D')} + ${v('D')} (1 − ${v('r')}) + ${v('D')} (1 − ${v('r')})<sup>2</sup> + … = ${C.frac(v('D'), v('r'))}<br>= ${C.frac('100', '0,1')} = ${k('nom', '1 000')}</div>
-          <ul class="bullets pj-25"><li>Les réserves cumulées valent le dépôt initial : 100.</li><li>Multiplicateur du manuel : ${C.frac('1', v('r'))} = 10.</li></ul>`)}
-        ${s(3, note('C\'est un maximum, pas un minimum : l\'obligation de réserves peut limiter la création monétaire, pas la stimuler. Si les banques ne veulent pas prêter, la changer ne sert à rien. La Fed et la BCE l\'utilisent peu (0 % aux États-Unis depuis mars 2020) ; la Chine ou l\'Inde davantage.', 'Une limite, pas un levier'))}
-      </div></div>`,
+        ${s(2, `<p style="margin:0;font-size:28px;line-height:1.25">${v('D')} désigne le montant du dépôt initial, ici 100 €.</p>
+          <div class="formula" style="font-size:32px;line-height:1.35">${v('D')} + ${v('D')} (1 − ${v('r')}) + ${v('D')} (1 − ${v('r')})<sup>2</sup> + … = ${C.frac(v('D'), v('r'))}<br>= ${C.frac('100', '0,1')} = ${k('nom', '1 000')}</div>
+          <ul class="bullets pj-25"><li>Les réserves cumulées valent le dépôt initial : 100 €.</li><li>Multiplicateur des dépôts : ${C.frac('1', v('r'))} = 10.</li></ul>`)}
+        ${s(3, note('On atteint 1 000 € de dépôts si chaque banque prête tout ce qui dépasse les réserves exigées et si chaque euro prêté revient en dépôt.', 'Un maximum sous ces hypothèses'))}
+      </div></div></div>`,
     source: 'Exemple fictif. Réserves obligatoires des États-Unis : Réserve fédérale, communiqué du 15 mars 2020.',
     prov: 'fictif'
   });
 
   // Le multiplicateur observé, zone euro et États-Unis (diapositive 43 ; écran facultatif)
   SLIDES.push({
-    id: 'multi-courbe', part: P, title: 'Le multiplicateur observé, loin du manuel',
+    id: 'multi-courbe', part: P, title: 'Comment le multiplicateur a-t-il évolué en zone euro et aux États-Unis&#8239;?',
     html: `<div class="p-col" style="gap:14px;height:100%">
       <div class="p-grid2" style="gap:36px;flex:1;min-height:0">
         <div class="p-col" style="gap:6px;min-height:0"><div class="pj-mc-t">Zone euro : ${k('nom', 'M3')} / monnaie de banque centrale</div><div id="pj-mc-ea" style="width:100%;flex:1;min-height:440px"></div></div>
@@ -2848,27 +2856,31 @@ window.SLIDES = window.SLIDES || [];
   // Le multiplicateur : l'identité, l'hypothèse du manuel, trois scénarios, les données
   SLIDES.push({
     id: 'multi-fiche', part: P, title: 'Le multiplicateur monétaire, une identité',
-    html: `<div class="p-center" style="gap:26px"><div style="max-width:1280px;margin:0 auto;width:100%">${C.fiche({ name: 'Multiplicateur monétaire',
-      formula: `${k('nom', 'M3')} / ${k('nom', v('B'))} = (1 + ${v('c')}) / (${v('r')} + ${v('c')})`,
-      vars: [[k('nom', v('B')), 'monnaie de banque centrale'], [v('c'), 'billets / dépôts'], [v('r'), 'réserves / dépôts']], varsInline: true,
-      trap: 'lire l\'identité comme une causalité : elle vaut toujours, mais elle ne dit pas qui fixe quoi.', steps: { trap: 1 } })}</div>
-      ${s(2, callout(`L'hypothèse du manuel : les banques ne gardent que les réserves exigées (1 % des dépôts depuis 2012). Alors chaque euro de monnaie de banque centrale « porterait » ${n(M5.mult(0.01, 0.10), 0)} euros de M3, et la BCE contrôlerait M3.`, { label: 'Une hypothèse' }))}
+    html: `<div class="p-center multi-identite">
+      <p class="p-txt">Dans le <b>modèle stylisé</b>, le public ne garde aucun billet. Les banques gardent 10 % des dépôts en réserves et prêtent tout le reste. Le multiplicateur vaut <b>1 000 € / 100 € = 10</b>.</p>
+      ${s(1, `<p class="p-txt">En pratique, le public garde des billets et les banques peuvent détenir plus de réserves que le minimum exigé.</p>
+        <div class="multi-ratios formula"><span>${v('c')} = ${C.frac('billets du public', 'dépôts')}</span><span>${v('r')} = ${C.frac('réserves effectivement détenues', 'dépôts')}</span></div>`)}
+      ${s(2, C.fiche({ name: 'Multiplicateur monétaire', label: 'Identité',
+        formula: `${C.frac('M3', v('B'))} = ${C.frac('billets du public + dépôts', 'billets du public + réserves')} = ${C.frac('1 + ' + v('c'), v('r') + ' + ' + v('c'))}`,
+        vars: [[v('B'), 'base monétaire']], varsInline: true
+      }))}
     </div>`,
-    source: `${SRC.bce_2011}.`,
+    source: 'Convention de calcul : les dépôts incluent ici les autres placements de M3. Les réserves incluent les espèces en caisse des banques.',
     prov: null
   });
 
   SLIDES.push({
-    id: 'multi-scen', part: P, title: 'L\'hypothèse du manuel tient-elle&#8239;?',
-    html: `<div class="p-row" style="gap:46px">
-      <div class="p-w45 p-col" style="gap:22px">
-        <div class="p-scen" id="pj-mu-lbl"></div>
-        <div class="pj-res"><div class="t">${k('nom', 'M3')} / monnaie de banque centrale</div><div class="v" id="pj-mu-m"></div><div class="s" id="pj-mu-f"></div></div>
+    id: 'multi-scen', part: P, title: 'Les banques gardent-elles seulement le minimum de réserves&#8239;?',
+    html: `<div class="multi-calculs">
+      <div class="p-scen" id="pj-mu-lbl"></div>
+      <p class="p-txt" id="pj-mu-depots"></p>
+      <div class="multi-ratios">
+        <div class="pj-res"><div class="t">Réserves des banques rapportées aux dépôts</div><div class="calcul" id="pj-mu-r"></div></div>
+        <div class="pj-res"><div class="t">Billets du public rapportés aux dépôts</div><div class="calcul" id="pj-mu-c"></div></div>
       </div>
-      <div class="p-grow p-col" style="gap:20px">
-        <div class="pj-res md"><div class="t">Réserves / dépôts, ${v('r')}</div><div class="v" id="pj-mu-r"></div></div>
-        <div class="pj-res md"><div class="t">Billets / dépôts, ${v('c')}</div><div class="v" id="pj-mu-c"></div></div>
-      </div>${marks(1, 2)}</div>`,
+      <div class="pj-res multi-resultat"><div class="t">Multiplicateur monétaire</div><div class="calcul" id="pj-mu-m"></div></div>
+      <p class="p-sub" id="pj-mu-verif"></p>
+      ${marks(1, 2)}</div>`,
     source: `Juin 2007 et ${mois(CO.mois)} : ${SRC.bce_bsi_c} ; ${SRC.bce_ilm_c}.`,
     prov: 'mixte'
   });
@@ -2896,15 +2908,18 @@ window.SLIDES = window.SLIDES || [];
 
   SLIDES.push({
     id: 'qe-bilan', part: P, title: 'Acheter à un assureur, acheter à une banque',
-    html: blScreen('pj-bl-qe') + marks(1, 1),
+    html: `<p class="p-txt" style="font-size:28px;margin:0 0 12px">Chaque achat crée <b>100 M€ de réserves</b>, et seul l’achat à l’assureur crée aussi <b>un dépôt de 100 M€</b> qui entre dans M3.</p>`
+      + blScreen('pj-bl-qe') + marks(1, 1)
+      + s(2, '<p class="p-sub" style="margin-top:24px">Les achats de titres de la BCE peuvent donc faire croître <b>la base monétaire</b> plus vite que <b>la monnaie détenue par le public (M3)</b>.</p>'),
     source: `Exemple fictif : variations, en millions d'euros, comme dans ${SRC.boe_c}.`,
     prov: 'fictif'
   });
 
   SLIDES.push({
     id: 'qe-donnees', part: P, title: `La BCE a multiplié sa monnaie par ${p1(MO.base_x_2014_2021)}, la masse monétaire par ${p1(MO.m3_x_2014_2021)}`,
-    html: `<div class="p-row" style="gap:46px">
-      <div class="p-w55"><div id="pj-qe" style="width:100%;height:600px"></div></div>
+    html: `<p class="p-sub" style="margin-bottom:16px">À l’échelle de la zone euro, comparons la base monétaire et M3 entre <b>fin 2014 et fin 2021</b>, pendant les achats de titres de la BCE.</p>
+      <div class="p-row" style="gap:46px;height:auto">
+      <div class="p-w55"><div id="pj-qe" style="width:100%;height:550px"></div></div>
       <div class="p-grow">${s(1, def('Assouplissement quantitatif', 'Achats massifs de titres par la banque centrale, payés en réserves, pour faire baisser les taux d\'intérêt à long terme quand les taux courts sont déjà au plus bas.', { cls: 'compact' }))}</div>
     </div>`,
     source: `${SRC.bce_bsi_c} (M3, fin de mois) ; ${SRC.bce_ilm_c} (dernier vendredi du mois).`,
@@ -3880,11 +3895,10 @@ window.NOTES = window.NOTES || {};
     'billet': t('2 min', '<p>Diapositive 14 du cours de 2025. Le billet est une dette de la banque centrale, sans échéance. Clic : le cours légal (article 128 du traité). Clic : la question de la crédibilité, à laquelle répond la section 5 (indépendance, cible). Transition : « Mais l\'essentiel de votre argent n\'est pas en billets. »</p>'),
     'banques': t('2 min', '<p>Diapositives 15 et 16 du cours de 2025, fusionnées. Clic : la pomme payée depuis une autre banque ; le règlement entre banques se fait en réserves, comme le montrera le clic 2 de « credit-bilan ». Transition : « Billets, dépôts, livrets : combien de chacun ? »</p>'),
     'p-offre': t('1 min', '<p>Section 2 : qui crée la monnaie ? Les banques, quand elles prêtent ; la banque centrale, qui fournit les réserves ; ce qui limite les unes et les autres.</p>'),
-    'banque-def': t('2 min', '<p>Écran facultatif. Diapositive 25 du cours de 2025 : la vision classique, la banque qui prête les dépôts de ses clients (réponse C du vote). Clic : la fragilité, la ruée bancaire. Clic : la question que les bilans vont trancher. Ne pas corriger encore.</p>'),
-    'bilan-def': t('2 min', '<p>Diapositive 26 du cours de 2025. Les trois définitions ; clic : un bilan schématique pour 100 € d\'actif (exemple fictif). Les fonds propres de 8 préparent l\'écran « controle ». Transition : « Que devient ce bilan quand la banque prête ? »</p>'),
-    'createurs': t('1 min', '<p>Écran facultatif. Diapositive 30 du cours de 2025, placée après la réponse au vote pour ne pas la dévoiler. Clic : la capacité des deux créateurs dépend de leurs clients. Transition : « Les banques ont pourtant besoin de la banque centrale : pourquoi ? »</p>'),
-    'controle': t('2 min', '<p>Diapositives 38 et 39 du cours de 2025, fusionnées ; reprend les cartes « fonds propres », « liquidité » et « prix des réserves » de l\'écran d\'Antonin. Fonds propres : exigence minimale de 8 % des actifs pondérés (article 92 du règlement (UE) n° 575/2013), plus des coussins. Clic : la politique monétaire et les réserves obligatoires (1 % depuis janvier 2012, 2 % avant). Transition : « Si chaque banque doit garder 10 % de ses dépôts, jusqu\'où la monnaie peut-elle grandir ? »</p>'),
-    'multi-serie': t('3 min', '<p>Diapositives 40 à 42 du cours de 2025. Le raisonnement du manuel, présenté comme une hypothèse que « multi-scen » teste. Clic 1 : les tours (100, 90, 81…). Clic 2 : la somme, D / r = 1 000 ; les réserves cumulées valent 100. Clic 3 : un maximum, pas un minimum. Transition : « Avec des billets en plus des dépôts, la formule devient (1 + c) / (r + c) ; avec c = 0, on retrouve 1 / r. »</p>'),
+    'banque-def': t('2 min', '<p>Écran facultatif. Diapositive 25 du cours de 2025 : la vision classique, la banque qui prête les dépôts de ses clients (réponse C du vote). Clic : la fragilité, la ruée bancaire. Clic : la question que les bilans vont trancher. Dernier clic : la transformation des échéances. Les dépôts à vue sont exigibles immédiatement alors que les prêts peuvent courir sur plusieurs années. Réserver la création du dépôt par le crédit aux bilans suivants.</p>'),
+    'bilan-def': t('2 min', '<p>Diapositive 26 du cours de 2025. Les trois définitions ; clic : un bilan schématique pour 100 € d\'actif (exemple fictif). Au deuxième clic, poser la question sur les fonds propres. Le passif présente les ressources de la banque. Sur 100 € d’actifs, 92 € correspondent aux dettes et les 8 € restants reviennent aux actionnaires. Les fonds propres de 8 préparent l\'écran « controle ». Transition : « Que devient ce bilan quand la banque prête ? »</p>'),
+    'controle': t('2 min', '<p>Repartir du graphique précédent. En août 2023, la croissance annuelle du crédit au secteur privé est de 0,8 % et celle de M3 de −1,3 %. Leur évolution ne suffit pas à isoler l’effet des taux. Demander ce qui limite le prochain prêt à Léa.</p><p>Fonds propres et liquidité répondent à deux risques différents. Le minimum réglementaire de fonds propres totaux est de 8 % des expositions pondérées par les risques (règlement UE n° 575/2013, art. 92). Exemple : un prêt de 100 € pondéré à 50 % ajoute 50 € d’exposition pondérée, soit 4 € de fonds propres au titre de ce minimum. Des exigences supplémentaires et des coussins s’ajoutent. Pour régler un virement, Alpha doit aussi pouvoir mobiliser des liquidités.</p><p>Premier clic : relier les taux directeurs au taux proposé à Léa et à sa décision d’emprunter. Dernier clic : les réserves obligatoires se calculent sur certains engagements, notamment des dépôts et des titres de dette à court terme. La moyenne sur la période de constitution compte. Le taux est de 1 % depuis janvier 2012. Pour le calcul de la diapositive suivante, on suppose un taux de 10 %.</p>'),
+    'multi-serie': t('3 min', '<p>Diapositives 40 à 42 du cours de 2025. On isole les réserves obligatoires. Chaque banque prête tout ce qui dépasse les 10 % exigés et chaque paiement revient en dépôt dans une banque. Clic 1 : les tours (100, 90, 81…). Clic 2 : la somme, D / r = 1 000 ; les réserves cumulées valent 100. Clic 3 : un maximum. Abaisser le taux de réserves ne garantit pas que les banques accorderont davantage de prêts. Pour le contexte historique : la Fed a ramené son taux de réserves obligatoires à 0 % en mars 2020. Transition : « Avec des billets en plus des dépôts, la formule devient (1 + c) / (r + c) ; avec c = 0, on retrouve 1 / r. »</p>'),
     'multi-courbe': t('2 min', `<p>Écran facultatif. Diapositive 43 du cours de 2025, avec la zone euro et les États-Unis. Zone euro : M3 / monnaie de banque centrale. États-Unis : M2 / base monétaire (en 2025 : M1 / M0 ; en mai 2020, la Fed a reclassé les dépôts d'épargne dans M1, ce qui fait bondir M1 : M2 évite cette rupture). Aux États-Unis, ${window.MULTI_US ? String(window.MULTI_US.r2007).replace('.', ',') : ''} en juin 2007, puis un creux en 2014. Clic : la leçon. Transition : les réserves détenues, 13 fois les réserves exigées.</p>`),
     'autres-limites': t('3 min', '<p>Diapositive 44 du cours de 2025, avec les explications des diapositives 45 à 48 ; reprend la carte « Des emprunteurs solvables » d\'Antonin. Une limite par clic. Le chiffre des cartes cadeaux Starbucks vient du cours de 2025, source à préciser. Transition : « La banque centrale peut aussi créer des réserves en masse. Crée-t-elle alors de la monnaie ? »</p>'),
     'conflit': t('2 min', '<p>Diapositive 66 du cours de 2025. La section 4 s\'est terminée sur une inflation qui monte d\'année en année : voici le mécanisme. Une ligne par clic ; la dernière phrase de 2025 (« impossible d\'avoir à la fois un chômage faible et une inflation modérée ») est reformulée : c\'est un chômage maintenu sous son niveau d\'équilibre qui fait monter l\'inflation. Transition : la question sur les États-Unis des années 1960.</p>'),
@@ -3906,14 +3920,14 @@ window.NOTES = window.NOTES || {};
     'agregats': t('3 min', `<p>Diapositive 22 du cours de 2025, avec les données de 2026. Un cercle par clic : billets (${n(CO.billets, 0)} Md€), M1 (${n(CO.m1, 0)}), M2 (${n(CO.m2, 0)}), M3 (${n(CO.m3, 0)}), en ${moisF(CO.mois)} ; puis M0 (${n(MO.base_mds, 0)} Md€, dont ${n(MO.reserves_mds, 0)} de réserves, semaine du 9 octobre 2026). Les billets de M1 sont ceux du public ; les billets émis sont un peu plus nombreux, une partie dort dans les coffres des banques. M0 chevauche M1 sur les billets : les réserves ne sont pas de la masse monétaire. Transition : le cercle de M0 annonce les deux monnaies.</p>`),
     'deux-monnaies': t('2 min', `<p>La monnaie de banque centrale : ${n(MO.base_mds, 0)} Md€ (semaine du ${MO.base_derniere_semaine.split('-').reverse().join('/')}), billets et réserves (${n(MO.reserves_mds, 0)} Md€). Clic : la monnaie de banque, ${n(CO.m3 - CO.billets, 0)} Md€, une dette de votre banque. Clic : la définition. Question à poser : qui crée la monnaie de banque&#8239;?</p>`),
     'credit-q': t('1 min', '<p>Faire voter (B) ; clic : la réponse. La plupart pensent que la banque prête l\'épargne d\'autres clients : les bilans de l\'écran suivant le démentent.</p>'),
-    'credit-bilan': t('3 min', `<p><b>Écran clé de la section 2.</b> Une opération par clic, et le bilan au tableau en même temps. 1 : le crédit ; à l'actif la créance sur Léa, au passif le dépôt de Léa ; aucun dépôt d'un autre client n'a baissé : + 200 000 € de monnaie. 2 : le paiement à Marc, le vendeur, client de Bêta : le dépôt change de banque, la monnaie ne change pas ; Alpha règle Bêta en réserves. 3 : le remboursement de 10 000 € détruit la monnaie.</p>`),
+    'credit-bilan': t('3 min', `<p><b>Écran clé de la section 2.</b> Une opération par clic, et le bilan au tableau en même temps. 1 : le crédit ; à l'actif la créance sur Léa, au passif le dépôt de Léa ; aucun dépôt d'un autre client n'a baissé : + 200 000 € de monnaie. 2 : le paiement à Marc, le vendeur, client de Bêta : le dépôt change de banque, la monnaie ne change pas ; Alpha règle Bêta en réserves. 3 : sur l’année, le salaire de 40 000 € passe du compte de l’employeur à celui de Léa chez Alpha. Si l’employeur était chez Bêta, Alpha recevrait 40 000 € de réserves à son actif et créditerait le dépôt de Léa au passif. 4 : sur ces 40 000 €, Léa rembourse 10 000 € de capital. Il lui reste 30 000 € et sa dette tombe à 190 000 €.</p>`),
     'credit-def': t('2 min', '<p>Création et destruction monétaires. Clic 1 : les deux formules opposées (diapositive 34 du cours de 2025) ; la vision classique de « banque-def » est corrigée. Clic 2 : la réponse au vote (B). Phrase à faire écrire : « le crédit crée le dépôt ».</p>'),
     'reserves-bilan': t('3 min', `<p>Le bilan de la BCE s'ajoute. 1 : le paiement se règle en réserves, la BCE débite Alpha et crédite Bêta ; le total ne change pas. 2 : Marc retire 5 000 € en billets : des réserves deviennent des billets, la monnaie de banque centrale ne change pas. 3 : Alpha emprunte à la BCE pour une semaine au taux de refinancement (${p2(T.mro)} %) : la BCE crée la monnaie de banque centrale qu'elle prête.</p>`),
     'bce-monnaie': t('2 min', `<p>Diapositive 31 du cours de 2025 : les deux façons de créer des réserves. Prêts de l'Eurosystème aux banques : ${n(ES.prets_2007_06_mds, 0)} Md€ en juin 2007, ${n(ES.prets_pic_mds, 0)} au plus haut (${moisF(ES.prets_pic_date)}), ${n(ES.prets_dernier_mds, 0)} début octobre 2026. Clic : titres de politique monétaire, aucun avant ${moisF(ES.titres_debut)}, ${n(ES.titres_pic_mds, 0)} Md€ au plus haut (${moisF(ES.titres_pic_date)}), ${n(ES.titres_dernier_mds, 0)} en octobre 2026 ; la définition de l'opération d'open market. Exemple de 2025 : la Fed de New York annonce une enchère aux « primary dealers », achète des bons du Trésor et crédite leurs réserves.</p>`),
     'limites': t('2 min', '<p>Demander d\'abord à la salle ce qui arrête une banque. Une carte par clic. Le prix des réserves fait le lien avec la section 6 ; les fonds propres : exigence minimale de 8 % des actifs pondérés (article 92 du règlement (UE) n° 575/2013), plus des coussins.</p>'),
     'credit-m3': t('2 min', `<p>Corrélation de ${p2(CM.correlation)} depuis ${CM.debut.slice(0, 4)} entre la croissance du crédit au secteur privé et celle de M3. Clic : après les hausses de taux, crédit + ${p1(CM.points['2023-08'].credit)} % et M3 − ${p1(-CM.m3_min_recent)} % en ${moisF(CM.m3_min_recent_mois)} : moins de crédits, moins de dépôts créés.</p>`),
-    'multi-fiche': t('2 min', `<p>Une identité comptable, vraie par construction. Clic : le piège. Clic : l'hypothèse du manuel, des réserves limitées aux exigences (2 % jusqu'en janvier 2012, 1 % depuis) ; alors ${v_('r')} serait fixé par la règle, et la BCE contrôlerait M3 en dosant ${v_('B')}.</p>`),
-    'multi-scen': t('2 min', `<p>Trois scénarios, un par clic. Manuel : ${p1(M5.mult(0.01, 0.10))}. Juin 2007 : ${v_('r')} = ${p1(I07.r)} %, ${v_('c')} = ${p1(I07.c)} %, l'identité donne ${p2(I07.m_identite)}, le rapport observé. ${moisF(CO.mois).replace(/^./, c => c.toUpperCase())} : ${v_('r')} = ${p1(I26.r)} %, ${v_('c')} = ${p1(I26.c)} %, ${p2(I26.m_identite)}. Désormais, ${v_('r')} dépend des réserves que la BCE a créées, et l'exigence de réserves ne le contraint plus.</p>`),
+    'multi-fiche': t('2 min', '<p>Reprendre la dernière ligne du tableau : 1 000 € de dépôts, 100 € de réserves. Tout euro prêté revient en dépôt. Le rapport vaut 10 car c = 0 et r = 0,10.</p><p>Premier clic : le public peut garder des billets, les banques peuvent détenir davantage que le minimum exigé. Les deux ratios utilisent le total des dépôts, et non le seul dépôt initial.</p><p>Dernier clic : les billets du public figurent dans les deux agrégats. Diviser le numérateur et le dénominateur par le total des dépôts pour retrouver (1 + c) / (r + c). Pour les séries observées, « dépôts » désigne M3 hors monnaie fiduciaire du public et « réserves » la base hors monnaie fiduciaire du public. Cette identité décrit les stocks observés. À elle seule, elle ne détermine pas le montant des nouveaux prêts. Transition : les banques détiennent-elles seulement le minimum exigé ?</p>'),
+    'multi-scen': t('2 min', `<p>Prendre 100 € de dépôts comme point de départ. Avec 10 € de billets et 1 € de réserves, le public détient 110 € de monnaie et la base monétaire vaut 11 €. On retrouve le rapport de 10 en divisant les deux montants par 100.</p><p>Dans les deux observations, « dépôts » regroupe tous les éléments de M3 hors billets du public. Les réserves comprennent les espèces en caisse. Les stocks sont arrondis séparément au milliard, ce qui peut donner un écart d’un milliard dans les sommes. Les résultats sont arrondis au dixième.</p><p>En juin 2007, les banques détiennent environ 2,83 € de réserves pour 100 € de dépôts au sens large, contre 14,61 € en août 2026. Pour répondre à la question du titre, comparer les réserves sur les comptes des banques au minimum effectivement exigé par la BCE. Ces deux montants figurent sur le graphique des réserves détenues et exigées.</p>`),
     'multi-reserves': t('1 min', `<p>Réserves détenues et exigées : ${n(RS['2007-06'].detenues, 0)} contre ${n(RS['2007-06'].exigees, 0)} Md€ en juin 2007 ; jusqu'à ${p1(RS.rapport_max)} fois les réserves exigées (${moisF(RS.rapport_max_mois)}) ; ${n(RS[RS.dernier_mois].rapport, 0)} fois en ${moisF(RS.dernier_mois)}. Message : depuis 2009, la BCE fournit les réserves que les banques demandent, et bien davantage.</p>`),
     'qe-q': t('1 min', '<p>Faire voter (B) ; clic : la réponse.</p>'),
     'qe-bilan': t('1 min', '<p>L\'achat à un assureur, client de Bêta : + 100 de monnaie détenue par le public et + 100 de monnaie de banque centrale. Clic : l\'achat à une banque, seulement des réserves. C\'est l\'exemple de la Banque d\'Angleterre (2014).</p>'),
@@ -4058,8 +4072,8 @@ window.Bilans = (function () {
     return `<div class="bl-card bl-${ent}"><div class="bl-head">${esc(M().ENT[ent])}</div>
       <div class="bl-t"><div class="bl-col"><div class="bl-lbl">Actif</div>${col('actif')}</div><div class="bl-col"><div class="bl-lbl">Passif</div>${col('passif')}</div></div></div>`;
   }
-  function compteur(lbl, v, u, cls) {
-    return `<div class="bl-cpt ${cls || ''}"><div class="bl-cpt-l">${lbl}</div><div class="bl-cpt-v k-nom">${v === 0 ? '0' : sgn(v, u)}</div></div>`;
+  function compteur(lbl, v, u, cls, precision = '') {
+    return `<div class="bl-cpt ${cls || ''}"><div class="bl-cpt-l">${lbl}</div><div class="bl-cpt-v k-nom">${v === 0 ? '0' : sgn(v, u)}</div>${precision ? `<div class='p-sub' style='font-size:22px;margin:2px 0 0'>${precision}</div>` : ''}</div>`;
   }
 
   /* Rendu d'un scénario après n opérations (n = 0 : écritures de départ seulement).
@@ -4073,7 +4087,7 @@ window.Bilans = (function () {
     const etat = k => (avant.includes(k) ? 'avant' : k === dern ? 'new' : 'old');
     const t = M().compteurs(o.seul && !S.separes ? avant.concat(S.ops.slice(0, n)) : ops);
     const base = o.base ?? S.ent.includes('bce');
-    const cpt = o.compteurs === false ? '' : `<div class="bl-cpts">${compteur('Monnaie détenue par le public', t.monnaie, u, 'm')}${compteur('Réserves des banques', t.reserves, u, 'r')}${base ? compteur('Monnaie de banque centrale', t.base, u, 'b') : ''}</div>`;
+    const cpt = o.compteurs === false ? '' : `<div class="bl-cpts">${compteur('Monnaie détenue par le public', t.monnaie, u, 'm', scen === 'credit' ? 'Ici, on additionne les dépôts du public chez Alpha et Bêta. Le compteur affiche la variation depuis le début.' : '')}${compteur(scen === 'credit' ? 'Réserves totales des banques<br><span style=font-weight:400>à la Banque Centrale</span>' : 'Réserves des banques', t.reserves, u, 'r')}${base ? compteur('Monnaie de banque centrale', t.base, u, 'b') : ''}</div>`;
     const op = dern ? M().OPS[dern] : null;
     const leg = o.legende === false ? '' : `<div class="bl-leg">${op ? `<b>${esc(op.titre)}.</b> ${esc(op.texte)}` : (o.depart || '')}</div>`;
     // Scénario séparé : seules les entités concernées par l'opération montrée
@@ -4363,15 +4377,15 @@ window.G5 = (function () {
   // Prêts de l'Eurosystème aux banques et titres de politique monétaire (dernier vendredi du mois)
   const ESD = D.eurosysteme, ESX = ESD.mois.map(xm), ESR = R.eurosysteme;
   function eurosys(box, o) {
-    const res = CH.line(box, {
+    const res = CH.line(box, { exactSeriesColors: true,
       height: o.height, animate: o.animate, duration: 2, stagger: 0.2, hover: !o.big,
       x: { min: 2007, max: ESX[ESX.length - 1] + 0.1, ticks: [2007, 2010, 2014, 2018, 2022, 2026], hoverFormat: moisX },
       y: { min: 0, max: 5000, ticks: [0, 1000, 2000, 3000, 4000, 5000] },
       yTitle: 'Eurosystème, milliards d\'euros',
-      series: [{ name: 'Prêts aux banques', color: NOM, data: ESX.map((x, j) => [x, ESD.prets[j]]), endLabel: 'prêts aux banques', endDy: -22, width: 3.4, format: v => fmt(v, 0) },
-               { name: 'Titres de politique monétaire', color: TEAL, data: ESX.map((x, j) => [x, ESD.titres[j]]).filter(d => d[1] != null), endLabel: 'titres', width: 3.4, format: v => fmt(v, 0) }],
-      markers: [{ x: xd(ESR.prets_pic_date), y: ESR.prets_pic_mds, color: NOM, label: fmt(ESR.prets_pic_mds, 0), dy: -14 },
-                { x: xd(ESR.titres_pic_date), y: ESR.titres_pic_mds, color: TEAL, label: fmt(ESR.titres_pic_mds, 0), dy: -14 }]
+      series: [{ name: 'Prêts aux banques', color: BLUE, data: ESX.map((x, j) => [x, ESD.prets[j]]), endLabel: 'prêts aux banques', endDy: -22, width: 3.4, format: v => fmt(v, 0) },
+               { name: 'Titres de politique monétaire', color: RED, data: ESX.map((x, j) => [x, ESD.titres[j]]).filter(d => d[1] != null), endLabel: 'titres', width: 3.4, format: v => fmt(v, 0) }],
+      markers: [{ x: xd(ESR.prets_pic_date), y: ESR.prets_pic_mds, color: BLUE, label: fmt(ESR.prets_pic_mds, 0), dy: -14 },
+                { x: xd(ESR.titres_pic_date), y: ESR.titres_pic_mds, color: RED, label: fmt(ESR.titres_pic_mds, 0), dy: -14 }]
     });
     if (res && res.svg) halo(res.svg, 'text.ch-val');
     return res;
@@ -4725,25 +4739,42 @@ window.G5 = (function () {
   function bilans(id, scen, box, nOps) {
     PJ.scenes(id, n => {
       const S = M5.SCEN[scen], op = S.ops[n];
-      Bilans.render(byId(box), scen, n + 1, { legende: false, base: scen !== 'credit', seul: scen === 'reserves' });
+      Bilans.render(byId(box), scen, n + 1, { legende: false, base: scen !== 'credit' });
       put(box + '-leg', `<span class="p-scen" style="margin-right:14px"><span class="n">${n + 1} / ${nOps}</span></span><b>${M5.OPS[op].titre}.</b>`);
     }, nOps - 1);
   }
-  bilans('credit-bilan', 'credit', 'pj-bl-credit', 3);
+  bilans('credit-bilan', 'credit', 'pj-bl-credit', 4);
   bilans('reserves-bilan', 'reserves', 'pj-bl-reserves', 3);
   bilans('qe-bilan', 'qe', 'pj-bl-qe', 2);
   onEnter('bce-monnaie', a => { const b = zoom('pj-eurosys'); G.eurosys(b, big(b, a)); });
   onEnter('credit-m3', a => { const b = zoom('pj-credit-m3'); G.creditM3(b, big(b, a)); });
   // Le multiplicateur : trois scénarios (manuel, juin 2007, dernier mois connu)
-  const MU = M5.MULT, MUK = ['manuel', 'z2007', 'z2026'];
-  const MUN = { manuel: 'L\'hypothèse du manuel : r = 1 %, c = 10 %', z2007: 'Zone euro, juin 2007', z2026: 'Zone euro, ' + MOIS[+R.monnaie.composition.mois.slice(5, 7) - 1] + ' ' + R.monnaie.composition.mois.slice(0, 4) };
-  PJ.scenes('multi-scen', n => {
-    const key = MUK[n], p = MU[key], m = M5.mult(p.r, p.c);
-    scen('pj-mu-lbl', n, 3, MUN[key]);
-    put('pj-mu-m', k('res', fmt(m, 1)));
-    put('pj-mu-f', `(1 + ${fmt(p.c, 3)}) / (${fmt(p.r, 3)} + ${fmt(p.c, 3)})`);
-    put('pj-mu-r', k('res', fmt(100 * p.r, 1) + NB + '%'));
-    put('pj-mu-c', k('res', fmt(100 * p.c, 1) + NB + '%'));
+  const monnaie = R.monnaie;
+  const moisObserve = monnaie.composition.mois;
+  const casMultiplicateur = [
+    { titre: 'Scénario de référence', m3_mds: 110, base_mds: 11, billets_public_mds: 10, reserves_larges_mds: 1 },
+    { titre: 'Zone euro, juin 2007', ...monnaie.identite_2007 },
+    { titre: 'Zone euro, ' + MOIS[+moisObserve.slice(5, 7) - 1] + ' ' + moisObserve.slice(0, 4), ...monnaie.identite_dernier }
+  ];
+  PJ.scenes('multi-scen', i => {
+    const { titre, m3_mds: m3, base_mds: base, billets_public_mds: billets, reserves_larges_mds: reserves } = casMultiplicateur[i];
+    const depots = m3 - billets, r = reserves / depots, c = billets / depots;
+    const exemple = i === 0, signe = exemple ? '=' : '≈';
+    const precision = exemple ? 2 : 4, dec = x => fmt(x, precision);
+    const rAffiche = Number(r.toFixed(precision)), cAffiche = Number(c.toFixed(precision));
+    const frac = window.C.frac;
+    const ratio = (lettre, montant, taux) => `<i>${lettre}</i> = ${frac(fmt(montant), fmt(depots))} ${signe} ${dec(taux)} = <b>${fmt(100 * taux, exemple ? 0 : 2)}${NB}%</b>`;
+    scen('pj-mu-lbl', i, casMultiplicateur.length, titre);
+    put('pj-mu-depots', exemple
+      ? 'Pour <b>100 € de dépôts</b>, supposons que les banques gardent 1 € de réserves et que le public détient 10 € en billets.'
+      : `En milliards d’euros, <b>dépôts</b> = M3 − billets du public = ${fmt(m3)} − ${fmt(billets)} = <b>${fmt(depots)}</b>.`);
+    put('pj-mu-r', ratio('r', reserves, r));
+    put('pj-mu-c', ratio('c', billets, c));
+    const substitution = frac('1 + ' + dec(c), dec(r) + ' + ' + dec(c));
+    const quotient = frac(dec(1 + cAffiche), dec(rAffiche + cAffiche));
+    put('pj-mu-m', `${frac('M3', '<i>B</i>')} = ${frac('1 + <i>c</i>', '<i>r</i> + <i>c</i>')} ${signe} ${substitution} = ${quotient} ${signe} <b>${fmt(M5.mult(r, c), exemple ? 0 : 1)}</b>`);
+    const stocks = exemple ? 'M3 = 100 + 10 = 110 € et la base monétaire vaut 1 + 10 = 11 €.' : 'Montants arrondis au milliard d’euros.';
+    put('pj-mu-verif', `${stocks} On retrouve M3 / <i>B</i> = ${fmt(m3)} / ${fmt(base)} ${signe} ${fmt(m3 / base, exemple ? 0 : 1)}.`);
   }, 2);
   onEnter('multi-reserves', a => { const b = zoom('pj-reserves'); G.reserves(b, big(b, a)); });
   onEnter('qe-donnees', a => { const b = zoom('pj-qe'); G.qe(b, big(b, a)); });
@@ -4948,8 +4979,7 @@ window.MULTI_US = {"mois": ["1960-01", "1960-02", "1960-03", "1960-04", "1960-05
     if (res && res.S) {
       const y10 = res.S.Y(10);
       CH.el('line', { x1: res.S.X(opts.x0), x2: res.S.X(2026.9), y1: y10, y2: y10, stroke: GRIS, 'stroke-width': 1.8, 'stroke-dasharray': '7 6' }, res.svg);
-      const aDroite = opts.manuel !== 'gauche';
-      CH.txt(res.svg, aDroite ? res.S.X(2026.9) - 4 : res.S.X(opts.x0) + 10, aDroite ? y10 - 10 : y10 + 26, 'valeur du manuel, environ 10', 'ch-lab', { 'text-anchor': aDroite ? 'end' : 'start', fill: GRIS, style: `font-size:${o.big ? 18 : 14}px` });
+      CH.txt(res.svg, res.S.X(2026.9) - 4, y10 - 10, 'scénario de référence : 10', 'ch-lab', { 'text-anchor': 'end', fill: GRIS, style: `font-size:${o.big ? 18 : 14}px` });
       halo(res.svg, 'text.ch-val, text.ch-lab');
     }
     return res;
@@ -4975,7 +5005,7 @@ window.MULTI_US = {"mois": ["1960-01", "1960-02", "1960-03", "1960-04", "1960-05
 /* Parcours du chapitre 4 (24 novembre 2026) : écrans sélectionnés par Arnaud, dans l'ordre, six parties, style « Exercice ».
    Appliqué avant la construction des écrans, qui attend le chargement complet de la page. */
 (function () {
-  const ORDRE = ["couverture", "vote-debut", "monnaie-macro", "deux-theses", "grande-moderation", "plan", "p1", "paiement", "monnaie-def", "monnaie-tri", "billet", "banques", "agregats-q", "agregats", "deux-monnaies", "p-offre", "qui-cree", "banque-def", "bilan-def", "credit-q", "credit-bilan", "credit-def", "createurs", "reserves-bilan", "bce-monnaie", "credit-m3", "controle", "multi-serie", "multi-fiche", "multi-scen", "multi-courbe", "multi-reserves", "autres-limites", "qe-q", "qe-bilan", "qe-donnees", "p2", "vitesse-def", "eq-fiche", "eq-deflateur", "long-terme", "court-terme", "vitesse-2020", "taux-reel-fiche", "gagnants", "p3", "comp-q", "composantes", "sous-jacente", "og-dg", "chocs-scen", "chocs-def", "chocs-france", "diag-scen", "diag-1970", "p4", "conflit", "phillips-q", "phillips", "phillips-machine", "stagflation-q", "stagflation", "phillips-fiche", "spirale-q", "explication-1970", "tentation", "mandat", "independance", "ancrage", "p5", "corridor-q", "corridor", "estr", "transmission-q", "transmission", "canaux", "taux-reel", "taylor-fiche", "taylor-scen", "taylor-graph", "reponse-q", "reponse-scen", "debat-bce", "reponse-2026", "reponse", "vote-fin"], EXERCICES = ["vote-debut", "qui-cree", "monnaie-tri", "agregats-q", "credit-q", "qe-q", "comp-q", "phillips-q", "stagflation-q", "spirale-q", "corridor-q", "transmission-q", "reponse-q", "vote-fin"], PARTIES = {"p1": "Section 1 · Qu'est-ce que la monnaie ?", "paiement": "Section 1 · Qu'est-ce que la monnaie ?", "monnaie-def": "Section 1 · Qu'est-ce que la monnaie ?", "monnaie-tri": "Section 1 · Qu'est-ce que la monnaie ?", "billet": "Section 1 · Qu'est-ce que la monnaie ?", "banques": "Section 1 · Qu'est-ce que la monnaie ?", "agregats-q": "Section 1 · Qu'est-ce que la monnaie ?", "agregats": "Section 1 · Qu'est-ce que la monnaie ?", "deux-monnaies": "Section 1 · Qu'est-ce que la monnaie ?", "p-offre": "Section 2 · Qui crée la monnaie ?", "qui-cree": "Section 2 · Qui crée la monnaie ?", "banque-def": "Section 2 · Qui crée la monnaie ?", "bilan-def": "Section 2 · Qui crée la monnaie ?", "credit-q": "Section 2 · Qui crée la monnaie ?", "credit-bilan": "Section 2 · Qui crée la monnaie ?", "credit-def": "Section 2 · Qui crée la monnaie ?", "createurs": "Section 2 · Qui crée la monnaie ?", "reserves-bilan": "Section 2 · Qui crée la monnaie ?", "bce-monnaie": "Section 2 · Qui crée la monnaie ?", "credit-m3": "Section 2 · Qui crée la monnaie ?", "controle": "Section 2 · Qui crée la monnaie ?", "multi-serie": "Section 2 · Qui crée la monnaie ?", "multi-fiche": "Section 2 · Qui crée la monnaie ?", "multi-scen": "Section 2 · Qui crée la monnaie ?", "multi-courbe": "Section 2 · Qui crée la monnaie ?", "multi-reserves": "Section 2 · Qui crée la monnaie ?", "autres-limites": "Section 2 · Qui crée la monnaie ?", "qe-q": "Section 2 · Qui crée la monnaie ?", "qe-bilan": "Section 2 · Qui crée la monnaie ?", "qe-donnees": "Section 2 · Qui crée la monnaie ?"};
+  const ORDRE = ["couverture", "vote-debut", "monnaie-macro", "deux-theses", "grande-moderation", "plan", "p1", "paiement", "monnaie-def", "monnaie-tri", "billet", "banques", "agregats-q", "agregats", "deux-monnaies", "p-offre", "qui-cree", "banque-def", "bilan-def", "credit-q", "credit-bilan", "credit-def", "reserves-bilan", "bce-monnaie", "credit-m3", "controle", "multi-serie", "multi-fiche", "multi-scen", "multi-courbe", "multi-reserves", "autres-limites", "qe-q", "qe-bilan", "qe-donnees", "p2", "vitesse-def", "eq-fiche", "eq-deflateur", "long-terme", "court-terme", "vitesse-2020", "taux-reel-fiche", "gagnants", "p3", "comp-q", "composantes", "sous-jacente", "og-dg", "chocs-scen", "chocs-def", "chocs-france", "diag-scen", "diag-1970", "p4", "conflit", "phillips-q", "phillips", "phillips-machine", "stagflation-q", "stagflation", "phillips-fiche", "spirale-q", "explication-1970", "tentation", "mandat", "independance", "ancrage", "p5", "corridor-q", "corridor", "estr", "transmission-q", "transmission", "canaux", "taux-reel", "taylor-fiche", "taylor-scen", "taylor-graph", "reponse-q", "reponse-scen", "debat-bce", "reponse-2026", "reponse", "vote-fin"], EXERCICES = ["vote-debut", "qui-cree", "monnaie-tri", "agregats-q", "credit-q", "qe-q", "comp-q", "phillips-q", "stagflation-q", "spirale-q", "corridor-q", "transmission-q", "reponse-q", "vote-fin"], PARTIES = {"p1": "Section 1 · Qu'est-ce que la monnaie ?", "paiement": "Section 1 · Qu'est-ce que la monnaie ?", "monnaie-def": "Section 1 · Qu'est-ce que la monnaie ?", "monnaie-tri": "Section 1 · Qu'est-ce que la monnaie ?", "billet": "Section 1 · Qu'est-ce que la monnaie ?", "banques": "Section 1 · Qu'est-ce que la monnaie ?", "agregats-q": "Section 1 · Qu'est-ce que la monnaie ?", "agregats": "Section 1 · Qu'est-ce que la monnaie ?", "deux-monnaies": "Section 1 · Qu'est-ce que la monnaie ?", "p-offre": "Section 2 · Qui crée la monnaie ?", "qui-cree": "Section 2 · Qui crée la monnaie ?", "banque-def": "Section 2 · Qui crée la monnaie ?", "bilan-def": "Section 2 · Qui crée la monnaie ?", "credit-q": "Section 2 · Qui crée la monnaie ?", "credit-bilan": "Section 2 · Qui crée la monnaie ?", "credit-def": "Section 2 · Qui crée la monnaie ?", "reserves-bilan": "Section 2 · Qui crée la monnaie ?", "bce-monnaie": "Section 2 · Qui crée la monnaie ?", "credit-m3": "Section 2 · Qui crée la monnaie ?", "controle": "Section 2 · Qui crée la monnaie ?", "multi-serie": "Section 2 · Qui crée la monnaie ?", "multi-fiche": "Section 2 · Qui crée la monnaie ?", "multi-scen": "Section 2 · Qui crée la monnaie ?", "multi-courbe": "Section 2 · Qui crée la monnaie ?", "multi-reserves": "Section 2 · Qui crée la monnaie ?", "autres-limites": "Section 2 · Qui crée la monnaie ?", "qe-q": "Section 2 · Qui crée la monnaie ?", "qe-bilan": "Section 2 · Qui crée la monnaie ?", "qe-donnees": "Section 2 · Qui crée la monnaie ?"};
   const all = window.SLIDES, par = new Map(all.map(x => [x.id, x]));
   const manquants = ORDRE.filter(id => !par.has(id));
   if (manquants.length) console.error('Parcours : écrans introuvables', manquants);

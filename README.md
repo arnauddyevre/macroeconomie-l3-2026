@@ -22,7 +22,7 @@ Les supports étudiants des chapitres 0 à 4 conservent les réponses et correct
 
 Chapitre 3 mis à jour le 23 novembre 2026 : 87 diapositives, budget public, dynamique de la dette, croix keynésienne, récession, solde structurel, coût de l’austérité, crise grecque et annexes. Le syllabus place ce chapitre avant la monnaie (chapitre 4), puis l’IA et l’emploi (chapitre 5).
 
-Chapitre 4 publié le 25 novembre 2026 : 86 diapositives en six sections, de la définition de la monnaie à la politique monétaire de la BCE, avec la création monétaire par les banques, l’inflation, la courbe de Phillips et les données d’octobre 2026.
+Chapitre 4 mis à jour le 25 novembre 2026 : 85 diapositives en six sections, de la définition de la monnaie à la politique monétaire de la BCE, avec la création monétaire par les banques, l’inflation, la courbe de Phillips et les données d’octobre 2026.
 
 Le chapitre 1 comprend les courbes de croissance des revenus, les comparaisons climatiques, la conclusion et les neuf fiches de révision en annexe. Les infobulles précisent les transferts courants à l’étranger et la composition de l’autre capital intérieur. Les HTML et PDF comportent les sept bandeaux de fin de cours : trois dans le chapitre 1, deux dans le chapitre 2 et deux dans le chapitre 3. Le syllabus a été vérifié et synchronisé le 18 novembre 2026.
 
