@@ -1,5 +1,7 @@
 # Macroéconomie L3 — HEC Paris, automne 2026
 
+Syllabus mis à jour le 25 novembre 2026 : monnaie en chapitre 4, IA et emploi en chapitre 5 ; progression indicative actualisée, dates et quiz conservés.
+
 Arnaud Dyèvre
 
 **[Ouvrir les documents du cours](https://arnauddyevre.github.io/macroeconomie-l3-2026/)**
@@ -18,7 +20,7 @@ Chapitre 2 mis à jour le 16 novembre 2026 : 77 diapositives, dont 59 dans le pa
 
 Les supports étudiants des chapitres 0 à 4 conservent les réponses et corrections des exercices de cours depuis la mise à jour du 18 novembre 2026. Les QCM proposent « Voir la réponse » ; le mode lecture et les PDF affichent les corrections. [Corrigé détaillé de l’exercice sur le niveau de vie](chapitre-1/exercices/niveau_vie_exercice_corrige.pdf). Les notes privées restent exclues.
 
-Chapitre 3 mis à jour le 23 novembre 2026 : 87 diapositives, budget public, dynamique de la dette, croix keynésienne, récession, solde structurel, coût de l’austérité, crise grecque et annexes. Le syllabus place désormais ce chapitre avant « Emploi, tâches et intelligence artificielle ».
+Chapitre 3 mis à jour le 23 novembre 2026 : 87 diapositives, budget public, dynamique de la dette, croix keynésienne, récession, solde structurel, coût de l’austérité, crise grecque et annexes. Le syllabus place ce chapitre avant la monnaie (chapitre 4), puis l’IA et l’emploi (chapitre 5).
 
 Chapitre 4 publié le 25 novembre 2026 : 86 diapositives en six sections, de la définition de la monnaie à la politique monétaire de la BCE, avec la création monétaire par les banques, l’inflation, la courbe de Phillips et les données d’octobre 2026.
 
