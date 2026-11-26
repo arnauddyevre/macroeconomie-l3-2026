@@ -117,3 +117,15 @@ table.pj-tours tr.pj-tours-total td{font-weight:700;border-top:2px solid #000}
 #multi-scen .multi-resultat{background:#F0F3F8;border:2px solid #001F5F}
 #multi-scen .multi-resultat .calcul{font-size:40px;color:#001F5F}
 #multi-scen .p-sub{margin:0;font-size:25px}
+
+/* Point d’arrêt du cours 9, confirmé le 26 novembre 2026. */
+#autres-limites{overflow:hidden}
+#autres-limites .slide-head{max-width:1300px}
+#autres-limites h1{text-wrap:balance}
+#autres-limites::after{
+  content:"fin du cours 9";
+  position:absolute;top:95px;right:-90px;width:400px;padding:10px 0;
+  transform:rotate(45deg);background:#B45309;color:#fff;
+  font:700 26px/1.2 var(--serif);text-align:center;white-space:nowrap;
+  pointer-events:none;z-index:2;
+}
